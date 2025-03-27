@@ -1,4 +1,4 @@
-
+"use client";
 import React from "react";
 import { FiUsers, FiCheckCircle, FiAward } from "react-icons/fi"; // Import icons
 
