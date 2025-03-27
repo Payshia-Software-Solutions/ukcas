@@ -1,3 +1,4 @@
+
 import CurriculumCard from "@/components/CurriculumCard";
 
 const CurriculumCardsSection = () => {
