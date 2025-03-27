@@ -1,6 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
 import TopNavigateCard from "@/components/TopNavigateCard";
+import Image from "next/image";
 
 const HeroSection = () => {
   return (
@@ -8,8 +9,10 @@ const HeroSection = () => {
       <div className="relative flex items-center justify-center h-screen text-white mb-6">
         {/* Background Image */}
         <div className="absolute inset-0">
-          <img
+          <Image
             src="/assets/images/hero.jpg"
+            width={500} 
+            height={300}
             alt="International Learning"
             className="w-full h-full object-cover "
           />

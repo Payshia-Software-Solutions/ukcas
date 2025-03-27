@@ -6,6 +6,7 @@ import { Autoplay, Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import CommentCard from "./Common/CommentCard";
+import Image from "next/image";
 
 const Testimonial = () => {
   const prevRef = useRef(null);
@@ -39,8 +40,10 @@ const Testimonial = () => {
     <section className="relative w-full bg-white px-8 flex justify-center items-center min-h-[700px]">
       {/* Background Image */}
       <div className="absolute inset-0 h-auto md:h-[700px] flex justify-center items-center">
-        <img
+        <Image
           src="/assets/testamonial/background.jpg"
+          width={500}
+          height={300}
           alt=""
           className="w-full h-full object-cover"
         />
@@ -102,9 +105,8 @@ const Testimonial = () => {
             }}
           >
             {cards.map((card, index) => (
-              <SwiperSlide>
+              <SwiperSlide key={index}>
                 <CommentCard
-                  key={index}
                   name={card.name}
                   image={card.image}
                   role={card.role}
