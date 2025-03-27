@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import { FiPlus } from "react-icons/fi";
+import Image from "next/image";
 
 interface CardProps {
   image: string;
@@ -12,8 +13,14 @@ const CurriculumCard: React.FC<CardProps> = ({ image, category, title }) => {
   return (
     <div className="relative w-80 h-96 rounded-lg overflow-hidden shadow-lg">
       {/* Background Image */}
-      <img src={image} alt={title} className="w-full h-full object-cover" />
-      
+      <Image
+        src={image}
+        alt={title}
+        width={500}
+        height={300}
+        className="w-full h-full object-cover"
+      />
+
       {/* Overlay Content */}
       <div className="absolute bottom-0 left-0 w-full bg-white p-4 shadow-lg flex items-center justify-between">
         <div>

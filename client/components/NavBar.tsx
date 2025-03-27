@@ -3,9 +3,9 @@ import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { SlArrowDown } from "react-icons/sl";
+
 import { IoCartOutline, IoPerson, IoMenu } from "react-icons/io5";
-import { FaTruck } from "react-icons/fa";
+
 import MobileMenu from "./MobileMenu";
 
 
@@ -15,32 +15,11 @@ const NavBar: React.FC = () => {
   const [lastScrollY, setLastScrollY] = useState<number>(0);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
   const pathname = usePathname();
-  const [isCartOpen, setIsCartOpen] = useState<boolean>(false);
-  const searchRef = useRef<HTMLInputElement | null>(null);
 
-  const openCart = () => setIsCartOpen(true);
-  const closeCart = () => setIsCartOpen(false);
 
-  const formatPrice = (amount: number): string => {
-    return new Intl.NumberFormat("en-IN", {
-      style: "currency",
-      currency: "LKR",
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    })
-      .format(amount)
-      .replace("LKR", "Rs");
-  };
 
-  const scrollToCertificates = () => {
-    const element = document.getElementById("certificates");
-    if (element) {
-      window.scrollTo({
-        top: element.offsetTop,
-        behavior: "smooth",
-      });
-    }
-  };
+
+
 
   useEffect(() => {
     if (pathname !== "/") {

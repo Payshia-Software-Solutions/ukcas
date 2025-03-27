@@ -1,6 +1,7 @@
 "use client"
 import React from "react";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 interface EventCardProps {
   image: string;
@@ -15,7 +16,8 @@ const EventCard: React.FC<EventCardProps> = ({ image, category, title, descripti
     <div className="max-w-sm bg-white rounded-xl shadow-md overflow-hidden relative group">
       {/* Image Container */}
       <div className="relative">
-        <img className="w-full h-56 object-cover transition-transform duration-300 group-hover:scale-105" src={image} alt={title} />
+        <Image className="w-full h-56 object-cover transition-transform duration-300 group-hover:scale-105" src={image} width={500}
+        height={300} alt={title} />
         
         {/* Overlay content (hidden by default, appears on hover) */}
         <motion.div

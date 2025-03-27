@@ -104,7 +104,7 @@ const Testimonial = () => {
             {cards.map((card, index) => (
               <SwiperSlide>
                 <CommentCard
-                  key={card.index}
+                  key={index}
                   name={card.name}
                   image={card.image}
                   role={card.role}
