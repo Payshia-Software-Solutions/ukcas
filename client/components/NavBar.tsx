@@ -1,10 +1,10 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 
-import { IoCartOutline, IoPerson, IoMenu } from "react-icons/io5";
+import { IoMenu } from "react-icons/io5";
 
 import MobileMenu from "./MobileMenu";
 

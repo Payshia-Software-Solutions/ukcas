@@ -1,6 +1,6 @@
 import React from "react";
 import EventCard from "@/components/Common/EventCard";
-import { title } from "process";
+
 
 const EventPage: React.FC = () => {
     const events = [
@@ -38,11 +38,7 @@ const EventPage: React.FC = () => {
         <p className="text-red-500 font-semibold mt-2">LATEST NEWS</p>
       </div>
           
-      {/* image: string;
-  category: string;
-  title: string;
-  description: string;
-  link: string; */}
+
 
 
       <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">

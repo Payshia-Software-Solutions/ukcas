@@ -28,12 +28,16 @@ const WhyChooseUs: React.FC = () => {
       <h2 className="text-4xl font-bold">Why Choose Us</h2>
       <p className="text-gray-600 mt-6 text-lg mb-10 max-w-xl mx-auto">
         Embark on a transformative educational journey with UK International
-        Qualifications (UKIQ). Here's why choosing us sets you on a distinct
-        path to success
+        Qualifications (UKIQ). Here&apos;s why choosing us sets you on a
+        distinct path to success
       </p>
+
       <div className="grid md:grid-cols-3 gap-8 max-w-6xl h-auto mx-auto">
         {features.map((feature, index) => (
-          <div key={index} className="text-center p-6 hover:shadow-lg rounded-lg">
+          <div
+            key={index}
+            className="text-center p-6 hover:shadow-lg rounded-lg"
+          >
             <div className="mb-4 flex justify-center">{feature.icon}</div>
             <h3 className="text-xl font-semibold">{feature.title}</h3>
             <p className="text-gray-600 mt-2">{feature.description}</p>
