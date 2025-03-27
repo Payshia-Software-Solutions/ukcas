@@ -1,14 +1,17 @@
 "use client";
 import React from "react";
+import Image from "next/image";
 
 const AboutSection: React.FC = () => {
   return (
     <section className="flex flex-col md:flex-row items-center max-w-6xl mx-auto   bg-white  mt-20 rounded-lg overflow-hidden">
       {/* Left - Image */}
       <div className="w-full md:w-1/2">
-        <img
-           src="/assets/images/side.jpg" // Change to your actual image path
+        <Image
+          src="/assets/images/side.jpg"
           alt="Business Professional"
+          width={500} 
+          height={300} 
           className="w-full h-full object-cover"
         />
       </div>
@@ -22,9 +25,10 @@ const AboutSection: React.FC = () => {
           SDC Canada Is Committed To Drive Skill Training
         </h2>
         <p className="mt-4 text-gray-600 leading-relaxed">
-          We launched with a vision to offer a unique and authentic awarding experience for training 
-          organisations globally. Over the past year we are happy that we could provide standardised 
-          assessment and certification with international acceptance.
+          We launched with a vision to offer a unique and authentic awarding
+          experience for training organisations globally. Over the past year we
+          are happy that we could provide standardised assessment and
+          certification with international acceptance.
         </p>
         <button className="mt-6 px-6 py-3 bg-red-500 text-white font-semibold rounded-full shadow-md hover:bg-red-600 transition">
           LEARN MORE
