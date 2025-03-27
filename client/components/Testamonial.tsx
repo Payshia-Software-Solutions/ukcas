@@ -5,7 +5,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation } from "swiper/modules";
 import { Swiper as SwiperType } from "swiper";
 import type { NavigationOptions } from "swiper/types";
- // Import Swiper types
+// Import Swiper types
 import "swiper/css";
 import "swiper/css/navigation";
 import CommentCard from "./Common/CommentCard";
@@ -64,15 +64,17 @@ const Testimonial = () => {
       {/* Content */}
       <div className="grid text-white bg-[#0b1c39]/80 px-8 py-10 md:py-16 rounded-3xl min-h-[600px] grid-cols-1 md:grid-cols-3 gap-10 w-full max-w-[100rem] relative items-center text-center md:text-left backdrop-blur-md">
         {/* Left Section */}
-        <div className="col-span-1 flex flex-col justify-center items-center md:items-start">
-          <p className="text-base uppercase">Testimonial</p>
-          <div className="text-start">
-            <h2 className="text-4xl md:text-5xl font-bold">
-              23k+ Customers gave their <span className="">Feedback</span>
+   
+        <div className="col-span-1 flex flex-col justify-start items-center md:items-start text-start md:text-left">
+          <p className="text-base my-6 md:my-0 uppercase">Testimonial</p>
+          <div>
+            <h2 className="text-3xl md:text-5xl font-bold">
+              23k+ Customers gave their <span>Feedback</span>
             </h2>
           </div>
 
-          <div className="mt-8 flex gap-5">
+          {/* Hide on small screens */}
+          <div className="mt-8 gap-5 hidden md:flex">
             <button
               ref={prevRef}
               className="border border-white bg-white text-black rounded-lg p-4 hover:bg-black hover:text-white transition"
@@ -107,7 +109,8 @@ const Testimonial = () => {
 
               // Ensure swiper.params.navigation is an object before using it
               if (typeof swiper.params.navigation === "object") {
-                const navigation = swiper.params.navigation as NavigationOptions;
+                const navigation = swiper.params
+                  .navigation as NavigationOptions;
                 if (prevRef.current && nextRef.current) {
                   navigation.prevEl = prevRef.current;
                   navigation.nextEl = nextRef.current;

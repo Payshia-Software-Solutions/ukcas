@@ -1,4 +1,4 @@
-"use client";
+
 import React from "react";
 import { Brain, Search, GraduationCap } from "lucide-react";
 
