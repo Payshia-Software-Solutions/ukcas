@@ -3,7 +3,9 @@ import React, { useRef, useEffect } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation } from "swiper/modules";
-import { Swiper as SwiperType } from "swiper"; // Import Swiper type
+import { Swiper as SwiperType } from "swiper";
+import type { NavigationOptions } from "swiper/types";
+ // Import Swiper types
 import "swiper/css";
 import "swiper/css/navigation";
 import CommentCard from "./Common/CommentCard";
@@ -12,7 +14,7 @@ import Image from "next/image";
 const Testimonial = () => {
   const prevRef = useRef<HTMLButtonElement | null>(null);
   const nextRef = useRef<HTMLButtonElement | null>(null);
-  const swiperRef = useRef<SwiperType | null>(null); // Properly type Swiper reference
+  const swiperRef = useRef<SwiperType | null>(null);
 
   const cards = [
     {
@@ -39,11 +41,7 @@ const Testimonial = () => {
   ];
 
   useEffect(() => {
-    if (swiperRef.current && prevRef.current && nextRef.current) {
-      swiperRef.current.params.navigation = {
-        prevEl: prevRef.current,
-        nextEl: nextRef.current,
-      };
+    if (swiperRef.current && swiperRef.current.navigation) {
       swiperRef.current.navigation.init();
       swiperRef.current.navigation.update();
     }
@@ -68,7 +66,7 @@ const Testimonial = () => {
         {/* Left Section */}
         <div className="col-span-1 flex flex-col justify-center items-center md:items-start">
           <p className="text-base uppercase">Testimonial</p>
-          <div className="text-center md:text-start">
+          <div className="text-start">
             <h2 className="text-4xl md:text-5xl font-bold">
               23k+ Customers gave their <span className="">Feedback</span>
             </h2>
@@ -102,13 +100,22 @@ const Testimonial = () => {
               1024: { slidesPerView: 2 },
             }}
             autoplay={{ delay: 3000, disableOnInteraction: false }}
-            navigation={{
-              prevEl: prevRef.current,
-              nextEl: nextRef.current,
-            }}
             loop={true}
             className="w-full"
-            onSwiper={(swiper) => (swiperRef.current = swiper)}
+            onSwiper={(swiper) => {
+              swiperRef.current = swiper; // Store Swiper instance
+
+              // Ensure swiper.params.navigation is an object before using it
+              if (typeof swiper.params.navigation === "object") {
+                const navigation = swiper.params.navigation as NavigationOptions;
+                if (prevRef.current && nextRef.current) {
+                  navigation.prevEl = prevRef.current;
+                  navigation.nextEl = nextRef.current;
+                  swiper.navigation.init();
+                  swiper.navigation.update();
+                }
+              }
+            }}
           >
             {cards.map((card, index) => (
               <SwiperSlide key={index}>
