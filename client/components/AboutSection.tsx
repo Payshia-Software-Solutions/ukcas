@@ -3,7 +3,7 @@ import React from "react";
 
 const AboutSection: React.FC = () => {
   return (
-    <section className="flex flex-col md:flex-row items-center max-w-6xl mx-auto my-12 bg-white  mt-20 rounded-lg overflow-hidden">
+    <section className="flex flex-col md:flex-row items-center max-w-6xl mx-auto   bg-white  mt-20 rounded-lg overflow-hidden">
       {/* Left - Image */}
       <div className="w-full md:w-1/2">
         <img

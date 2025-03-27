@@ -9,8 +9,10 @@ interface CommentCardProps {
 }
 
 const CommentCard: React.FC<CommentCardProps> = ({ name, role, image, comment }) => {
+
+ 
   return (
-    <div className="border rounded-xl p-6 shadow-md max-w-lg text-white">
+    <div className="border rounded-xl p-6 shadow-md h-60 max-w-lg text-white">
       <div className="flex items-center mb-4">
         <img src={image} alt={name} className="w-12 h-12 rounded-full mr-4" />
         <div>
@@ -18,11 +20,11 @@ const CommentCard: React.FC<CommentCardProps> = ({ name, role, image, comment })
           <p className="text-sm">{role}</p>
         </div>
       </div>
-      <div className="flex mb-3 text-yellow-400">
+      {/* <div className="flex mb-3 text-yellow-400">
         {[...Array(5)].map((_, i) => (
           <Star key={i} size={20} fill="currentColor" stroke="none" />
         ))}
-      </div>
+      </div> */}
       <p className="">{comment}</p>
     </div>
   );
