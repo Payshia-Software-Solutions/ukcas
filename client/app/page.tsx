@@ -16,7 +16,6 @@ export default function Home() {
       <CounterSection />
       <CurriculumCardsSection />
       <WhyChooseUs />
-
       <Testamonial />
       <EventPage />
     </div>
