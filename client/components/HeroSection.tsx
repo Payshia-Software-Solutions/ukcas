@@ -64,7 +64,7 @@ const HeroSection = () => {
         </motion.div>
       </div>
 
-      <div className="absolute  md:-bottom-10 w-full">
+      <div className="md:absolute  md:-bottom-10 w-full">
         <TopNavigateCard />
       </div>
     </section>
