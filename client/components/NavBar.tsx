@@ -65,7 +65,7 @@ const NavBar: React.FC = () => {
               <Link href="/assessment" className="hover:text-gray-300">Assessment</Link>
               <Link href="/verification" className="hover:text-gray-300">Verification</Link>
               <Link href="/partnerships" className="hover:text-gray-300">Partnerships</Link>
-              <Link href="/contactus" className="hover:text-gray-300">Contact Us</Link>
+              <Link href="/contact" className="hover:text-gray-300">Contact Us</Link>
             </nav>
 
             <div className="flex items-center justify-end gap-4 ">

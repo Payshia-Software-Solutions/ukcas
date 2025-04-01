@@ -53,7 +53,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ isMobileMenuOpen, setIsMobileMe
           <Link href="/assessment" className="block py-1 text-lg font-medium transition hover:text-green-400">Assessment</Link>
               <Link href="/verification" className="block py-1 text-lg font-medium transition hover:text-green-400">Verification</Link>
               <Link href="/partnerships" className="block py-1 text-lg font-medium transition hover:text-green-400">Partnerships</Link>
-              <Link href="/contactus" className="block py-1 text-lg font-medium transition hover:text-green-400">Contact Us</Link>
+              <Link href="/contact" className="block py-1 text-lg font-medium transition hover:text-green-400">Contact Us</Link>
 
 
           {/* <div className="md:flex justify-between items-center mt-5">
