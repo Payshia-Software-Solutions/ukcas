@@ -50,7 +50,7 @@ const NavBar: React.FC = () => {
           <div className="flex flex-col md:flex-row md:items-center md:justify-between">
             <div className="w-full md:w-auto hidden md:flex justify-center md:justify-start mb-4 md:mb-0">
               <Link href="/" className="text-2xl font-bold text-orange-500">
-                <Image src="/assets/images/samplelogo.png" alt="Logo" width={48} height={48} />
+                <Image src="/assets/images/samplelogo.png" alt="Logo" width={150} height={100} />
               </Link>
             </div>
 
@@ -63,7 +63,7 @@ const NavBar: React.FC = () => {
               <Link href="/about" className="hover:text-gray-300"> About Us</Link>
               <Link href="/services" className="hover:text-gray-300">Services</Link>
               <Link href="/assessment" className="hover:text-gray-300">Assessment</Link>
-              <Link href="/verification" className="hover:text-gray-300">Verification</Link>
+              <Link href="/certificateverification" className="hover:text-gray-300">Verification</Link>
               <Link href="/partnerships" className="hover:text-gray-300">Partnerships</Link>
               <Link href="/contact" className="hover:text-gray-300">Contact Us</Link>
             </nav>
