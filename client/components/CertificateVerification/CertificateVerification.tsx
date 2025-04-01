@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useRouter } from 'next/navigation';
-
+import Image from 'next/image';
 
 const CertificateVerification = () => {
   const router = useRouter();
@@ -23,7 +23,15 @@ const CertificateVerification = () => {
 
       {/* Main Content */}
       <div className="relative z-10 bg-gray-200 bg-opacity-95 p-12 rounded-xl shadow-lg w-full max-w-lg text-center">
-        <img src="/assets/images/samplelogo.png" alt="Logo" className="mx-auto mb-4" />
+        {/* Updated Image component */}
+        <Image 
+          src="/assets/images/samplelogo.png" 
+          alt="Logo" 
+          width={150} 
+          height={100} 
+          className="mx-auto mb-4" 
+          priority
+        />
 
         <h2 className="text-2xl font-bold mb-4">Certificate Verification</h2>
 
