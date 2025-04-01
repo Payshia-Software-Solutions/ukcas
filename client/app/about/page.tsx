@@ -1,4 +1,4 @@
-import WelcomeMessage from '@/components/AboutPage/WelcomeMessage'
+
 import SectionHeader from '@/components/Common/SectionHeader';
 import WhyChooseUs from '@/components/WhyChooseUs';
 import React from 'react'
@@ -13,7 +13,7 @@ const Page: React.FC = () => {
          imgURL="/assets/about/headerimage.jpg"   
          title='About Us '
         />
-        <WelcomeMessage/>
+        {/* <WelcomeMessage/> */}
 
         <AboutSection/>
         <CounterSection/>
