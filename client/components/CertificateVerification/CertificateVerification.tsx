@@ -7,7 +7,7 @@ import Link from 'next/link';
 const CertificateVerification = () => {
   const [showDetails, setShowDetails] = useState(false);
 
-  // Dummy data for testing
+  // Dummy data for testing display
   const data = {
     user: {
       name: "John Doe",
