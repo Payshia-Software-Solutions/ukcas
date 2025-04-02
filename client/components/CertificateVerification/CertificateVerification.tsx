@@ -8,7 +8,7 @@ const CertificateVerification = () => {
   const router = useRouter();
 
   const handleSearch = () => {
-    router.push('/verifiedcertificate');
+    router.push('/verified-certificate');
   };
 
   return (

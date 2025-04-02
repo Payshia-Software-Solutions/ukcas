@@ -63,7 +63,7 @@ const NavBar: React.FC = () => {
               <Link href="/about" className="hover:text-gray-300"> About Us</Link>
               <Link href="/services" className="hover:text-gray-300">Services</Link>
               <Link href="/assessment" className="hover:text-gray-300">Assessment</Link>
-              <Link href="/certificateverification" className="hover:text-gray-300">Verification</Link>
+              <Link href="/certificate-verification" className="hover:text-gray-300">Verification</Link>
               <Link href="/partnerships" className="hover:text-gray-300">Partnerships</Link>
               <Link href="/contact" className="hover:text-gray-300">Contact Us</Link>
             </nav>
