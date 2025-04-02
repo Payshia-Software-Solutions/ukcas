@@ -25,7 +25,7 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({ imgURL, title }) => {
 
           {/* Title Text */}
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white font-bold text-center">
-            <h1 className="text-[45px] md:text-[75px] lowercase">{title}</h1>
+            <h1 className="text-[45px] md:text-[75px] capitalize">{title}</h1>
           </div>
         </div>
       </div>
