@@ -11,7 +11,7 @@ const CertificateVerification = () => {
   const data = {
     user: {
       name: "John Doe",
-      image: "/assets/images/user.jpg", // Updated to uploaded image path
+      image: "/assets/images/user.jpg", 
       course: {
         name: "React Development",
         duration: "6 Months",
@@ -92,19 +92,6 @@ const CertificateVerification = () => {
               </div>
             </div>
             <br />
-            <Link href="/">
-          <button
-            className="w-50 text-xl bg-red-600 hover:bg-red-800 text-white font-semibold py-4 rounded-lg transition cursor-pointer ml-auto block flex items-center justify-center space-x-2"
-          >
-            <Image
-              src="/assets/images/eye.png"
-              alt="View Icon"
-              width={20}  
-              height={20}
-            />
-            <span>View Certificate</span>
-          </button>
-        </Link>
           </div>
           
         ) : (
