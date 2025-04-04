@@ -155,7 +155,7 @@ const CertificateVerification = () => {
             />
             <button
               onClick={handleSearch}
-              className="w-full text-xl bg-red-600 hover:bg-red-800 text-white font-semibold py-4 rounded-lg transition cursor-pointer"
+              className="w-full text-xl bg-red-500 hover:bg-red-900 text-white font-semibold py-4 rounded-lg transition cursor-pointer "
             >
               Search
             </button>
