@@ -77,7 +77,7 @@ const NavBar: React.FC = () => {
             </div>
 
             <div className="hidden md:flex">
-              <button className="bg-[#0b1c39] text-white text-xl py-2 px-4 rounded-lg">
+              <button className="bg-red-500 text-white text-xl py-2 px-4 rounded-lg">
                 <Link href="#" target="_blank">GET ACCREDITED
                 </Link>
               </button>
