@@ -8,7 +8,7 @@ type SectionHeaderProps = {
 
 const SectionHeader: React.FC<SectionHeaderProps> = ({ imgURL, title }) => {
   return (
-    <div className="mb-10 mt-4">
+    <div className="mb mt-4">
       <div className="flex flex-col items-center justify-center">
         <div className="relative w-full h-[60vh]">
           {/* Background Image */}
