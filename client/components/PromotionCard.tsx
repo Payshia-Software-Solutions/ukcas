@@ -4,11 +4,13 @@ import { motion } from 'framer-motion';
 import { FaArrowAltCircleRight } from 'react-icons/fa';
 import Image  from 'next/image';
 
+
 interface PromotionCardProps {
   imageSrc: string;
   title: string;
   description: string;
   link: string;
+  
 }
 
 const PromotionCard: React.FC<PromotionCardProps> = ({ imageSrc, title, description, link }) => {
@@ -40,7 +42,7 @@ const PromotionCard: React.FC<PromotionCardProps> = ({ imageSrc, title, descript
 
         {/* Learn More Button with Rotating Arrow */}
         <a 
-          href={link} 
+          href={` /Partnerships/${link}`}
           className="mt-4 text-white flex items-center text-lg font-semibold hover:underline"
         >
           <span>Learn More</span>

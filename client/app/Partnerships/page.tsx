@@ -3,7 +3,7 @@ import React from "react";
 import PromotionCard from "@/components/PromotionCard";
 import { motion } from "framer-motion";
 import SectionHeader from "@/components/Common/SectionHeader";
-
+import Breadcrumb from "@/components/Breadcrumb";
 // Define the type for our promotion items
 interface PromotionItem {
   id: string;
@@ -22,7 +22,7 @@ const PromotionsPage: React.FC = () => {
       title: "Summer Special Offer",
       description:
         "Get 20% off on all summer products until the end of the month.",
-      link: "/offers/summer-special",
+      link: "/offers-summer-special",
     },
     {
       id: "2",
@@ -30,12 +30,12 @@ const PromotionsPage: React.FC = () => {
       title: "New Collection Launch",
       description:
         "Explore our latest collection of premium products now available.",
-      link: "/collections/new-arrivals",
+      link: "/collectionsnew-arrivals",
     },
     {
       id: "3",
       imageSrc: "/assets/services/Bosa-finance-img3.jpg",
-      title: "Exclusive Membership",
+      title: "Exclusive- Membership",
       description:
         "Join our exclusive membership program and enjoy special benefits.",
       link: "/membership",
@@ -45,21 +45,21 @@ const PromotionsPage: React.FC = () => {
       imageSrc: "/assets/services/Bosa-finance-img4.jpg",
       title: "Limited Edition Products",
       description: "Discover our limited edition products before they're gone.",
-      link: "/products/limited-edition",
+      link: "/productslimited-edition",
     },
     {
       id: "5",
       imageSrc: "/assets/services/Bosa-finance-img5.jpg",
       title: "Discount on Electronics",
       description: "Up to 30% off on selected electronics for a limited time.",
-      link: "/offers/electronics",
+      link: "/offers-electronics",
     },
     {
       id: "6",
       imageSrc: "/assets/services/Bosa-finance-img6.jpg",
       title: "Free Shipping Worldwide",
       description: "Enjoy free shipping on all international orders over $50.",
-      link: "/shipping/free",
+      link: "/shippingfree",
     },
   ];
 
@@ -68,7 +68,7 @@ const PromotionsPage: React.FC = () => {
     show: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.2
+        staggerChildren: 0.2,
       },
     },
   };
@@ -79,7 +79,15 @@ const PromotionsPage: React.FC = () => {
   };
 
   return (
-    <section>
+    <section className="mt-20">
+      <Breadcrumb
+        crumbs={[
+          { href: "/", label: "Home" },
+          { href: "/Partnerships", label: "Partnerships" },
+          
+        ]}
+        fontColor=""
+      />
       <div>
         <SectionHeader
           imgURL="/assets/about/headerimage.jpg"
