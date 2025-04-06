@@ -1,6 +1,7 @@
 import React from 'react';
 import SectionHeader from '@/components/Common/SectionHeader';
 import ServiceCard from '@/components/ServiceCard';
+import Breadcrumb from '@/components/Breadcrumb';
 
 // Define service item structure
 interface ServiceItem {
@@ -8,8 +9,45 @@ interface ServiceItem {
   category: string;
   title: string;
   imageUrl: string;
-  description : string;
+  description: string;
 }
+
+// Metadata for the Services page
+export const metadata = {
+  title: 'Services | Bosa - Professional Services for Your Business',
+  description:
+    'Explore Bosa’s wide range of services, including skill assessments, certifications, research, consultancy, and more. Enhance your business operations with expert solutions tailored to your needs.',
+  keywords: [
+    'Business Services',
+    'Skill Assessments',
+    'Certifications',
+    'Consultancy',
+    'Research Publications',
+    'Quality Control',
+    'Accreditation Services',
+  ],
+  openGraph: {
+    title: 'Services | Bosa - Professional Services for Your Business',
+    description:
+      'Discover Bosa’s comprehensive services to help businesses grow. From skill assessments to quality control, find tailored solutions for your organization.',
+    url: 'https://www.bosa.com/services', // Replace with your actual URL
+    images: [
+      {
+        url: 'https://www.bosa.com/assets/services/overview-image.jpg', // Replace with your image URL
+        width: 1200,
+        height: 630,
+        alt: 'Professional Services for Your Business at Bosa',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Services | Bosa - Professional Services for Your Business',
+    description:
+      'Explore Bosa’s expert services, from assessments to consultancy. Enhance your business with tailored solutions.',
+    image: 'https://www.bosa.com/images/services-banner.jpg', // Replace with your image URL
+  },
+};
 
 const Page: React.FC = () => {
   // Sample data for services
@@ -57,10 +95,16 @@ const Page: React.FC = () => {
       description: 'Receive expert guidance and strategic advice tailored to your business needs, helping you navigate complex challenges and achieve your goals.'
     }
   ];
-  
 
   return (
     <div className='mt-20'>
+      {/* Breadcrumb */}
+      <Breadcrumb
+        crumbs={[{ href: '/', label: 'Home' }, { href: '/services', label: 'Services' }]}
+        fontColor="" 
+      />
+
+      {/* Header */}
       <SectionHeader
         imgURL="/assets/about/headerimage.jpg"   
         title='Our Services'
