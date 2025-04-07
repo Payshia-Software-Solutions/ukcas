@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 
-// ✅ Moved outside the component to fix ESLint warning
+// Keep dummy data outside the component
 const dummyCertificates = [
   {
     certificateId: '1234',
@@ -34,7 +34,7 @@ const dummyCertificates = [
   },
 ];
 
-const CertificateVerification = () => {
+const CertificateVerificationClient = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -53,24 +53,21 @@ const CertificateVerification = () => {
     };
   } | null>(null);
 
-  // Load certificate if ID is in URL
   useEffect(() => {
     const id = searchParams.get('certificateId');
     if (id) {
       const matched = dummyCertificates.find(cert => cert.certificateId === id);
       if (matched) {
         setCertificate(matched);
-        setCertificateIdInput(id); // Optional: Show ID in input
+        setCertificateIdInput(id);
       }
     }
   }, [searchParams]);
 
-  // Handle search button click
   const handleSearch = () => {
     const matched = dummyCertificates.find(cert => cert.certificateId === certificateIdInput.trim());
     if (matched) {
       setCertificate(matched);
-      // Update the URL
       router.push(`/certificate-verification?certificateId=${certificateIdInput.trim()}`);
     } else {
       setCertificate(null);
@@ -79,7 +76,6 @@ const CertificateVerification = () => {
 
   return (
     <div className="relative min-h-screen flex items-center justify-center">
-      {/* Background */}
       <div
         className="absolute inset-0 bg-cover bg-center z-0"
         style={{ backgroundImage: "url('/assets/images/certificate.webp')" }}
@@ -87,7 +83,6 @@ const CertificateVerification = () => {
         <div className="absolute inset-0 bg-black opacity-40"></div>
       </div>
 
-      {/* Card */}
       <div className="relative z-10 bg-gray-200 bg-opacity-95 p-16 rounded-xl shadow-lg w-full max-w-xl text-center">
         <Image
           src="/assets/images/samplelogo.png"
@@ -166,4 +161,4 @@ const CertificateVerification = () => {
   );
 };
 
-export default CertificateVerification;
+export default CertificateVerificationClient;
