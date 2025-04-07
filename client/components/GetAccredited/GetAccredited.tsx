@@ -5,7 +5,7 @@ const GetAccredited = () => {
     <div>
 
       {/* Section 1: What is Accreditation */}
-      <div className="flex flex-col md:flex-row items-start justify-between px-8 md:px-20 py-20 bg-white ">
+      <div className="container mx-auto flex flex-col md:flex-row items-start justify-between px-8 md:px-20 py-20 bg-white ">
         {/* Left Section - Heading */}
         <div className="md:w-1/2 mb-10 md:mb-0">
           <h1 className="text-5xl md:text-7xl font-bold leading-tight text-black">
