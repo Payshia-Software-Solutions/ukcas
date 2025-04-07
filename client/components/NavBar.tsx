@@ -62,10 +62,8 @@ const NavBar: React.FC = () => {
               <Link href="/" className="hover:text-gray-300">Home</Link>
               <Link href="/about" className="hover:text-gray-300"> About Us</Link>
               <Link href="/services" className="hover:text-gray-300">Services</Link>
-
-       
               <Link href="/certificate-verification" className="hover:text-gray-300">Verification</Link>
-
+              <Link href="/get-accredited" className="hover:text-gray-300">Get Accredited</Link>
               <Link href="/Partnerships" className="hover:text-gray-300">Partnerships</Link>
               <Link href="/contact" className="hover:text-gray-300">Contact Us</Link>
             </nav>
@@ -78,7 +76,7 @@ const NavBar: React.FC = () => {
 
             <div className="hidden md:flex">
               <button className="bg-[#7C2B33] text-white text-xl py-2 px-4 rounded-lg">
-                <Link href="#" target="_blank">GET ACCREDITED
+                <Link href="/get-accredited" target="">GET ACCREDITED
                 </Link>
               </button>
             </div>
