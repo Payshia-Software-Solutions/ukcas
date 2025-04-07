@@ -4,6 +4,36 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 
+// ✅ Moved outside the component to fix ESLint warning
+const dummyCertificates = [
+  {
+    certificateId: '1234',
+    user: {
+      name: 'John Doe',
+      image: '/assets/images/user.jpg',
+      course: {
+        name: 'React Development',
+        duration: '6 Months',
+        completionDate: '01 Dec 2025',
+        learningpartner: 'GA',
+      },
+    },
+  },
+  {
+    certificateId: '5678',
+    user: {
+      name: 'Jane Smith',
+      image: '/assets/images/user.jpg',
+      course: {
+        name: 'Python Fullstack',
+        duration: '4 Months',
+        completionDate: '15 Nov 2024',
+        learningpartner: 'GA',
+      },
+    },
+  },
+];
+
 const CertificateVerification = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -22,36 +52,6 @@ const CertificateVerification = () => {
       };
     };
   } | null>(null);
-
-  // Dummy data
-  const dummyCertificates = [
-    {
-      certificateId: '1234',
-      user: {
-        name: 'John Doe',
-        image: '/assets/images/user.jpg',
-        course: {
-          name: 'React Development',
-          duration: '6 Months',
-          completionDate: '01 Dec 2025',
-          learningpartner: 'GA',
-        },
-      },
-    },
-    {
-      certificateId: '5678',
-      user: {
-        name: 'Jane Smith',
-        image: '/assets/images/user.jpg',
-        course: {
-          name: 'Python Fullstack',
-          duration: '4 Months',
-          completionDate: '15 Nov 2024',
-          learningpartner: 'GA',
-        },
-      },
-    },
-  ];
 
   // Load certificate if ID is in URL
   useEffect(() => {
@@ -155,7 +155,7 @@ const CertificateVerification = () => {
             />
             <button
               onClick={handleSearch}
-              className="w-full text-xl bg-red-500 hover:bg-red-900 text-white font-semibold py-4 rounded-lg transition cursor-pointer "
+              className="w-full text-xl bg-[#7C2B33] hover:bg-[#74323B] text-white font-semibold py-4 rounded-lg transition cursor-pointer "
             >
               Search
             </button>
