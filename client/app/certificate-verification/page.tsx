@@ -1,14 +1,12 @@
-// app/certificate-verification/page.tsx
+import React, { Suspense } from 'react';
+import CertificateVerificationClient from '@/components/CertificateVerification/CertificateVerification';
 
-import React from "react";
-import CertificatVerification from "@/components/CertificateVerification/CertificateVerification";
-
-const Page: React.FC = () => {
+const CertificateVerificationPage = () => {
   return (
-    <div className="mt-20">
-      <CertificatVerification />
-    
-    </div>
+    <Suspense fallback={<div className="text-center p-8">Loading...</div>}>
+      <CertificateVerificationClient />
+    </Suspense>
   );
 };
-export default Page;
+
+export default CertificateVerificationPage;
