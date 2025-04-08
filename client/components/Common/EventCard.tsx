@@ -1,6 +1,7 @@
 "use client"
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 interface EventCardProps {
   image: string;
@@ -12,7 +13,8 @@ interface EventCardProps {
 
 const EventCard: React.FC<EventCardProps> = ({ image, category, title, description, link }) => {
   return (
-    <div className="relative min-w-[20rem]  max-w-sm bg-white rounded-xl shadow-md overflow-hidden group">
+        <Link href={`/event/${link}`} >
+           <div className="relative min-w-[20rem]  max-w-sm bg-white rounded-xl shadow-md overflow-hidden group">
       
       {/* Card Content (image + text) */}
       <div className="relative z-10">
@@ -41,7 +43,7 @@ const EventCard: React.FC<EventCardProps> = ({ image, category, title, descripti
           Read More →
         </a>
       </div>
-    </div>
+    </div></Link>
   );
 };
 

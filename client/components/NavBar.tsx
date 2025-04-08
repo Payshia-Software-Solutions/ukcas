@@ -51,14 +51,14 @@ const NavBar: React.FC = () => {
             {/* Links section */}
             <div className="flex gap-6">
               <Link href={"#"} className="font-semibold">
-                Student Login
+                Partership
               </Link>
 
               <div className="hidden md:flex gap-6">
                 <Link href={"#"}>Portal</Link>
                 <Link href={"#"}>Graduation</Link>
                 <Link href={"#"}>Certificate</Link>
-                <Link href={"#"}>POS</Link>
+                {/* <Link href={"#"}>POS</Link> */}
               </div>
             </div>
           </div>
