@@ -69,7 +69,9 @@ const NavBar: React.FC = () => {
           <div className="flex flex-col md:flex-row md:items-center md:justify-between">
             <div className="w-full md:w-auto hidden md:flex justify-center md:justify-start mb-4 md:mb-0">
               <Link href="/" className="text-2xl font-bold text-orange-500">
+
                 <Image src="/assets/logo/mainlogo.png" className="h-24 w-auto object-cover" alt="Logo" width={150} height={100} />
+
               </Link>
             </div>
 
@@ -97,7 +99,7 @@ const NavBar: React.FC = () => {
 
             <div className="hidden md:flex">
               <button className="bg-[#7C2B33] text-white text-xl py-2 px-4 rounded-lg">
-                <Link href="/get-accredited" target="">GET ACCREDITED
+                <Link href="/get-accredited" target="">Get Accredited
                 </Link>
               </button>
             </div>
