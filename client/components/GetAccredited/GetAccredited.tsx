@@ -37,7 +37,7 @@ const GetAccredited = () => {
 
       {/* Section 3: Form */}
       <div className="bg-[#7C2B33] py-1 px-8 md:px-20">
-        <div className="bg-white max-w-5xl mx-auto p-10 rounded-xl shadow-md">
+        <div className="bg-white max-w-5xl mx-auto p-10 rounded-xl shadow-md shadow-md mb-20">
           <form className="space-y-6 text-gray-900">
             <p className="text-sm text-red-600 font-medium">
               Fields marked with an <span className="text-red-600">*</span> are required

@@ -75,7 +75,7 @@ const CertificateVerificationClient = () => {
   };
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center">
+    <div className="relative min-h-screen flex items-center justify-center pt-35">
       <div
         className="absolute inset-0 bg-cover bg-center z-0"
         style={{ backgroundImage: "url('/assets/images/certificate.webp')" }}
@@ -85,7 +85,7 @@ const CertificateVerificationClient = () => {
 
       <div className="relative z-10 bg-gray-200 bg-opacity-95 p-16 rounded-xl shadow-lg w-full max-w-xl text-center">
         <Image
-          src="/assets/images/samplelogo.png"
+          src="/assets/images/samplelogo.jpeg"
           alt="Logo"
           width={180}
           height={120}

@@ -5,7 +5,7 @@ const ContactForm: React.FC = () => {
   return (
     <section className="flex flex-col md:flex-row items-center justify-center min-h-screen bg-gray-50 p-6 md:p-12">
       {/* Left Section */}
-      <div className="md:w-auto h-auto md:h-[38rem] px-6 md:px-12 py-8 text-center bg-[#7C2B33] md:text-left mb-6 md:mb-0 w-full">
+      <div className="md:w-auto h-auto md:h-[38rem] px-6 md:px-12 py-8 text-center bg-[#74323B] md:text-left mb-6 md:mb-0 w-full">
         <h2 className="text-3xl md:text-5xl font-bold text-white">
           Let&rsquo;s chat.<br /> Tell me about your project.
         </h2>
@@ -44,7 +44,7 @@ const ContactForm: React.FC = () => {
       </div>
 
       {/* Right Section (Form) */}
-      <div className="md:w-2/3 bg-white shadow-xl rounded-lg p-6 md:p-8 w-full max-w-xl ">
+      <div className="md:w-2/3 bg-[#E7C7C9] shadow-xl rounded-lg p-6 md:p-8 w-full max-w-xl ">
         <h3 className="text-xl md:text-5xl font-bold text-gray-900 mb-4 md:mb-6 ">
           Send us a message
         </h3>
@@ -52,25 +52,25 @@ const ContactForm: React.FC = () => {
           <input
             type="text"
             placeholder="Full name*"
-            className="border border-gray-300 p-3 md:p-4 rounded-md text-base md:text-lg focus:outline-none focus:ring-2 focus:ring-[#74323B]"
+            className="border border-gray-500 p-3 md:p-4 rounded-md text-base md:text-lg focus:outline-none focus:ring-2 focus:ring-[#74323B]"
           />
           <input
             type="email"
             placeholder="Email address*"
-            className="border border-gray-300 p-3 md:p-4 rounded-md text-base md:text-lg focus:outline-none focus:ring-2 focus:ring-[#74323B]"
+            className="border border-gray-500 p-3 md:p-4 rounded-md text-base md:text-lg focus:outline-none focus:ring-2 focus:ring-[#74323B]"
           />
           <input
             type="text"
             placeholder="Subject"
-            className="border border-gray-300 p-3 md:p-4 rounded-md text-base md:text-lg focus:outline-none focus:ring-2 focus:ring-[#74323B]"
+            className="border border-gray-500 p-3 md:p-4 rounded-md text-base md:text-lg focus:outline-none focus:ring-2 focus:ring-[#74323B]"
           />
           <textarea
             placeholder="Tell us more about *"
-            className="border border-gray-300 p-3 md:p-4 rounded-md text-base md:text-lg h-24 md:h-32 resize-none focus:outline-none focus:ring-2 focus:ring-[#74323B]"
+            className="border border-gray-500 p-3 md:p-4 rounded-md text-base md:text-lg h-24 md:h-32 resize-none focus:outline-none focus:ring-2 focus:ring-[#74323B]"
           ></textarea>
           <button
             type="submit"
-            className="bg-[#7C2B33] text-white font-semibold p-3 md:p-4 rounded-md text-base md:text-lg hover:bg-[#74323B] transition duration-300 cursor-pointer flex items-center justify-center"
+            className="bg-[#74323B] text-white font-semibold p-3 md:p-4 rounded-md text-base md:text-lg hover:bg-[#7C2B33] transition duration-300 cursor-pointer flex items-center justify-center"
           >
             Send message
           </button>
