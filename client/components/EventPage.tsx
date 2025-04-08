@@ -13,7 +13,7 @@ const EventPage: React.FC = () => {
       date: "January 12, 2024",
       description:
         "Learn how to identify and prevent fraudulent learning partner certifications to protect your credentials.",
-      link: "#",
+      link: "Skill-Certifications",
     },
     {
       image: "/assets/curriculum/card2.jpg",
@@ -23,7 +23,7 @@ const EventPage: React.FC = () => {
       date: "August 28, 2023",
       description:
         "Discover how international certifications can enhance your job prospects and career growth.",
-      link: "#",
+      link: "Future-Careers",
     },
     {
       image: "/assets/curriculum/card3.jpg",
@@ -32,7 +32,7 @@ const EventPage: React.FC = () => {
       date: "September 14, 2022",
       description:
         "A guide to using international certifications to switch careers and boost employability.",
-      link: "#",
+      link: "Skill-Certifications",
     },
   ];
 
