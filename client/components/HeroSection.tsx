@@ -5,13 +5,13 @@ import Image from "next/image";
 
 const HeroSection = () => {
   return (
-    <section >
+    <section>
       <div className="relative flex items-center justify-center h-screen text-white mb-6">
         {/* Background Image */}
         <div className="absolute inset-0">
           <Image
             src="/assets/images/hero.jpg"
-            width={500} 
+            width={500}
             height={300}
             alt="International Learning"
             className="w-full h-full object-cover "
@@ -19,7 +19,7 @@ const HeroSection = () => {
         </div>
 
         {/* Overlay */}
-         <div className="absolute inset-0 bg-black opacity-40"></div> 
+        <div className="absolute inset-0 bg-black opacity-40"></div>
 
         {/* Content Wrapper with Motion */}
         <motion.div
@@ -29,6 +29,21 @@ const HeroSection = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut", staggerChildren: 0.3 }}
         >
+          <motion.div
+            className=" w-28 md:w-48 lg:w-48"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.1 }}
+          >
+            <Image
+              src="/assets/logo/mainlogo.png"
+              alt="Logo"
+              width={150}
+              height={100}
+              className="w-full h-auto"
+              priority
+            />
+          </motion.div>
           {/* Title Animation */}
           <motion.h1
             className="text-4xl md:text-5xl lg:text-6xl font-bold"
@@ -53,8 +68,8 @@ const HeroSection = () => {
 
           {/* Button Animation */}
           <motion.button
-            className="mt-6 md:mt-8 px-4 md:px-6 py-2 md:py-3 bg-blue-600 text-white font-semibold rounded-lg 
-                     hover:bg-blue-700 transition"
+            className="mt-6 md:mt-8 px-4 md:px-6 py-2 md:py-3 bg-[#7E3841] hover:bg-[#74323B] text-white font-semibold rounded-lg 
+                      transition"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
