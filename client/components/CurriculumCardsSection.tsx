@@ -11,7 +11,7 @@ const CurriculumCardsSection = () => {
   
     return (
       
-      <section className="bg-[#0b1c39] py-16 text-white text-center">
+      <section className="bg-[#7C2B33] py-16 text-white text-center">
 
         {/* test */}
         <h2 className="text-4xl font-bold">What We Are Offering</h2>

@@ -38,7 +38,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
       </div>
       <div className="p-6 text-center">
         <p className="text-red-500 uppercase font-medium tracking-wide mb-2">{category}</p>
-        <h3 className="text-2xl font-serif text-slate-800">{title}</h3>
+        <h3 className="text-2xl  text-slate-800">{title}</h3>
       </div>
 
       {/* Description overlay that appears on hover */}
@@ -50,7 +50,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
       >
         <div className="text-center">
           {/* <p className="text-red-400 uppercase font-medium tracking-wide mb-2">{category}</p> */}
-          <h3 className="text-2xl font-serif text-white mb-4">Description</h3>
+          <h3 className="text-2xl  text-white mb-4">Description</h3>
           <p className="text-white text-lg">
             {description}
           </p>

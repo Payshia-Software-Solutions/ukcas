@@ -62,7 +62,7 @@ const Testimonial = () => {
       <div className="absolute inset-0 bg-black opacity-40"></div>
 
       {/* Content */}
-      <div className="grid text-white bg-[#0b1c39]/80 px-8 py-10 md:py-16 rounded-3xl min-h-[600px] grid-cols-1 md:grid-cols-3 gap-10 w-full max-w-[100rem] relative items-center text-center md:text-left backdrop-blur-md">
+      <div className="grid text-white bg-[#7C2B33]/80 px-8 py-10 md:py-16 rounded-3xl min-h-[600px] grid-cols-1 md:grid-cols-3 gap-10 w-full max-w-[100rem] relative items-center text-center md:text-left backdrop-blur-md">
         {/* Left Section */}
    
         <div className="col-span-1 flex flex-col justify-start items-center md:items-start text-start md:text-left">

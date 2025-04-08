@@ -44,15 +44,38 @@ const NavBar: React.FC = () => {
           isVisible ? "-translate-y-full" : "translate-y-0"
         }`}
       >
+
+             {/* Top Bar */}
+             <div className="flex justify-center">
+          <div className="bg-[#74323B] w-full text-sm py-2 px-4 flex sm:justify-start md:justify-center text-white">
+            {/* Links section */}
+            <div className="flex gap-6">
+              <Link href={"#"} className="font-semibold">
+                Student Login
+              </Link>
+
+              <div className="hidden md:flex gap-6">
+                <Link href={"#"}>Portal</Link>
+                <Link href={"#"}>Graduation</Link>
+                <Link href={"#"}>Certificate</Link>
+                <Link href={"#"}>POS</Link>
+              </div>
+            </div>
+          </div>
+        </div>
         
 
-        <div className="px-4 py-0 md:py-4 max-w-7xl mx-auto">
+        <div className="px-4 py-0 md:py-2 max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between">
             <div className="w-full md:w-auto hidden md:flex justify-center md:justify-start mb-4 md:mb-0">
               <Link href="/" className="text-2xl font-bold text-orange-500">
-                <Image src="/assets/images/samplelogo.jpeg" alt="Logo" width={80} height={100} />
+
+                <Image src="/assets/logo/mainlogo.png" className="h-24 w-auto object-cover" alt="Logo" width={150} height={100} />
+
               </Link>
             </div>
+
+            
 
             
  

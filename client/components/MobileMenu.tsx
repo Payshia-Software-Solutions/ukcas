@@ -42,7 +42,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ isMobileMenuOpen, setIsMobileMe
 
         {/* Logo */}
         <div className="flex items-center justify-center py-4">
-          <Image src="/assets/images/samplelogo.png" alt="Logo" width={250} height={250} className="h-auto w-1/2" />
+          <Image src="/assets/logo/mainlogo.png" alt="Logo" width={250} height={250} className="h-auto w-1/2" />
         </div>
 
         {/* Navigation */}

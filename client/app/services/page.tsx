@@ -3,7 +3,6 @@ import SectionHeader from '@/components/Common/SectionHeader';
 import ServiceCard from '@/components/ServiceCard';
 import Breadcrumb from '@/components/Breadcrumb';
 
-// Define service item structure
 interface ServiceItem {
   id: number;
   category: string;
@@ -12,7 +11,6 @@ interface ServiceItem {
   description: string;
 }
 
-// Metadata for the Services page
 export const metadata = {
   title: 'Services | Bosa - Professional Services for Your Business',
   description:
@@ -30,10 +28,10 @@ export const metadata = {
     title: 'Services | Bosa - Professional Services for Your Business',
     description:
       'Discover Bosa’s comprehensive services to help businesses grow. From skill assessments to quality control, find tailored solutions for your organization.',
-    url: 'https://www.bosa.com/services', // Replace with your actual URL
+    url: 'https://www.bosa.com/services',
     images: [
       {
-        url: 'https://www.bosa.com/assets/services/overview-image.jpg', // Replace with your image URL
+        url: 'https://www.bosa.com/assets/services/overview-image.jpg',
         width: 1200,
         height: 630,
         alt: 'Professional Services for Your Business at Bosa',
@@ -45,16 +43,15 @@ export const metadata = {
     title: 'Services | Bosa - Professional Services for Your Business',
     description:
       'Explore Bosa’s expert services, from assessments to consultancy. Enhance your business with tailored solutions.',
-    image: 'https://www.bosa.com/images/services-banner.jpg', // Replace with your image URL
+    image: 'https://www.bosa.com/images/services-banner.jpg',
   },
 };
 
 const Page: React.FC = () => {
-  // Sample data for services
   const services: ServiceItem[] = [
     {
       id: 1,
-      category: 'ASSESSMENTS',
+      category: 'ASSESSMENTS ',
       title: 'Skill Assessments',
       imageUrl: '/assets/services/Bosa-finance-img1.jpg',
       description: 'Evaluate the skills of your team or candidates through comprehensive assessments tailored to industry standards and job roles.'
@@ -90,7 +87,7 @@ const Page: React.FC = () => {
     {
       id: 6,
       category: 'ADVISORY',
-      title: 'Consultancy',
+      title: 'Consultancy Consultancy',
       imageUrl: '/assets/services/Bosa-finance-img6.jpg',
       description: 'Receive expert guidance and strategic advice tailored to your business needs, helping you navigate complex challenges and achieve your goals.'
     }
@@ -98,29 +95,26 @@ const Page: React.FC = () => {
 
   return (
     <div className='mt-20'>
-      {/* Breadcrumb */}
       <Breadcrumb
         crumbs={[{ href: '/', label: 'Home' }, { href: '/services', label: 'Services' }]}
-        fontColor="" 
+        fontColor=""
       />
 
-      {/* Header */}
       <SectionHeader
-        imgURL="/assets/about/headerimage.jpg"   
+        imgURL="/assets/about/headerimage.jpg"
         title='Our Services'
       />
       
       <div className="container mx-auto px-4 py-12">
         <div className="text-center mb-12">
-          <h2 className="text-4xl font-serif text-slate-800 mb-2">What We Can Do</h2>
+          <h2 className="text-4xl text-slate-800 mb-2">What We Can Do</h2>
           <div className="flex items-center justify-center">
             <div className="h-px bg-red-400 w-20"></div>
-            <p className="mx-4 text-slate-600 uppercase font-medium tracking-wider">Our Services</p>
+            <p className="mx-4 text-slate-600 uppercase tracking-wider">Our Services</p>
             <div className="h-px bg-red-400 w-20"></div>
           </div>
         </div>
-        
-        {/* Grid with maximum 4 cards per column */}
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {services.map((service) => (
             <ServiceCard

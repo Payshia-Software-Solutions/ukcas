@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 const AboutSection: React.FC = () => {
   return (
@@ -30,9 +31,10 @@ const AboutSection: React.FC = () => {
           are happy that we could provide standardised assessment and
           certification with international acceptance.
         </p>
-        <button className="mt-6 px-6 py-3 bg-red-500 text-white font-semibold rounded-full shadow-md hover:bg-red-600 transition">
+    
+        <Link href="./about">     <button className="mt-6 px-6 py-3 bg-[#7E3841] hover:bg-[#74323B] text-white font-semibold rounded-full shadow-md  transition">
           LEARN MORE
-        </button>
+        </button></Link>
       </div>
     </section>
   );
