@@ -27,8 +27,8 @@ const CurriculumCard: React.FC<CardProps> = ({ image, category, title }) => {
           <p className="text-xs text-gray-500 uppercase">{category}</p>
           <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
         </div>
-        <button className="bg-blue-900 text-white p-2 rounded-full">
-          <FiPlus className="text-lg" />
+        <button className="bg-[#7C2B33] text-white p-2 rounded-full">
+          <FiPlus className="text-xl font-bold" />
         </button>
       </div>
     </div>
