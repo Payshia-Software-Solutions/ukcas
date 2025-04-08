@@ -13,7 +13,7 @@ const eventData = {
   date: "May 15, 2025",
   time: "9:00 AM - 5:00 PM",
   location: "Convention Center, New York City",
-  image: "/images/event1.jpg",
+  image: "/assets/about/headerimage.jpg",
   category: "Conference",
   description:
     "Join industry leaders for discussions on emerging technologies and future trends in the tech world.",

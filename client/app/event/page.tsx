@@ -16,7 +16,7 @@ export default function EventsPage() {
       title: "Tech Innovation Summit 2025",
       description:
         "Join industry leaders for discussions on emerging technologies and future trends in the tech world.",
-      link: "/events/tech-innovation-summit",
+      link: "tech-innovation-summit",
     },
     {
       id: 2,
@@ -25,7 +25,7 @@ export default function EventsPage() {
       title: "UI/UX Design Masterclass",
       description:
         "A hands-on workshop covering the latest design principles and tools for creating exceptional user experiences.",
-      link: "/events/design-masterclass",
+      link: "design-masterclass",
     },
     {
       id: 3,
@@ -34,7 +34,7 @@ export default function EventsPage() {
       title: "Startup Networking Mixer",
       description:
         "Connect with fellow entrepreneurs, investors, and industry experts in this casual networking event.",
-      link: "/events/startup-mixer",
+      link: "startup-mixer",
     },
     {
       id: 4,
@@ -43,7 +43,7 @@ export default function EventsPage() {
       title: "Sustainable Business Practices",
       description:
         "Learn how to implement eco-friendly strategies that benefit both your business and the environment.",
-      link: "/events/sustainable-business",
+      link: "sustainable-business",
     },
     
     {
@@ -53,7 +53,7 @@ export default function EventsPage() {
       title: "Blockchain Technology for Beginners",
       description:
         "An introduction to blockchain, its applications, and how it is revolutionizing industries around the world.",
-      link: "/events/blockchain-beginners",
+      link: "blockchain-beginners",
     },
     {
       id: 6,
@@ -62,7 +62,7 @@ export default function EventsPage() {
       title: "Hack for Good 2025",
       description:
         "A 48-hour hackathon where developers collaborate to create solutions for social impact and good causes.",
-      link: "/events/hack-for-good",
+      link: "hack-for-good",
     },
     {
       id: 7,
@@ -71,7 +71,7 @@ export default function EventsPage() {
       title: "Future of Artificial Intelligence",
       description:
         "Join a panel of experts as they explore the current state of AI and its potential impact on various industries.",
-      link: "/events/future-of-ai",
+      link: "future-of-ai",
     },
     {
       id: 8,
@@ -80,7 +80,7 @@ export default function EventsPage() {
       title: "Advanced JavaScript Techniques",
       description:
         "Deep dive into advanced JavaScript topics including asynchronous programming, design patterns, and optimization.",
-      link: "/events/advanced-javascript",
+      link: "advanced-javascript",
     },
   ];
   
