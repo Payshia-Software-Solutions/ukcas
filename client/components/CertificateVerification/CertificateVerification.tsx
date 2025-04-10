@@ -83,55 +83,60 @@ const CertificateVerificationClient = () => {
         <div className="absolute inset-0 bg-black opacity-40"></div>
       </div>
 
-      <div className="relative z-10 bg-gray-200 bg-opacity-95 p-16 rounded-xl shadow-lg w-full max-w-xl text-center">
-        <Image
-          src="/assets/images/samplelogo.jpeg"
-          alt="Logo"
-          width={180}
-          height={120}
-          className="mx-auto mb-6"
-          priority
-        />
+      {/* Certificate Details Card */}
+      <div className="relative z-10 bg-white bg-opacity-95 p-16 rounded-xl shadow-lg w-full max-w-6xl text-center mt-60 mb-10 border-2 border-[#74323B] shadow-[#74323B] shadow-lg transition-transform transform hover:scale-105 duration-300 ease-in-out hover:shadow-2xl hover:shadow-[#74323B] ">
 
-        <h2 className="text-3xl font-bold mb-6">Certificate Verification</h2>
+        {/* Logo in the top of the certificate detail card */}
+        <div className="mb-6 mb-0">
+          <Image
+            src="/assets/images/samplelogo.jpeg"
+            alt="Logo"
+            width={120}
+            height={100}
+            className="mx-auto"
+            priority
+          />
+        </div>
+
+        <h2 className="text-6xl font-bold text-center mb-6 text-[#74323B]">Certificate Verification</h2>
 
         {certificate ? (
           <div className="text-left mb-6">
+            {/* User Image */}
             <div className="mb-6 flex justify-center">
               <Image
                 src={certificate.user.image}
                 alt="User"
                 width={150}
                 height={150}
-                className="rounded-full"
+                className="rounded-full border-4 border-[#74323B]  " 
               />
             </div>
 
-            <div className="border border-white p-4 rounded-md shadow-md bg-white">
+            {/* Certificate Details Section */}
+            <div className="border border-[#74323B] p-6 rounded-md shadow-md bg-[#E7C7C9] shadow-[#74323B] shadow-lg ">
               <div className="flex flex-wrap justify-start ml-1">
-                <div className="w-full md:w-1/2 mb-4 text-xl font-semibold text-gray-800">
-                  <p className="text-black">Name</p>
-                  <hr className="border-gray-400 mt-1" />
-                  <p className="text-black">Course</p>
-                  <hr className="border-gray-400 mt-1" />
-                  <p className="text-black">Duration</p>
-                  <hr className="border-gray-400 mt-1" />
-                  <p className="text-black">Completion Date</p>
-                  <hr className="border-gray-400 mt-1" />
-                  <p className="text-black">Learning Partner</p>
-                  <hr className="border-gray-400 mt-1" />
+                <div className="w-full md:w-1/2 mb-6 text-3xl font-bold text-[#74323B]">
+                  <p>Name</p>
+                  <hr className="border-[#74323B] my-4" />
+                  <p>Course</p>
+                  <hr className="border-[#74323B] my-4" />
+                  <p>Duration</p>
+                  <hr className="border-[#74323B] my-4" />
+                  <p>Completion Date</p>
+                  <hr className="border-[#74323B] my-4" />
+                  <p>Learning Partner</p>
                 </div>
-                <div className="w-full md:w-1/2 mb-4 text-xl font-semibold text-gray-800">
-                  <p className="text-black">: {certificate.user.name}</p>
-                  <hr className="border-gray-400 mt-1" />
-                  <p className="text-black">: {certificate.user.course.name}</p>
-                  <hr className="border-gray-400 mt-1" />
-                  <p className="text-black">: {certificate.user.course.duration}</p>
-                  <hr className="border-gray-400 mt-1" />
-                  <p className="text-black">: {certificate.user.course.completionDate}</p>
-                  <hr className="border-gray-400 mt-1" />
-                  <p className="text-black">: {certificate.user.course.learningpartner}</p>
-                  <hr className="border-gray-400 mt-1" />
+                <div className="w-full md:w-1/2 mb-6 text-3xl fornt-semibold text-[#74323B]">
+                  <p>: {certificate.user.name}</p>
+                  <hr className="border-[#74323B] my-4" />
+                  <p>: {certificate.user.course.name}</p>
+                  <hr className="border-[#74323B] my-4" />
+                  <p>: {certificate.user.course.duration}</p>
+                  <hr className="border-[#74323B] my-4" />
+                  <p>: {certificate.user.course.completionDate}</p>
+                  <hr className="border-[#74323B] my-4" />
+                  <p>: {certificate.user.course.learningpartner}</p>
                 </div>
               </div>
             </div>
@@ -150,7 +155,7 @@ const CertificateVerificationClient = () => {
             />
             <button
               onClick={handleSearch}
-              className="w-full text-xl bg-[#7C2B33] hover:bg-[#74323B] text-white font-semibold py-4 rounded-lg transition cursor-pointer "
+              className="w-full text-xl bg-[#7C2B33] hover:bg-[#74323B] text-white font-semibold py-4 rounded-lg transition cursor-pointer"
             >
               Search
             </button>
