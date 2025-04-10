@@ -91,7 +91,7 @@ const CertificateVerificationClient = () => {
           <Image
             src="/assets/images/samplelogo.jpeg"
             alt="Logo"
-            width={120}
+            width={160}
             height={100}
             className="mx-auto"
             priority
