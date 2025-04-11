@@ -122,7 +122,7 @@ const InstituteVerificationClient = () => {
 
 {/* Institute description */}
 <p className="text-black text-lg mt-6 leading-relaxed text-left">
-These records represent institutions officially accredited by the United Kingdom College of Advanced Studies. Verifying an institute ID ensures the institution's authenticity, current accreditation status, and alignment with our academic and professional quality standards.
+These records represent institutions officially accredited by the United Kingdom College of Advanced Studies. Verifying an institute ID ensures the institution`&apos; authenticity, current accreditation status, and alignment with our academic and professional quality standards.
 </p>
 
           </>

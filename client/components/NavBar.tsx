@@ -12,7 +12,7 @@ const NavBar: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
   const [showVerificationDropdown, setShowVerificationDropdown] = useState<boolean>(false);
   const pathname = usePathname();
-  const dropdownRef = useRef(null);
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (pathname !== "/") {
@@ -33,7 +33,7 @@ const NavBar: React.FC = () => {
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !(dropdownRef.current as any).contains(event.target)) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setShowVerificationDropdown(false);
       }
     };
@@ -116,6 +116,7 @@ const NavBar: React.FC = () => {
               <Link href="/contact" className="hover:text-gray-300">Contact Us</Link>
             </nav>
 
+            {/* Mobile menu icon */}
             <div className="flex items-center justify-end gap-4">
               <button
                 className="hover:text-gray-300 justify-end flex my-4 md:hidden"
@@ -125,6 +126,7 @@ const NavBar: React.FC = () => {
               </button>
             </div>
 
+            {/* Get Accredited Button */}
             <div className="hidden md:flex">
               <button className="bg-[#7C2B33] text-white text-xl py-2 px-4 rounded-lg">
                 <Link href="/get-accredited">Get Accredited</Link>
@@ -134,6 +136,7 @@ const NavBar: React.FC = () => {
         </div>
       </header>
 
+      {/* Mobile Menu */}
       {isMobileMenuOpen && (
         <MobileMenu
           isMobileMenuOpen={isMobileMenuOpen}
