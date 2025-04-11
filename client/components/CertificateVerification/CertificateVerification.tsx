@@ -75,16 +75,9 @@ const CertificateVerificationClient = () => {
   };
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center pt-35">
-      <div
-        className="absolute inset-0 bg-cover bg-center z-0"
-        style={{ backgroundImage: "url('/assets/images/certificate.webp')" }}
-      >
-        <div className="absolute inset-0 bg-black opacity-40"></div>
-      </div>
-
+    <div className="relative min-h-screen flex items-center justify-center">
       {/* Certificate Details Card */}
-      <div className="relative z-10 bg-white bg-opacity-95 p-16 rounded-xl shadow-lg w-full max-w-6xl text-center mt-60 mb-10 border-2 border-[#74323B] shadow-[#74323B] shadow-lg transition-transform transform hover:scale-105 duration-300 ease-in-out hover:shadow-2xl hover:shadow-[#74323B] ">
+      <div className="relative z-10 bg-[#F5E9EA] bg-opacity-95 p-16 rounded-xl shadow-lg w-full max-w-6xl text-center mt-60 mb-10 border-2 border-[#74323B] shadow-[#74323B] ">
 
         {/* Logo in the top of the certificate detail card */}
         <div className="mb-6 mb-0">
@@ -143,27 +136,39 @@ const CertificateVerificationClient = () => {
           </div>
         ) : (
           <>
-            <p className="text-gray-700 text-base mb-8">
-              Please enter the GA certificate number as it appears on the front of the certificate.
+          <p className="text-black text-xl mb-8 font-semibold">
+            Please enter the certificate ID exactly as it appears on the verification document.
             </p>
-            <input
+           <div className="relative w-full mb-8">
+            {/* Search Icon (left) */}
+            <span className="absolute inset-y-0 right-6 pl-4 flex items-center pointer-events-none text-gray-500 text-xl">
+              🔍
+              </span>
+              {/* Input Field */}
+              <input
               type="text"
-              placeholder="Certificate Number"
+              placeholder="Enter Certificate Number"
               value={certificateIdInput}
               onChange={(e) => setCertificateIdInput(e.target.value)}
-              className="w-full text-xl px-6 py-4 border border-white-400 rounded-lg mb-8 focus:outline-none focus:ring-2 focus:ring-white"
-            />
-            <button
+              className="w-full text-xl pl-12 pr-4 py-4 rounded-full shadow-md bg-white text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#74323B]"
+              />
+              </div>
+              {/* Search Button Below */}
+              <button
               onClick={handleSearch}
-              className="w-full text-xl bg-[#7C2B33] hover:bg-[#74323B] text-white font-semibold py-4 rounded-lg transition cursor-pointer"
-            >
-              Search
-            </button>
-          </>
-        )}
-      </div>
-    </div>
-  );
-};
+              className="w-1/2 text-xl bg-[#7C2B33] hover:bg-[#74323B] text-white font-semibold py-4 rounded-lg transition cursor-pointer"
+              >
+                Search
+                </button>
+                {/* Description below the search */}
+                <p className="text-black text-lg mt-6 leading-relaxed mb-8 text-left"> 
+                  These certificates are issued by the United Kingdom College of Advanced Studies and verify the successful completion of accredited academic and professional programs. Each certificate serves as an official record of achievement and authenticity.
+                  </p>
+                  </>
+                )}
+              </div>
+            </div>
+          );
+      };
 
 export default CertificateVerificationClient;
