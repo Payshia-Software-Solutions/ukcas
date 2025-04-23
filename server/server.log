@@ -241,3 +241,129 @@ Local: http://localhost:5000
 2025-04-22T17:10:05.034Z - Network: http://10.4.2.1:5000
 2025-04-22T17:10:05.239Z - 
 ✅ Database synced successfully
+2025-04-23T16:46:29.962Z - Loading environment variables from: D:\pashiya project\ukcas\server\.env.local
+2025-04-23T16:46:30.309Z - Environment: development
+2025-04-23T16:46:30.333Z - Server running on port 5000
+2025-04-23T16:46:30.334Z - 
+Local: http://localhost:5000
+2025-04-23T16:46:30.335Z - Network: http://192.168.8.103:5000
+2025-04-23T16:46:30.357Z - ❌ Error syncing database: 
+2025-04-23T16:47:41.856Z - Loading environment variables from: D:\pashiya project\ukcas\server\.env.local
+2025-04-23T16:47:42.134Z - Environment: development
+2025-04-23T16:47:42.157Z - Server running on port 5000
+2025-04-23T16:47:42.158Z - 
+Local: http://localhost:5000
+2025-04-23T16:47:42.158Z - Network: http://192.168.8.103:5000
+2025-04-23T16:47:42.366Z - 
+✅ Database synced successfully
+2025-04-23T17:25:55.046Z - Loading environment variables from: D:\pashiya project\ukcas\server\.env.local
+2025-04-23T17:25:55.306Z - Environment: development
+2025-04-23T17:27:12.864Z - Loading environment variables from: D:\pashiya project\ukcas\server\.env.local
+2025-04-23T17:27:13.133Z - Environment: development
+2025-04-23T17:28:45.144Z - Loading environment variables from: D:\pashiya project\ukcas\server\.env.local
+2025-04-23T17:28:45.417Z - Environment: development
+2025-04-23T17:29:46.290Z - Loading environment variables from: D:\pashiya project\ukcas\server\.env.local
+2025-04-23T17:29:46.571Z - Environment: development
+2025-04-23T17:31:31.408Z - Loading environment variables from: D:\pashiya project\ukcas\server\.env.local
+2025-04-23T17:31:31.696Z - Environment: development
+2025-04-23T17:31:31.723Z - Server running on port 5000
+2025-04-23T17:31:31.724Z - 
+Local: http://localhost:5000
+2025-04-23T17:31:31.725Z - Network: http://192.168.8.103:5000
+2025-04-23T17:31:32.094Z - 
+✅ Database synced successfully
+2025-04-23T17:32:13.163Z - Loading environment variables from: D:\pashiya project\ukcas\server\.env.local
+2025-04-23T17:32:13.433Z - Environment: development
+2025-04-23T17:32:13.458Z - Server running on port 5000
+2025-04-23T17:32:13.459Z - 
+Local: http://localhost:5000
+2025-04-23T17:32:13.460Z - Network: http://192.168.8.103:5000
+2025-04-23T17:32:13.902Z - 
+✅ Database synced successfully
+2025-04-23T17:47:18.518Z - Loading environment variables from: D:\pashiya project\ukcas\server\.env.local
+2025-04-23T17:47:18.781Z - Environment: development
+2025-04-23T17:47:18.806Z - Server running on port 5000
+2025-04-23T17:47:18.806Z - 
+Local: http://localhost:5000
+2025-04-23T17:47:18.807Z - Network: http://192.168.8.103:5000
+2025-04-23T17:47:19.132Z - 
+✅ Database synced successfully
+2025-04-23T17:49:36.282Z - Loading environment variables from: D:\pashiya project\ukcas\server\.env.local
+2025-04-23T17:49:36.580Z - Environment: development
+2025-04-23T17:49:36.631Z - Server running on port 5000
+2025-04-23T17:49:36.631Z - 
+Local: http://localhost:5000
+2025-04-23T17:49:36.632Z - Network: http://192.168.8.103:5000
+2025-04-23T17:49:36.967Z - 
+✅ Database synced successfully
+2025-04-23T17:51:13.639Z - Loading environment variables from: D:\pashiya project\ukcas\server\.env.local
+2025-04-23T17:51:13.949Z - Environment: development
+2025-04-23T17:51:13.974Z - Server running on port 5000
+2025-04-23T17:51:13.975Z - 
+Local: http://localhost:5000
+2025-04-23T17:51:13.975Z - Network: http://192.168.8.103:5000
+2025-04-23T17:51:14.377Z - 
+✅ Database synced successfully
+2025-04-23T17:51:34.553Z - Loading environment variables from: D:\pashiya project\ukcas\server\.env.local
+2025-04-23T17:51:34.839Z - Environment: development
+2025-04-23T17:51:34.864Z - Server running on port 5000
+2025-04-23T17:51:34.864Z - 
+Local: http://localhost:5000
+2025-04-23T17:51:34.865Z - Network: http://192.168.8.103:5000
+2025-04-23T17:51:35.232Z - 
+✅ Database synced successfully
+2025-04-23T17:53:52.442Z - Loading environment variables from: D:\pashiya project\ukcas\server\.env.local
+2025-04-23T17:53:52.760Z - Environment: development
+2025-04-23T17:53:52.785Z - Server running on port 5000
+2025-04-23T17:53:52.785Z - 
+Local: http://localhost:5000
+2025-04-23T17:53:52.785Z - Network: http://192.168.8.103:5000
+2025-04-23T17:53:53.178Z - 
+✅ Database synced successfully
+2025-04-23T18:02:44.352Z - Loading environment variables from: D:\pashiya project\ukcas\server\.env.local
+2025-04-23T18:02:44.645Z - Environment: development
+2025-04-23T18:02:44.675Z - Server running on port 5000
+2025-04-23T18:02:44.675Z - 
+Local: http://localhost:5000
+2025-04-23T18:02:44.676Z - Network: http://192.168.8.103:5000
+2025-04-23T18:02:45.027Z - 
+✅ Database synced successfully
+2025-04-23T18:12:07.030Z - Loading environment variables from: D:\pashiya project\ukcas\server\.env.local
+2025-04-23T18:12:07.313Z - Environment: development
+2025-04-23T18:12:07.344Z - Server running on port 5000
+2025-04-23T18:12:07.345Z - 
+Local: http://localhost:5000
+2025-04-23T18:12:07.345Z - Network: http://192.168.8.103:5000
+2025-04-23T18:12:07.782Z - 
+✅ Database synced successfully
+2025-04-23T18:18:24.784Z - Loading environment variables from: D:\pashiya project\ukcas\server\.env.local
+2025-04-23T18:18:25.076Z - Environment: development
+2025-04-23T18:18:25.109Z - Server running on port 5000
+2025-04-23T18:18:25.110Z - 
+Local: http://localhost:5000
+2025-04-23T18:18:25.111Z - Network: http://192.168.8.103:5000
+2025-04-23T18:18:25.503Z - 
+✅ Database synced successfully
+2025-04-23T18:25:07.736Z - Loading environment variables from: D:\pashiya project\ukcas\server\.env.local
+2025-04-23T18:25:08.031Z - Environment: development
+2025-04-23T18:25:08.065Z - Server running on port 5000
+2025-04-23T18:25:08.066Z - 
+Local: http://localhost:5000
+2025-04-23T18:25:08.066Z - Network: http://192.168.8.103:5000
+2025-04-23T18:25:08.591Z - 
+✅ Database synced successfully
+2025-04-23T18:30:04.919Z - Loading environment variables from: D:\pashiya project\ukcas\server\.env.local
+2025-04-23T18:30:05.202Z - Environment: development
+2025-04-23T18:30:05.248Z - Server running on port 5000
+2025-04-23T18:30:05.248Z - 
+Local: http://localhost:5000
+2025-04-23T18:30:05.249Z - Network: http://192.168.8.103:5000
+2025-04-23T18:30:05.675Z - ❌ Error syncing database: Incorrect date value: '0000-00-00' for column `ukas_schema`.`news`.`date` at row 1
+2025-04-23T18:30:31.810Z - Loading environment variables from: D:\pashiya project\ukcas\server\.env.local
+2025-04-23T18:30:32.106Z - Environment: development
+2025-04-23T18:30:32.141Z - Server running on port 5000
+2025-04-23T18:30:32.142Z - 
+Local: http://localhost:5000
+2025-04-23T18:30:32.143Z - Network: http://192.168.8.103:5000
+2025-04-23T18:30:32.644Z - 
+✅ Database synced successfully
