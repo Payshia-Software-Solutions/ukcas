@@ -1,6 +1,6 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/database");
-
+//test
 const Certificate = sequelize.define(
   "Certificate",
   {
