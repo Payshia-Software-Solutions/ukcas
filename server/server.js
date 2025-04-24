@@ -40,13 +40,15 @@ const {
 } = require("./models/index");
 
 // Import routes
-const courseRoutes = require("./routes/courseRoutes");   // instituteRoutes
+const courseRoutes = require("./routes/courseRoutes");   // certificateRoutes
 const newsRoutes = require("./routes/newsRoutes");  
 const contactusRoutes = require("./routes/contactusRoutes");  
 const curriculumRoutes = require("./routes/curriculumRoutes"); 
 const commentRoutes = require("./routes/commentRoutes");  
 const accrediteFormRoutes = require("./routes/accrediteFormRoutes");  
-const instituteRoutes = require("./routes/instituteRoutes");  
+const instituteRoutes = require("./routes/instituteRoutes"); 
+const studentRoutes = require("./routes/studentRoutes");  
+const certificateRoutes = require("./routes/certificateRoutes");  
 
 const app = express();
 
@@ -67,10 +69,14 @@ const apiVersion = process.env.API_VERSION || "v2"; // Default to 'v2' if not de
 app.use(`/api/${apiVersion}/courses`, courseRoutes);
 app.use(`/api/${apiVersion}/news`, newsRoutes);
 app.use(`/api/${apiVersion}/contact`, contactusRoutes);
-app.use(`/api/${apiVersion}/curriculum`, curriculumRoutes); //   instituteRoutes
+app.use(`/api/${apiVersion}/curriculum`, curriculumRoutes); //   certificateRoutes
 app.use(`/api/${apiVersion}/comment`, commentRoutes); 
 app.use(`/api/${apiVersion}/accredite`, accrediteFormRoutes); 
 app.use(`/api/${apiVersion}/institute`, instituteRoutes); 
+app.use(`/api/${apiVersion}/student`, studentRoutes); 
+app.use(`/api/${apiVersion}/certificate`, certificateRoutes); 
+
+
 // Root route (optional)
 app.get("/", (req, res) =>
   res.send("Welcome to the Ceylon Pharma College API")
