@@ -1,5 +1,6 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/database");
+const slugify = require("slugify");
 
 const News = sequelize.define(
   "News",
@@ -12,6 +13,10 @@ const News = sequelize.define(
     title: {
       type: DataTypes.STRING(255),
       allowNull: false,
+    },
+    slug: {
+      type: DataTypes.STRING(255),
+      unique: true,
     },
     description: {
       type: DataTypes.TEXT,
@@ -61,6 +66,13 @@ const News = sequelize.define(
     timestamps: true,
     createdAt: "created_at",
     updatedAt: "updated_at",
+    hooks: {
+      beforeValidate: (news, options) => {
+        if (news.title && !news.slug) {
+          news.slug = slugify(news.title, { lower: true, strict: true });
+        }
+      },
+    },
   }
 );
 
