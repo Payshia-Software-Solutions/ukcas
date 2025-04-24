@@ -29,6 +29,16 @@ const newsController = {
     }
   },
 
+  async getNewsBySlug(req, res) {
+    try {
+      const news = await News.findOne({ where: { slug: req.params.slug } });
+      if (!news) return res.status(404).json({ error: "News item not found" });
+      res.json(news);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  },
+
   async updateNews(req, res) {
     try {
       const news = await News.findByPk(req.params.id);
