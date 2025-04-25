@@ -7,5 +7,7 @@ router.get("/", instituteController.getAllInstitutes);
 router.get("/:id", instituteController.getInstitute);
 router.put("/:id", instituteController.updateInstitute);
 router.delete("/:id", instituteController.deleteInstitute);
+router.get("/slug/:slug", instituteController.getInstituteBySlug);
+
 
 module.exports = router;
