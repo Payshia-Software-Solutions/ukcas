@@ -1,7 +1,6 @@
 import SectionHeader from "@/components/Common/SectionHeader";
 import React from "react";
 import ContactForm from "@/components/ContactForm";
-import Breadcrumb from "@/components/Breadcrumb";
 
 // Metadata for the Contact Us page
 export const metadata = {
@@ -41,13 +40,7 @@ export const metadata = {
 const Page: React.FC = () => {
   return (
     <div className="mt-20">
-      <Breadcrumb
-        crumbs={[
-          { href: "/", label: "Home" },
-          { href: "/contact", label: "Contact Us " },
-        ]}
-        fontColor=""
-      />
+   
       <SectionHeader
         imgURL="/assets/about/headerimage.jpg"
         title="Contact Us"
