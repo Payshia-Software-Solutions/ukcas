@@ -44,7 +44,7 @@ const ContactForm: React.FC = () => {
       </div>
 
       {/* Right Section (Form) */}
-      <div className="md:w-2/3 bg-[#E7C7C9] shadow-xl rounded-lg p-6 md:p-8 w-full max-w-xl ">
+      <div className="md:w-2/3  shadow-xl rounded-lg p-6 md:p-8 w-full max-w-xl ">
         <h3 className="text-xl md:text-5xl font-bold text-gray-900 mb-4 md:mb-6 ">
           Send us a message
         </h3>
