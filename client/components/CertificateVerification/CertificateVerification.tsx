@@ -77,12 +77,12 @@ const CertificateVerificationClient = () => {
   return (
     <div className="relative min-h-screen flex items-center justify-center">
       {/* Certificate Details Card */}
-      <div className="relative z-10 bg-[#F5E9EA] bg-opacity-95 p-16 rounded-xl shadow-lg w-full max-w-6xl text-center mt-60 mb-10 border-2 border-[#74323B] shadow-[#74323B] ">
+      <div className="relative z-10 bg-opacity-95 p-16 rounded-xl w-full max-w-6xl text-center mt-60 mb-10">
 
         {/* Logo in the top of the certificate detail card */}
         <div className="mb-6 mb-0">
           <Image
-            src="/assets/images/samplelogo.jpeg"
+            src="/assets/logo/logo1.png"
             alt="Logo"
             width={160}
             height={100}
