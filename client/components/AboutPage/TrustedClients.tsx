@@ -2,12 +2,12 @@ import React from "react";
 
 const TrustedClients: React.FC = () => {
   return (
-    <section className="bg-[#0e1a3a] text-white p-8 rounded-lg max-w-6xl mx-auto text-center">
+    <section className="bg-[#74323B] text-white p-8 rounded-lg max-w-6xl mx-auto text-center">
       <h4 className="text-sm font-semibold uppercase tracking-wide mb-2 flex items-center justify-center gap-2">
         Join Us <span className="w-12 h-0.5 bg-red-400"></span>
       </h4>
       <h2 className="text-3xl md:text-4xl font-bold mb-4">
-        Trusted By More <br /> Than <span className="text-red-400">150k Clients.</span>
+        Trusted By More <br /> Than <span>150k Clients.</span>
       </h2>
       <p className="text-gray-300 text-sm md:text-base mb-6">
         Join us to upgrade your institute with international certification. Our
