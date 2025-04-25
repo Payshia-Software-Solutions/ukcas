@@ -69,7 +69,7 @@ const NavBar: React.FC = () => {
             <div className="w-full md:w-auto hidden md:flex justify-center md:justify-start mb-4 md:mb-0">
               <Link href="/" className="text-2xl font-bold text-orange-500">
                 <Image
-                  src="/assets/logo/mainlogo.png"
+                  src="/assets/logo/logo1.png"
                   className="h-24 w-auto object-cover"
                   alt="Logo"
                   width={150}
@@ -84,26 +84,33 @@ const NavBar: React.FC = () => {
               <Link href="/about" className="hover:text-gray-300">About Us</Link>
               <Link href="/services" className="hover:text-gray-300">Services</Link>
 
-              {/* Clickable Dropdown for Verification */}
+              {/* Dropdown for Verification */}
               <div className="relative">
                 <button
-                  className="hover:text-gray-300 focus:outline-none"
+                  className="hover:text-gray-300 focus:outline-none flex items-center gap-1"
                   onClick={() => setShowVerificationDropdown(!showVerificationDropdown)}
                 >
                   Verification
+                  <Image
+                    src="/assets/images/drop.png"
+                    alt="Dropdown"
+                    width={12}
+                    height={12}
+                    className={`transition-transform duration-300 ${showVerificationDropdown ? "rotate-180" : ""}`}
+                  />
                 </button>
                 {showVerificationDropdown && (
-                  <div className="absolute left-0 mt-2 w-56 bg-white border rounded-md shadow-lg z-50">
+                  <div className="absolute left-0 mt-2 w-56 bg-white">
                     <Link
                       href="/certificate-verification"
-                      className="block px-4 py-2 text-sm text-black hover:bg-gray-100"
+                      className="block px-4 py-2 text-black hover:bg-gray-100"
                       onClick={() => setShowVerificationDropdown(false)}
                     >
                       Certificate Verification
                     </Link>
                     <Link
                       href="/institute-verification"
-                      className="block px-4 py-2 text-sm text-black hover:bg-gray-100"
+                      className="block px-4 py-2 text-black hover:bg-gray-100"
                       onClick={() => setShowVerificationDropdown(false)}
                     >
                       Institute Verification
