@@ -425,3 +425,42 @@ Local: http://localhost:5000
 2025-04-24T18:30:37.383Z - Network: http://192.168.8.103:5000
 2025-04-24T18:30:37.827Z - 
 ✅ Database synced successfully
+2025-04-25T08:27:29.369Z - Loading environment variables from: D:\pashiya project\ukcas\server\.env.local
+2025-04-25T08:27:29.765Z - Environment: development
+2025-04-25T08:27:29.809Z - Server running on port 5000
+2025-04-25T08:27:29.810Z - 
+Local: http://localhost:5000
+2025-04-25T08:27:29.810Z - Network: http://192.168.8.103:5000
+2025-04-25T08:27:29.826Z - ❌ Error syncing database: 
+2025-04-25T08:28:00.859Z - Loading environment variables from: D:\pashiya project\ukcas\server\.env.local
+2025-04-25T08:28:01.097Z - Environment: development
+2025-04-25T08:28:01.130Z - Server running on port 5000
+2025-04-25T08:28:01.131Z - 
+Local: http://localhost:5000
+2025-04-25T08:28:01.131Z - Network: http://192.168.8.103:5000
+2025-04-25T08:28:01.675Z - 
+✅ Database synced successfully
+2025-04-25T08:45:35.956Z - Loading environment variables from: D:\pashiya project\ukcas\server\.env.local
+2025-04-25T08:45:36.174Z - Environment: development
+2025-04-25T08:45:36.206Z - Server running on port 5000
+2025-04-25T08:45:36.207Z - 
+Local: http://localhost:5000
+2025-04-25T08:45:36.207Z - Network: http://192.168.8.103:5000
+2025-04-25T08:45:36.750Z - 
+✅ Database synced successfully
+2025-04-25T08:56:50.675Z - Loading environment variables from: D:\pashiya project\ukcas\server\.env.local
+2025-04-25T08:56:50.901Z - Environment: development
+2025-04-25T08:56:50.937Z - Server running on port 5000
+2025-04-25T08:56:50.937Z - 
+Local: http://localhost:5000
+2025-04-25T08:56:50.938Z - Network: http://192.168.8.103:5000
+2025-04-25T08:56:51.599Z - 
+✅ Database synced successfully
+2025-04-25T09:17:20.644Z - Loading environment variables from: D:\pashiya project\ukcas\server\.env.local
+2025-04-25T09:17:21.010Z - Environment: development
+2025-04-25T09:17:21.050Z - Server running on port 5000
+2025-04-25T09:17:21.051Z - 
+Local: http://localhost:5000
+2025-04-25T09:17:21.051Z - Network: http://192.168.8.103:5000
+2025-04-25T09:17:21.570Z - 
+✅ Database synced successfully

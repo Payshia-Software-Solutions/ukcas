@@ -1,5 +1,6 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/database");
+const slugify = require("slugify");
 
 const Institute = sequelize.define(
   "Institute",
@@ -13,6 +14,10 @@ const Institute = sequelize.define(
       type: DataTypes.STRING(255),
       allowNull: false,
     },
+    slug: {
+      type: DataTypes.STRING(255),
+      unique: true,
+    },
     address: {
       type: DataTypes.STRING(255),
       allowNull: false,
@@ -23,6 +28,18 @@ const Institute = sequelize.define(
     },
     img_url: {
       type: DataTypes.STRING(500),
+      allowNull: true,
+    },
+    description: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
+    mini_description: {
+      type: DataTypes.STRING(500),
+      allowNull: true,
+    },
+    terms_and_conditions: {
+      type: DataTypes.TEXT,
       allowNull: true,
     },
     created_by: {
@@ -49,6 +66,13 @@ const Institute = sequelize.define(
     timestamps: true,
     createdAt: "created_at",
     updatedAt: "updated_at",
+    hooks: {
+      beforeValidate: (institute) => {
+        if (institute.name) {
+          institute.slug = slugify(institute.name, { lower: true, strict: true });
+        }
+      },
+    },
   }
 );
 
