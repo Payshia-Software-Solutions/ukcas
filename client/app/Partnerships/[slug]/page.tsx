@@ -9,17 +9,25 @@ import Breadcrumb from "@/components/Breadcrumb";
 import Link from "next/link";
 import config from "@/config";
 
+// Define a type for Promotion
+interface Promotion {
+  name: string;
+  img_url: string;
+  mini_description: string;
+  description: string;
+  terms?: string[];
+  terms_and_conditions?: string;
+}
+
 const SinglePromotionPage: React.FC = () => {
-  const [promotion, setPromotion] = useState<any>(null);
-  const params = useParams(); // Next.js app router
+  const [promotion, setPromotion] = useState<Promotion | null>(null);
+  const params = useParams();
   const slug = params?.slug as string;
 
   useEffect(() => {
     const fetchInstituteData = async () => {
       try {
-        const res = await axios.get(
-          `${config.API_BASE_URL}/institute/slug/${slug}`
-        );
+        const res = await axios.get(`${config.API_BASE_URL}/institute/slug/${slug}`);
         setPromotion(res.data);
       } catch (error) {
         console.error("Failed to fetch institute:", error);
@@ -31,20 +39,27 @@ const SinglePromotionPage: React.FC = () => {
 
   if (!promotion) return <div className="mt-20 text-center">Loading...</div>;
 
+  // Prepare terms safely
+  const terms: string[] = promotion.terms ?? (
+    promotion.terms_and_conditions
+      ?.split(/[.,;]\s+/)
+      .filter(Boolean)
+      .map((t) => t.trim()) ?? []
+  );
+
   return (
     <section className="mt-20 bg-gradient-to-br from-gray-50 to-gray-100">
-
       <div className="min-h-screen py-6 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto mt-16">
 
-        <Breadcrumb
-        crumbs={[
-          { href: "/", label: "Home" },
-          { href: "/Partnerships", label: "Partnerships" },
-          { href: `/Partnerships/${slug}`, label: promotion.name || "Slug" },
-        ]}
-        fontColor=""
-      />
+          <Breadcrumb
+            crumbs={[
+              { href: "/", label: "Home" },
+              { href: "/Partnerships", label: "Partnerships" },
+              { href: `/Partnerships/${slug}`, label: promotion.name || "Slug" },
+            ]}
+            fontColor=""
+          />
 
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -86,14 +101,11 @@ const SinglePromotionPage: React.FC = () => {
                 transition={{ delay: 0.5, duration: 0.5 }}
                 className="prose max-w-none mb-8"
               >
-                <p className="text-lg text-gray-700">
-                  {promotion.mini_description}
-                </p>
+                <p className="text-lg text-gray-700">{promotion.mini_description}</p>
                 <p className="mt-4 text-gray-600">{promotion.description}</p>
               </motion.div>
 
-              {(promotion.terms?.length > 0 ||
-                promotion.terms_and_conditions) && (
+              {terms.length > 0 && (
                 <motion.div
                   initial={{ y: 20, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
@@ -104,12 +116,7 @@ const SinglePromotionPage: React.FC = () => {
                     Terms & Conditions
                   </h2>
                   <ul className="bg-gray-50 rounded-lg p-4">
-                    {(
-                      promotion.terms ??
-                      promotion.terms_and_conditions
-                        ?.split(/[.,;]\s+/)
-                        .filter(Boolean)
-                    ).map((term: string, index: number) => (
+                    {terms.map((term, index) => (
                       <motion.li
                         key={index}
                         initial={{ x: -10, opacity: 0 }}
@@ -118,7 +125,7 @@ const SinglePromotionPage: React.FC = () => {
                         className="mb-2 last:mb-0 flex items-start"
                       >
                         <span className="inline-block w-1 h-1 rounded-full bg-gray-500 mt-2 mr-2"></span>
-                        <span>{term.trim()}</span>
+                        <span>{term}</span>
                       </motion.li>
                     ))}
                   </ul>
@@ -133,7 +140,7 @@ const SinglePromotionPage: React.FC = () => {
                 whileTap={{ scale: 0.95 }}
                 className="w-full py-3 bg-[#7C2B33] text-white rounded-lg font-medium transition-colors"
               >
-                   <Link href="/get-accredited">Get Accredited</Link>
+                <Link href="/get-accredited">Get Accredited</Link>
               </motion.button>
             </div>
           </motion.div>

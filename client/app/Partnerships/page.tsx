@@ -7,14 +7,22 @@ import SectionHeader from "@/components/Common/SectionHeader";
 import Breadcrumb from "@/components/Breadcrumb";
 import config from "@/config";
 
-
-
+// Interface for mapped promotion data
 interface PromotionItem {
   id: string;
   imageSrc: string;
   title: string;
   description: string;
   link: string;
+}
+
+// Interface for raw API response data
+interface InstituteAPIResponse {
+  id: number;
+  img_url: string;
+  name: string;
+  description: string;
+  slug: string;
 }
 
 const PromotionsPage: React.FC = () => {
@@ -24,12 +32,11 @@ const PromotionsPage: React.FC = () => {
 
   useEffect(() => {
     axios
-      .get(`${config.API_BASE_URL}/institute`)
+      .get<InstituteAPIResponse[]>(`${config.API_BASE_URL}/institute`)
       .then((res) => {
- 
-        const data = res.data.map((item: any) => ({
+        const data: PromotionItem[] = res.data.map((item) => ({
           id: item.id.toString(),
-          imageSrc: item.img_url, 
+          imageSrc: item.img_url,
           title: item.name,
           description: item.description,
           link: item.slug,
