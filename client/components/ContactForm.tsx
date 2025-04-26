@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import axios from "axios";
+import axios from "axios"; // Import Axios and AxiosError type
 import { FaPhoneAlt, FaMapMarkerAlt, FaEnvelope } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -39,6 +39,7 @@ const ContactForm: React.FC = () => {
     if (!validateForm()) return;
 
     try {
+      // Posting data using Axios
       await axios.post(`${config.API_BASE_URL}/contact`, {
         ...formData,
         created_by: formData.email,
@@ -53,24 +54,29 @@ const ContactForm: React.FC = () => {
         subject: "",
         message: "",
       });
-    } catch (error: any) {
-      toast.error("Failed to send message. Please try again later.");
-      console.error(error);
+    } catch (error: unknown) {
+      // Proper error handling with AxiosError
+      if (axios.isAxiosError(error)) {
+        // Handle Axios-specific error
+        toast.error("Failed to send message. Please try again later.");
+        console.error(error.response?.data || error.message);
+      } else {
+        // Handle non-Axios errors
+        toast.error("An unexpected error occurred. Please try again later.");
+        console.error(error);
+      }
     }
   };
 
   return (
-    <section className="  bg-gray-50">
+    <section className="bg-gray-50">
       <div className="flex justify-start max-w-6xl md:px-24">
         <Breadcrumb
-          crumbs={[
-            { href: "/", label: "Home" },
-            { href: "/contact", label: "Contact Us " },
-          ]}
+          crumbs={[{ href: "/", label: "Home" }, { href: "/contact", label: "Contact Us " }]}
           fontColor=""
         />
       </div>
-      <div className="flex flex-col md:flex-row items-center justify-center min-h-screen  p-6m d:p-12">
+      <div className="flex flex-col md:flex-row items-center justify-center min-h-screen p-6m d:p-12">
         <ToastContainer position="top-right" autoClose={3000} />
 
         {/* Left Section */}
@@ -86,19 +92,13 @@ const ContactForm: React.FC = () => {
           <div className="flex flex-col md:flex-row justify-center md:justify-start items-center md:items-start gap-4 md:gap-8">
             <div className="mt-6 flex items-center justify-center w-full md:w-75 bg-white shadow-lg p-4 md:p-6 rounded-lg">
               <FaEnvelope className="text-gray-600 mr-3 text-xl md:text-2xl" />
-              <a
-                href="mailto:info@phamacollege.lk"
-                className="text-black font-semibold text-sm md:text-lg"
-              >
+              <a href="mailto:info@phamacollege.lk" className="text-black font-semibold text-sm md:text-lg">
                 info@phamacollege.lk
               </a>
             </div>
             <div className="mt-6 flex items-center justify-center w-full md:w-75 bg-white shadow-lg p-4 md:p-6 rounded-lg">
               <FaPhoneAlt className="text-gray-600 mr-3 text-xl md:text-2xl" />
-              <a
-                href="tel:+94117494335"
-                className="text-black font-semibold text-sm md:text-lg"
-              >
+              <a href="tel:+94117494335" className="text-black font-semibold text-sm md:text-lg">
                 011 74 94 335
               </a>
             </div>
@@ -126,14 +126,11 @@ const ContactForm: React.FC = () => {
         </div>
 
         {/* Right Section */}
-        <div className="md:w-2/3 bg-[#E7C7C9] shadow-xl rounded-lg p-6 md:p-8 w-full max-w-xl ">
+        <div className="md:w-2/3 bg-[#E7C7C9] shadow-xl rounded-lg p-6 md:p-8 w-full max-w-xl">
           <h3 className="text-xl md:text-5xl font-bold text-gray-900 mb-4 md:mb-6">
             Send us a message
           </h3>
-          <form
-            className="flex flex-col space-y-4 md:space-y-6"
-            onSubmit={handleSubmit}
-          >
+          <form className="flex flex-col space-y-4 md:space-y-6" onSubmit={handleSubmit}>
             <input
               type="text"
               name="full_name"
