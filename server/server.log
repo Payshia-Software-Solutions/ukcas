@@ -425,13 +425,13 @@ Local: http://localhost:5000
 2025-04-24T18:30:37.383Z - Network: http://192.168.8.103:5000
 2025-04-24T18:30:37.827Z - 
 ✅ Database synced successfully
-2025-04-25T08:27:29.369Z - Loading environment variables from: D:\pashiya project\ukcas\server\.env.local
-2025-04-25T08:27:29.765Z - Environment: development
-2025-04-25T08:27:29.809Z - Server running on port 5000
-2025-04-25T08:27:29.810Z - 
+2025-04-25T08:27:12.107Z - Loading environment variables from: E:\Projects\ukcas\server\.env.local
+2025-04-25T08:27:12.518Z - Environment: development
+2025-04-25T08:27:12.629Z - Server running on port 5000
+2025-04-25T08:27:12.630Z - 
 Local: http://localhost:5000
-2025-04-25T08:27:29.810Z - Network: http://192.168.8.103:5000
-2025-04-25T08:27:29.826Z - ❌ Error syncing database: 
+2025-04-25T08:27:12.630Z - Network: http://192.168.8.155:5000
+2025-04-25T08:27:12.670Z - ❌ Error syncing database: Access denied for user 'root'@'localhost' (using password: NO)
 2025-04-25T08:28:00.859Z - Loading environment variables from: D:\pashiya project\ukcas\server\.env.local
 2025-04-25T08:28:01.097Z - Environment: development
 2025-04-25T08:28:01.130Z - Server running on port 5000
@@ -464,11 +464,11 @@ Local: http://localhost:5000
 2025-04-25T09:17:21.051Z - Network: http://192.168.8.103:5000
 2025-04-25T09:17:21.570Z - 
 ✅ Database synced successfully
-2025-04-26T06:25:57.209Z - Loading environment variables from: D:\pashiya project\ukcas\server\.env.local
-2025-04-26T06:25:58.103Z - Environment: development
-2025-04-26T06:25:58.175Z - Server running on port 5000
-2025-04-26T06:25:58.175Z - 
+2025-04-25T11:16:10.097Z - Loading environment variables from: E:\Projects\ukcas\server\.env.local
+2025-04-25T11:16:10.447Z - Environment: development
+2025-04-25T11:16:10.500Z - Server running on port 5000
+2025-04-25T11:16:10.500Z - 
 Local: http://localhost:5000
-2025-04-26T06:25:58.176Z - Network: http://192.168.8.103:5000
-2025-04-26T06:25:59.099Z - 
+2025-04-25T11:16:10.500Z - Network: http://192.168.8.155:5000
+2025-04-25T11:16:11.375Z - 
 ✅ Database synced successfully
