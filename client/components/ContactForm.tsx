@@ -60,7 +60,7 @@ const ContactForm: React.FC = () => {
   };
 
   return (
-    <section className="  bg-gray-50">
+    <section className="bg-gray-50">
       <div className="flex justify-start max-w-6xl md:px-24">
         <Breadcrumb
           crumbs={[
@@ -70,7 +70,7 @@ const ContactForm: React.FC = () => {
           fontColor=""
         />
       </div>
-      <div className="flex flex-col md:flex-row items-center justify-center min-h-screen  p-6m d:p-12">
+      <div className="flex flex-col md:flex-row items-center justify-center min-h-screen p-6 md:p-12">
         <ToastContainer position="top-right" autoClose={3000} />
 
         {/* Left Section */}
@@ -126,43 +126,13 @@ const ContactForm: React.FC = () => {
         </div>
 
         {/* Right Section */}
-        <div className="md:w-2/3 bg-[#E7C7C9] shadow-xl rounded-lg p-6 md:p-8 w-full max-w-xl ">
+        <div className="md:w-2/3 bg-[#E7C7C9] shadow-xl rounded-lg p-6 md:p-8 w-full max-w-xl">
           <h3 className="text-xl md:text-5xl font-bold text-gray-900 mb-4 md:mb-6">
             Send us a message
           </h3>
           <form
             className="flex flex-col space-y-4 md:space-y-6"
             onSubmit={handleSubmit}
-
-      {/* Right Section (Form) */}
-      <div className="md:w-2/3  shadow-xl rounded-lg p-6 md:p-8 w-full max-w-xl ">
-        <h3 className="text-xl md:text-5xl font-bold text-gray-900 mb-4 md:mb-6 ">
-          Send us a message
-        </h3>
-        <form className="flex flex-col space-y-4 md:space-y-6">
-          <input
-            type="text"
-            placeholder="Full name*"
-            className="border border-gray-500 p-3 md:p-4 rounded-md text-base md:text-lg focus:outline-none focus:ring-2 focus:ring-[#74323B]"
-          />
-          <input
-            type="email"
-            placeholder="Email address*"
-            className="border border-gray-500 p-3 md:p-4 rounded-md text-base md:text-lg focus:outline-none focus:ring-2 focus:ring-[#74323B]"
-          />
-          <input
-            type="text"
-            placeholder="Subject"
-            className="border border-gray-500 p-3 md:p-4 rounded-md text-base md:text-lg focus:outline-none focus:ring-2 focus:ring-[#74323B]"
-          />
-          <textarea
-            placeholder="Tell us more about *"
-            className="border border-gray-500 p-3 md:p-4 rounded-md text-base md:text-lg h-24 md:h-32 resize-none focus:outline-none focus:ring-2 focus:ring-[#74323B]"
-          ></textarea>
-          <button
-            type="submit"
-            className="bg-[#74323B] text-white font-semibold p-3 md:p-4 rounded-md text-base md:text-lg hover:bg-[#7C2B33] transition duration-300 cursor-pointer flex items-center justify-center"
-
           >
             <input
               type="text"
