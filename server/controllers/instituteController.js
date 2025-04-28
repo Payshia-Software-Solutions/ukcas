@@ -1,4 +1,5 @@
 const { Institute } = require("../models/index");
+const { Op } = require("sequelize");
 
 const instituteController = {
   async createInstitute(req, res) {
@@ -31,6 +32,7 @@ const instituteController = {
 
   async getInstituteBySlug(req, res) {
     try {
+      
       const institute = await Institute.findOne({ where: { slug: req.params.slug } });
       if (!institute) return res.status(404).json({ error: "Institute not found" });
       res.json(institute);
@@ -60,6 +62,41 @@ const instituteController = {
       res.status(500).json({ error: error.message });
     }
   },
+
+  // New search function for finding institutes by username, name, or other properties
+
+
+  async getInstitutesByUsernameOrName(req, res) {
+    try {
+      const { value } = req.query; // Get the search value from query params
+      
+  
+      if (!value) {
+        return res.status(400).json({ error: "Search value is required" });
+      }
+  
+      // Search the database with the updated query logic
+      const institutes = await Institute.findAll({
+        where: {
+          [Op.or]: [
+            { username: { [Op.like]: `%${value}%` } },  // Search by username
+            { name: { [Op.like]: `%${value}%` } },      // Search by name
+
+          ],
+        },
+        limit: 5, // Limit to 5 results
+      });
+  
+      if (institutes.length === 0) {
+        return res.status(404).json({ error: "Institute not found" });
+      }
+  
+      res.json(institutes);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  }
+  
 };
 
 module.exports = instituteController;
