@@ -1,13 +1,18 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import config from "../../config"; // Make sure config.ts exists
 
 const GetAccredited = () => {
+  const [countries, setCountries] = useState<string[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
   const [formData, setFormData] = useState({
-    name_of_institution: "",
+    name: "",
     address_line_1: "",
     address_line_2: "",
     province: "",
@@ -21,6 +26,48 @@ const GetAccredited = () => {
     accreditation_details: "",
   });
 
+  // Fetch countries from API
+  useEffect(() => {
+    const fetchCountries = async () => {
+      try {
+        const response = await axios.get("https://restcountries.com/v3.1/all");
+        const countryNames = response.data
+          .map((country: any) => country.name.common)
+          .sort();
+        setCountries(countryNames);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching countries:", error);
+        // Fallback to some default countries if API fails
+        setCountries([
+          "United Kingdom",
+          "United States",
+          "South Africa",
+          "Australia",
+          "Sri Lanka",
+          // Add more defaults if needed
+        ]);
+        setLoading(false);
+      }
+    };
+
+    fetchCountries();
+  }, []);
+
+  // Click outside to close dropdown
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsDropdownOpen(false);
+      }
+    };
+    
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
@@ -28,9 +75,24 @@ const GetAccredited = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const handleCountrySelect = (country: string) => {
+    setFormData((prev) => ({ ...prev, country }));
+    setIsDropdownOpen(false);
+    setSearchTerm("");
+  };
+
+  const filteredCountries = searchTerm
+    ? countries.filter(country => 
+        country.toLowerCase().includes(searchTerm.toLowerCase()))
+    : countries;
+
   const validateForm = () => {
     if (
-      !formData.name_of_institution ||
+      !formData.name ||
       !formData.address_line_1 ||
       !formData.province ||
       !formData.country ||
@@ -52,17 +114,18 @@ const GetAccredited = () => {
     if (!validateForm()) return;
 
     try {
-      // POST request to /accredite endpoint
-      await axios.post(`${config.API_BASE_URL}/accredite`, {
+      // POST request to your specified endpoint
+      const response = await axios.post("http://localhost:5000/api/v2/accredite", {
         ...formData,
         created_by: formData.email, // Add the created_by field
       });
 
+      console.log("Response:", response.data);
       toast.success("Accreditation request sent successfully!");
 
       // Reset the form after successful submission
       setFormData({
-        name_of_institution: "",
+        name: "",
         address_line_1: "",
         address_line_2: "",
         province: "",
@@ -78,14 +141,14 @@ const GetAccredited = () => {
     } catch (error: any) {
       toast.error("Failed to send accreditation request. Please try again.");
       
-      // Check if the error has a response property and log it
+      // Error handling with detailed logging
       if (error.response) {
         console.error("Error response:", error.response);
-        // You can log more specific parts of the error:
-        // console.error("Error response data:", error.response.data);
-        // console.error("Error status:", error.response.status);
+        console.error("Error status:", error.response.status);
+        console.error("Error data:", error.response.data);
+      } else if (error.request) {
+        console.error("Error request:", error.request);
       } else {
-        // If there's no response property, log the error message
         console.error("Error message:", error.message);
       }
     }
@@ -137,8 +200,8 @@ const GetAccredited = () => {
               </label>
               <input
                 type="text"
-                name="name_of_institution"
-                value={formData.name_of_institution}
+                name="name"
+                value={formData.name}
                 onChange={handleChange}
                 className="w-full border border-gray-400 p-2 rounded focus:outline-none focus:ring-2 focus:ring-[#74323B]"
                 required
@@ -187,23 +250,51 @@ const GetAccredited = () => {
               />
             </div>
 
-            <div>
+            <div className="relative" ref={dropdownRef}>
               <label className="block font-semibold mb-1 md:text-xl">
                 Country <span className="text-red-600">*</span>
               </label>
-              <select
-                name="country"
-                value={formData.country}
-                onChange={handleChange}
-                className="w-full border border-gray-400 p-2 rounded focus:outline-none focus:ring-2 focus:ring-[#74323B]"
-                required
+              <div 
+                className="w-full border border-gray-400 p-2 rounded flex justify-between items-center cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#74323B]"
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               >
-                <option value="">Select a country</option>
-                <option>United Kingdom</option>
-                <option>United States</option>
-                <option>Sri Lanka</option>
-                <option>Australia</option>
-              </select>
+                <div>{formData.country || "Select a country"}</div>
+                <div className="text-gray-500">
+                  {isDropdownOpen ? "▲" : "▼"}
+                </div>
+              </div>
+              
+              {isDropdownOpen && (
+                <div className="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded shadow-lg">
+                  <div className="p-2 border-b">
+                    <input
+                      type="text"
+                      value={searchTerm}
+                      onChange={handleSearchChange}
+                      placeholder="Search countries..."
+                      className="w-full p-2 border border-gray-300 rounded"
+                    />
+                  </div>
+                  
+                  <div className="max-h-48 overflow-y-auto">
+                    {loading ? (
+                      <div className="p-2 text-center text-gray-500">Loading countries...</div>
+                    ) : filteredCountries.length > 0 ? (
+                      filteredCountries.map((country, index) => (
+                        <div
+                          key={index}
+                          className="p-2 hover:bg-gray-100 cursor-pointer"
+                          onClick={() => handleCountrySelect(country)}
+                        >
+                          {country}
+                        </div>
+                      ))
+                    ) : (
+                      <div className="p-2 text-center text-gray-500">No countries found</div>
+                    )}
+                  </div>
+                </div>
+              )}
             </div>
 
             <div>
