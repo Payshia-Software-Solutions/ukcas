@@ -1,9 +1,7 @@
-import Image from "next/image";
+// app/page.tsx
+import { redirect } from 'next/navigation';
 
 export default function Home() {
-  return (
-    <div>
-      <p className="text-center text-lg mt-10">this is the admin page </p>
-    </div>
-  );
+  
+  redirect('/login');
 }
