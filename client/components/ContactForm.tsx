@@ -126,17 +126,12 @@ const ContactForm: React.FC = () => {
         </div>
 
         {/* Right Section */}
-        <div className="md:w-2/3 bg-[#E7C7C9] shadow-xl rounded-lg p-6 md:p-8 w-full max-w-xl">
+        <div className="md:w-2/3  shadow-xl p-6 md:p-8 w-full max-w-xl md:h-[38rem]">
           <h3 className="text-xl md:text-5xl font-bold text-gray-900 mb-4 md:mb-6">
             Send us a message
           </h3>
 
-          <form className="flex flex-col space-y-4 md:space-y-6" onSubmit={handleSubmit}>
-
-          <form
-            className="flex flex-col space-y-4 md:space-y-6"
-            onSubmit={handleSubmit}
-          >
+          <form className="flex flex-col space-y-4" onSubmit={handleSubmit}>
 
             <input
               type="text"
@@ -144,7 +139,7 @@ const ContactForm: React.FC = () => {
               placeholder="Full name*"
               value={formData.full_name}
               onChange={handleChange}
-              className="border border-gray-500 p-3 md:p-4 rounded-md text-base md:text-lg"
+              className="border border-gray-500 p-3 rounded-md text-base md:text-lg"
             />
             <input
               type="email"
@@ -152,7 +147,7 @@ const ContactForm: React.FC = () => {
               placeholder="Email address*"
               value={formData.email}
               onChange={handleChange}
-              className="border border-gray-500 p-3 md:p-4 rounded-md text-base md:text-lg"
+              className="border border-gray-500 p-3 rounded-md text-base md:text-lg"
             />
             <input
               type="text"
@@ -160,7 +155,7 @@ const ContactForm: React.FC = () => {
               placeholder="Phone Number"
               value={formData.phone_number}
               onChange={handleChange}
-              className="border border-gray-500 p-3 md:p-4 rounded-md text-base md:text-lg"
+              className="border border-gray-500 p-3 rounded-md text-base md:text-lg"
             />
             <input
               type="text"
@@ -168,7 +163,7 @@ const ContactForm: React.FC = () => {
               placeholder="Subject"
               value={formData.subject}
               onChange={handleChange}
-              className="border border-gray-500 p-3 md:p-4 rounded-md text-base md:text-lg"
+              className="border border-gray-500 p-3 rounded-md text-base md:text-lg"
             />
             <textarea
               name="message"
