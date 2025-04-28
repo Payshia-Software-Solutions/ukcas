@@ -4,6 +4,22 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+// Define a Type for your formData
+interface FormData {
+  name: string;
+  address_line_1: string;
+  address_line_2: string;
+  province: string;
+  country: string;
+  year_of_inception: string;
+  website: string;
+  mini_description_of_instit: string;
+  phone_number: string;
+  email: string;
+  accreditation_status: string;
+  accreditation_details: string;
+}
+
 const GetAccredited = () => {
   const [countries, setCountries] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -11,7 +27,7 @@ const GetAccredited = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     name: "",
     address_line_1: "",
     address_line_2: "",
@@ -31,22 +47,20 @@ const GetAccredited = () => {
     const fetchCountries = async () => {
       try {
         const response = await axios.get("https://restcountries.com/v3.1/all");
-        const countryNames = response.data
-          .map((country: any) => country.name.common)
+        const countryNames: string[] = response.data
+          .map((country: { name: { common: string } }) => country.name.common)
           .sort();
         setCountries(countryNames);
-        setLoading(false);
       } catch (error) {
         console.error("Error fetching countries:", error);
-        // Fallback to some default countries if API fails
         setCountries([
           "United Kingdom",
           "United States",
           "South Africa",
           "Australia",
           "Sri Lanka",
-          // Add more defaults if needed
         ]);
+      } finally {
         setLoading(false);
       }
     };
@@ -54,14 +68,13 @@ const GetAccredited = () => {
     fetchCountries();
   }, []);
 
-  // Click outside to close dropdown
+  // Close dropdown on outside click
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setIsDropdownOpen(false);
       }
     };
-    
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
@@ -86,8 +99,9 @@ const GetAccredited = () => {
   };
 
   const filteredCountries = searchTerm
-    ? countries.filter(country => 
-        country.toLowerCase().includes(searchTerm.toLowerCase()))
+    ? countries.filter((country) =>
+        country.toLowerCase().includes(searchTerm.toLowerCase())
+      )
     : countries;
 
   const validateForm = () => {
@@ -108,22 +122,20 @@ const GetAccredited = () => {
     return true;
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!validateForm()) return;
 
     try {
-      // POST request to your specified endpoint
       const response = await axios.post("http://localhost:5000/api/v2/accredite", {
         ...formData,
-        created_by: formData.email, // Add the created_by field
+        created_by: formData.email,
       });
 
       console.log("Response:", response.data);
       toast.success("Accreditation request sent successfully!");
 
-      // Reset the form after successful submission
       setFormData({
         name: "",
         address_line_1: "",
@@ -138,18 +150,18 @@ const GetAccredited = () => {
         accreditation_status: "",
         accreditation_details: "",
       });
-    } catch (error: any) {
+    } catch (error) {
       toast.error("Failed to send accreditation request. Please try again.");
-      
-      // Error handling with detailed logging
-      if (error.response) {
-        console.error("Error response:", error.response);
-        console.error("Error status:", error.response.status);
-        console.error("Error data:", error.response.data);
-      } else if (error.request) {
-        console.error("Error request:", error.request);
+      if (axios.isAxiosError(error)) {
+        if (error.response) {
+          console.error("Error response:", error.response);
+        } else if (error.request) {
+          console.error("Error request:", error.request);
+        } else {
+          console.error("Error message:", error.message);
+        }
       } else {
-        console.error("Error message:", error.message);
+        console.error("Unexpected error:", error);
       }
     }
   };
@@ -167,103 +179,77 @@ const GetAccredited = () => {
         </div>
         <div className="md:w-1/2 text-gray-700 md:text-xl text-lg space-y-6">
           <p>
-            Accreditation is a process wherein independent or non-governmental agencies give
-            acknowledgement to education providers or programs that meet specifically designed criteria.
+            Accreditation is a process wherein independent or non-governmental
+            agencies give acknowledgement to education providers or programs that
+            meet specifically designed criteria.
           </p>
           <p>
-            The primary purposes of accreditation are to ensure that an institution, course, or qualification
-            conforms to general expectations and to assist educational institutions to continually improve
-            the quality of their courses and qualifications.
+            The primary purposes of accreditation are to ensure that an institution,
+            course, or qualification conforms to general expectations and to assist
+            educational institutions to continually improve the quality of their
+            courses and qualifications.
           </p>
         </div>
       </div>
 
       {/* Section 2: Online Accreditation Title */}
       <div className="flex flex-col items-center justify-center px-8 md:px-20 py-20 bg-[#7C2B33] text-white">
-        <h1 className="text-4xl md:text-7xl font-bold text-center">Online Accreditation</h1>
+        <h1 className="text-4xl md:text-7xl font-bold text-center">
+          Online Accreditation
+        </h1>
         <p className="mt-4 md:text-xl text-lg text-center max-w-3xl">
-          Please complete and submit the form. Our team will contact you as soon as possible.
+          Please complete and submit the form. Our team will contact you as soon as
+          possible.
         </p>
       </div>
 
       {/* Section 3: Form */}
       <div className="bg-[#7C2B33] py-1 px-8 md:px-20">
-        <div className="bg-white max-w-5xl mx-auto p-10 rounded-xl shadow-md shadow-md mb-20">
+        <div className="bg-white max-w-5xl mx-auto p-10 rounded-xl shadow-md mb-20">
           <form className="space-y-6 text-gray-900" onSubmit={handleSubmit}>
             <p className="text-sm text-red-600 font-medium">
               Fields marked with an <span className="text-red-600">*</span> are required
             </p>
 
-            <div>
-              <label className="block font-semibold mb-1 md:text-xl">
-                Name of Organisation / Institute <span className="text-red-600">*</span>
-              </label>
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                className="w-full border border-gray-400 p-2 rounded focus:outline-none focus:ring-2 focus:ring-[#74323B]"
-                required
-              />
-            </div>
+            {/* Dynamically Render Form Inputs */}
+            {[
+              { label: "Name of Organisation / Institute", name: "name" },
+              { label: "Address Line 1", name: "address_line_1" },
+              { label: "Address Line 2", name: "address_line_2" },
+              { label: "Province / City / State", name: "province" },
+              { label: "Year of Inception", name: "year_of_inception" },
+              { label: "Website", name: "website", type: "url" },
+              { label: "Phone Number", name: "phone_number", type: "tel" },
+              { label: "Email", name: "email", type: "email" },
+            ].map(({ label, name, type = "text" }) => (
+              <div key={name}>
+                <label className="block font-semibold mb-1 md:text-xl">
+                  {label} <span className="text-red-600">*</span>
+                </label>
+                <input
+                  type={type}
+                  name={name}
+                  value={formData[name as keyof FormData]}
+                  onChange={handleChange}
+                  className="w-full border border-gray-400 p-2 rounded focus:outline-none focus:ring-2 focus:ring-[#74323B]"
+                  required
+                />
+              </div>
+            ))}
 
-            <div>
-              <label className="block font-semibold mb-1 md:text-xl">
-                Address Line 1 <span className="text-red-600">*</span>
-              </label>
-              <input
-                type="text"
-                name="address_line_1"
-                value={formData.address_line_1}
-                onChange={handleChange}
-                className="w-full border border-gray-400 p-2 rounded focus:outline-none focus:ring-2 focus:ring-[#74323B]"
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block font-semibold mb-1 md:text-xl">
-                Address Line 2 <span className="text-red-600">*</span>
-              </label>
-              <input
-                type="text"
-                name="address_line_2"
-                value={formData.address_line_2}
-                onChange={handleChange}
-                className="w-full border border-gray-400 p-2 rounded focus:outline-none focus:ring-2 focus:ring-[#74323B]"
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block font-semibold mb-1 md:text-xl">
-                Province / City / State <span className="text-red-600">*</span>
-              </label>
-              <input
-                type="text"
-                name="province"
-                value={formData.province}
-                onChange={handleChange}
-                className="w-full border border-gray-400 p-2 rounded focus:outline-none focus:ring-2 focus:ring-[#74323B]"
-                required
-              />
-            </div>
-
+            {/* Country Dropdown */}
             <div className="relative" ref={dropdownRef}>
               <label className="block font-semibold mb-1 md:text-xl">
                 Country <span className="text-red-600">*</span>
               </label>
-              <div 
-                className="w-full border border-gray-400 p-2 rounded flex justify-between items-center cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#74323B]"
+              <div
+                className="w-full border border-gray-400 p-2 rounded flex justify-between items-center cursor-pointer"
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               >
                 <div>{formData.country || "Select a country"}</div>
-                <div className="text-gray-500">
-                  {isDropdownOpen ? "▲" : "▼"}
-                </div>
+                <div className="text-gray-500">{isDropdownOpen ? "▲" : "▼"}</div>
               </div>
-              
+
               {isDropdownOpen && (
                 <div className="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded shadow-lg">
                   <div className="p-2 border-b">
@@ -275,10 +261,11 @@ const GetAccredited = () => {
                       className="w-full p-2 border border-gray-300 rounded"
                     />
                   </div>
-                  
                   <div className="max-h-48 overflow-y-auto">
                     {loading ? (
-                      <div className="p-2 text-center text-gray-500">Loading countries...</div>
+                      <div className="p-2 text-center text-gray-500">
+                        Loading countries...
+                      </div>
                     ) : filteredCountries.length > 0 ? (
                       filteredCountries.map((country, index) => (
                         <div
@@ -290,41 +277,16 @@ const GetAccredited = () => {
                         </div>
                       ))
                     ) : (
-                      <div className="p-2 text-center text-gray-500">No countries found</div>
+                      <div className="p-2 text-center text-gray-500">
+                        No countries found
+                      </div>
                     )}
                   </div>
                 </div>
               )}
             </div>
 
-            <div>
-              <label className="block font-semibold mb-1 md:text-xl">
-                Year of Inception <span className="text-red-600">*</span>
-              </label>
-              <input
-                type="text"
-                name="year_of_inception"
-                value={formData.year_of_inception}
-                onChange={handleChange}
-                className="w-full border border-gray-400 p-2 rounded focus:outline-none focus:ring-2 focus:ring-[#74323B]"
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block font-semibold mb-1 md:text-xl">
-                Website <span className="text-red-600">*</span>
-              </label>
-              <input
-                type="url"
-                name="website"
-                value={formData.website}
-                onChange={handleChange}
-                className="w-full border border-gray-400 p-2 rounded focus:outline-none focus:ring-2 focus:ring-[#74323B]"
-                required
-              />
-            </div>
-
+            {/* Description Textarea */}
             <div>
               <label className="block font-semibold mb-1 md:text-xl">
                 Brief Profile of Institution <span className="text-red-600">*</span>
@@ -339,34 +301,7 @@ const GetAccredited = () => {
               ></textarea>
             </div>
 
-            <div>
-              <label className="block font-semibold mb-1 md:text-xl">
-                Phone Number <span className="text-red-600">*</span>
-              </label>
-              <input
-                type="tel"
-                name="phone_number"
-                value={formData.phone_number}
-                onChange={handleChange}
-                className="w-full border border-gray-400 p-2 rounded focus:outline-none focus:ring-2 focus:ring-[#74323B]"
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block font-semibold mb-1 md:text-xl">
-                Email <span className="text-red-600">*</span>
-              </label>
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                className="w-full border border-gray-400 p-2 rounded focus:outline-none focus:ring-2 focus:ring-[#74323B]"
-                required
-              />
-            </div>
-
+            {/* Submit Button */}
             <div className="text-left pt-4">
               <button
                 type="submit"
