@@ -1,11 +1,11 @@
 "use client";
-import ViewContent from '@/components/view-content/ViewContent';
+import PendingCertificate from '@/components/pending-certificate/PendingCertificate';
 
 export default function LoginPage() {
 
   return (
     <div className="min-h-screen bg-[#faf9f2]">
-      <ViewContent />
+      <PendingCertificate />
     </div>
   );
 }

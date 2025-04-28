@@ -1,11 +1,11 @@
 "use client";
-import ViewContent from '@/components/view-content/ViewContent';
+import IssuedCertificate from '@/components/issued-certificate/IssuedCertificate';
 
 export default function LoginPage() {
 
   return (
     <div className="min-h-screen bg-[#faf9f2]">
-      <ViewContent />
+      <IssuedCertificate />
     </div>
   );
 }

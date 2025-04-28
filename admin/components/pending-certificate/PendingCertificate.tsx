@@ -8,8 +8,6 @@ export default function Dashboard() {
   const router = useRouter();
   const [isDashboardOpen, setIsDashboardOpen] = useState(false);
   const [isTransactionOpen, setIsTransactionOpen] = useState(false);
-  const [isApproveModalOpen, setIsApproveModalOpen] = useState(false);
-  const [isRejectModalOpen, setIsRejectModalOpen] = useState(false);
 
   const handleLogout = () => {
     localStorage.removeItem('isLoggedIn');
@@ -143,177 +141,88 @@ export default function Dashboard() {
               <span className="absolute top-0 right-0 inline-block w-2 h-2 bg-red-500 rounded-full"></span>
             </button>
 
-            {/* Profile Image */}
+            {/* User Profile */}
             <div className="w-10 h-10 rounded-full overflow-hidden">
               <img src="/assets/images/profile.png" alt="Profile" className="w-full h-full object-cover" />
             </div>
           </div>
         </div>
 
-        {/* Greeting */}
+        {/* Greeting Section */}
         <div className="bg-yellow-50 p-4 rounded-md flex items-center justify-between">
           <h2 className="text-lg font-bold">Hi, Good morning!</h2>
           <div className="flex items-center space-x-2 text-green-600 text-sm">
             <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
               <path d="M10 20v-6h4v6h5v-8h3L10 0 2 12h3v8z" />
             </svg>
-            <span>Dashboard / Request Forms</span>
+            <span>Dashboard / Pending Certificate</span>
           </div>
         </div>
 
-        {/* Request Form Details */}
-        <div className="flex flex-col bg-white p-6 rounded-lg shadow space-y-6">
-          {/* Top Section */}
-          <div className="flex justify-between items-start border-b pb-4">
-            <div>
-              <h2 className="text-2xl font-bold mb-2">Arts University Bournemouth</h2>
-            </div>
-            <div className="text-right">
-              <p className="text-sm text-gray-600 font-semibold">Request ID:</p>
-              <p className="text-sm text-gray-800 font-semibold">#0001</p>
-            </div>
-          </div>
-
-          {/* Info Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="space-y-4">
-              <div>
-                <p className="font-semibold text-gray-700">Address:</p>
-                <p className="text-gray-600">7 Fern Barrow, Wallisdown,<br />Poole BH12 5HH,<br />United Kingdom</p>
-              </div>
-
-              <div>
-                <p className="font-semibold text-gray-700">Name of Head / Authorized Signatory:</p>
-                <p className="text-gray-600">Mr. Lisa Mann</p>
-              </div>
-
-              <div>
-                <p className="font-semibold text-gray-700">Profile of Institution:</p>
-                <p className="text-gray-600">
-                  Arts University Bournemouth is a public university in Poole, England, specialising in art, architecture, film, performance, and design.
-                </p>
-              </div>
-            </div>
-
-            <div className="space-y-4">
-              <div>
-                <p className="font-semibold text-gray-700">Phone:</p>
-                <p className="text-gray-600">+44 1202 533011</p>
-              </div>
-
-              <div>
-                <p className="font-semibold text-gray-700">Email:</p>
-                <p className="text-gray-600">xyz@bournem.uk</p>
-              </div>
-
-              <div>
-                <p className="font-semibold text-gray-700">Accreditation Details:</p>
-                <div className="flex items-center space-x-2">
-                  <button className="flex items-center px-3 py-1 text-sm bg-green-100 text-green-700 rounded-md">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M17.293 5.293a1 1 0 010 1.414L8.414 15.586a1 1 0 01-1.414 0l-4.293-4.293a1 1 0 111.414-1.414L8 13.586l8.293-8.293a1 1 0 011.414 0z" />
-                    </svg>
-                    View PDF
-                  </button>
-                </div>
-              </div>
+        {/* Table Section */}
+        <div className="bg-white rounded-lg shadow p-6">
+          {/* Header */}
+          <div className="flex items-center justify-between mb-6">
+            <h1 className="text-2xl font-bold">Pending Certificate</h1>
+            <div className="flex space-x-2">
+              <input
+                type="text"
+                placeholder="Search..."
+                className="border rounded-md px-3 py-2 text-sm focus:outline-none"
+              />
+              <button className="border px-3 py-2 rounded-md text-sm hover:bg-gray-100">Filters</button>
+              <button className="border px-3 py-2 rounded-md text-sm hover:bg-gray-100">Date Range</button>
             </div>
           </div>
 
-          {/* Buttons */}
-          <div className="flex justify-center items-center space-x-6 mt-8">
-            <button
-              onClick={() => setIsRejectModalOpen(true)}
-              className="w-48 h-12 border-2 border-red-500 text-red-600 font-semibold rounded-xl hover:bg-red-100"
-            >
-              Reject
-            </button>
+          {/* Table */}
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm text-left text-gray-700">
+              <thead className="text-xs uppercase bg-gray-100 text-gray-700">
+                <tr>
+                  <th scope="col" className="px-6 py-3">Date</th>
+                  <th scope="col" className="px-6 py-3">Certificate ID</th>
+                  <th scope="col" className="px-6 py-3">Student ID</th>
+                  <th scope="col" className="px-6 py-3">Student Name</th>
+                  <th scope="col" className="px-6 py-3">Status</th>
+                  <th scope="col" className="px-6 py-3">View</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="bg-white border-b hover:bg-gray-50">
+                  <td className="px-6 py-4">01-04-2025</td>
+                  <td className="px-6 py-4"># CF-4522-2025-100</td>
+                  <td className="px-6 py-4">UK422</td>
+                  <td className="px-6 py-4">John Doe</td>
 
-            <button
-              className="w-48 h-12 border-2 border-gray-400 text-gray-700 font-semibold rounded-xl hover:bg-gray-100"
-            >
-              Request more Details
-            </button>
+                  <td className="px-6 py-4">
+                    <span className="inline-flex items-center px-2 py-1 text-sm font-semibold text-blue-600 bg-blue-100 rounded-full">
+                      Pending
+                    </span>
+                  </td>
+                  <td className="px-6 py-4">
+                    <button className='cursor-pointer'>
+                      <Image src="/assets/images/search.png" alt="View" width={20} height={20} />
+                      View
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
 
-            <button
-              onClick={() => setIsApproveModalOpen(true)}
-              className="w-48 h-12 bg-black text-white font-semibold rounded-xl hover:bg-gray-800"
-            >
-              Approve
-            </button>
+          {/* Pagination */}
+          <div className="flex justify-center items-center mt-6 space-x-2">
+            <button className="px-3 py-1 border rounded hover:bg-gray-100">&lt;</button>
+            <button className="px-3 py-1 border rounded bg-blue-500 text-white">1</button>
+            <button className="px-3 py-1 border rounded hover:bg-gray-100">2</button>
+            <button className="px-3 py-1 border rounded hover:bg-gray-100">...</button>
+            <button className="px-3 py-1 border rounded hover:bg-gray-100">9</button>
+            <button className="px-3 py-1 border rounded hover:bg-gray-100">10</button>
+            <button className="px-3 py-1 border rounded hover:bg-gray-100">&gt;</button>
           </div>
         </div>
       </div>
-
-      {/* Approve Modal */}
-      {isApproveModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-900/50 backdrop-blur-sm z-50">
-          <div className="bg-white rounded-2xl shadow-lg p-6 w-full max-w-md relative">
-            <button
-              onClick={() => setIsApproveModalOpen(false)}
-              className="absolute top-4 right-4 text-gray-500 hover:text-black"
-            >
-              ✖
-            </button>
-            <h2 className="text-2xl font-bold mb-4">Warning !</h2>
-            <p className="text-black mb-8 text-lg">
-              Are you sure <b>#0001 Arts University Bournemouth</b> wants to add to the System?
-            </p>
-            <div className="flex justify-between">
-              <button
-                onClick={() => setIsApproveModalOpen(false)}
-                className="w-40 h-10 border-2 border-gray-400 text-gray-700 rounded-xl hover:bg-gray-100"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={() => {
-                  setIsApproveModalOpen(false);
-                  alert("Approved Successfully!");
-                }}
-                className="w-40 h-10 bg-black text-white rounded-xl hover:bg-gray-800"
-              >
-                Approve
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Reject Modal */}
-      {isRejectModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-900/50 backdrop-blur-sm z-50">
-          <div className="bg-white rounded-2xl shadow-lg p-6 w-full max-w-md relative">
-            <button
-              onClick={() => setIsRejectModalOpen(false)}
-              className="absolute top-4 right-4 text-gray-500 hover:text-black"
-            >
-              ✖
-            </button>
-            <h2 className="text-2xl font-bold mb-4 underline">Warning !</h2>
-            <p className="text-gray-800 mb-8 text-lg">
-              Are you sure <b>#0001 Arts University Bournemouth</b> wants to rejected?
-            </p>
-            <div className="flex justify-between">
-              <button
-                onClick={() => setIsRejectModalOpen(false)}
-                className="w-40 h-10 border-2 border-gray-400 text-gray-700 rounded-xl hover:bg-gray-100"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={() => {
-                  setIsRejectModalOpen(false);
-                  alert("Rejected Successfully!");
-                }}
-                className="w-40 h-10 bg-red-600 text-white rounded-xl hover:bg-red-700"
-              >
-                Rejected
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

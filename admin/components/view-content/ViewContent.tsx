@@ -19,7 +19,6 @@ export default function Dashboard() {
     <div className="flex min-h-screen bg-gray-100">
       {/* Sidebar */}
       <div className="flex flex-col justify-between bg-gray-900 text-white w-64 p-6">
-        {/* Top section */}
         <div>
           <div className="text-xl font-bold mb-6">Company Name</div>
           <div className="space-y-4">
@@ -63,17 +62,48 @@ export default function Dashboard() {
                 <div className="ml-4 space-y-2">
                   <button
                     className="block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md"
-                    onClick={() => router.push('/transaction')}
+                    onClick={() => router.push('/pending-certificate')}
                   >
-                    Records
+                    Pending Certificates
                   </button>
+                  <button
+                    className="block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md"
+                    onClick={() => router.push('/issued-certificate')}
+                  >
+                    Issued Certificates
+                  </button>
+                  <button
+                    className="block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md"
+                    onClick={() => router.push('/institute-payment')}
+                  >
+                    Institute Payment
+                  </button>
+                  <button
+                    className="block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md"
+                    onClick={() => router.push('/create-news')}
+                  >
+                    Create News
+                  </button>
+                </div>
+              )}
+            </div>
+            <div>
+              <button
+                className="flex items-center justify-between w-full p-2 rounded-md hover:bg-gray-700"
+                onClick={() => setIsDashboardOpen(!isDashboardOpen)}
+              >
+                <span className="text-lg">Records</span>
+                <span>{isDashboardOpen ? '▲' : '▼'}</span>
+              </button>
+              {isDashboardOpen && (
+                <div className="ml-4 space-y-2">
                 </div>
               )}
             </div>
           </div>
         </div>
 
-        {/* Bottom Logout Button */}
+        {/* Logout Button */}
         <div className="mt-6">
           <button
             className="bg-white text-red-600 px-10 py-3 rounded-2xl text-lg font-semibold hover:bg-red-200 transition duration-200 w-full"
