@@ -5,8 +5,6 @@ import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import axios from "axios";
 import config from "@/config";
-// Remove the unused import from react-router-dom
-// import { data } from "react-router-dom";
 
 interface Student {
   id: number;
@@ -63,9 +61,6 @@ const CertificateVerificationClient = () => {
   const [certificate, setCertificate] = useState<Certificate | null>(null);
   const [suggestions, setSuggestions] = useState<Certificate[]>([]);
   const [loading, setLoading] = useState(false);
-  // Fix: Changed the type to Certificate[] instead of Institute
-  const [backupCertificates, setBackupCertificates] = useState<Certificate[]>([]);
-  const [searchInput, setSearchInput] = useState("");
 
   useEffect(() => {
     const id = searchParams.get("certificateId");
@@ -74,22 +69,13 @@ const CertificateVerificationClient = () => {
     }
   }, [searchParams]);
 
-  // Fetch certificate by ID (for direct URL access)
   const fetchCertificateById = async (id: string) => {
     if (!id.trim()) return;
-    
     try {
       setLoading(true);
-      // Search for exact certificate_id match
-      const response = await axios.get(
-        `${config.API_BASE_URL}/certificate/search?value=${id}`
-      );
+      const response = await axios.get(`${config.API_BASE_URL}/certificate/search?value=${id}`);
       const certificates = response.data;
-
-      // Find the exact match from search results
-      const exactMatch = certificates.find(
-        (cert: Certificate) => cert.certificate_id === id
-      );
+      const exactMatch = certificates.find((cert: Certificate) => cert.certificate_id === id);
 
       if (exactMatch) {
         setCertificate(exactMatch);
@@ -105,7 +91,6 @@ const CertificateVerificationClient = () => {
     }
   };
 
-  // Fetch certificate suggestions as user types
   const fetchSuggestions = async (value: string) => {
     if (!value.trim()) {
       setSuggestions([]);
@@ -114,13 +99,8 @@ const CertificateVerificationClient = () => {
 
     try {
       setLoading(true);
-      const response = await axios.get(
-        `${config.API_BASE_URL}/certificate/search?value=${value}`
-      );
-      const certificates = response.data;
-      setSuggestions(certificates);
-      // Fix: Store the certificates array, not setting it to Institute type
-      setBackupCertificates(certificates);
+      const response = await axios.get(`${config.API_BASE_URL}/certificate/search?value=${value}`);
+      setSuggestions(response.data);
     } catch (error) {
       console.error("Error fetching suggestions:", error);
       setSuggestions([]);
@@ -129,35 +109,28 @@ const CertificateVerificationClient = () => {
     }
   };
 
-  // Handle input change with debounce
+  let debounceTimeout: NodeJS.Timeout;
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setCertificateIdInput(value);
-    setSearchInput(value); // Update the search input state as well
 
-    // Use debounce for API calls
-    const timeoutId = setTimeout(() => {
+    clearTimeout(debounceTimeout);
+    debounceTimeout = setTimeout(() => {
       fetchSuggestions(value);
 
-      // If value is empty, don't update URL
       if (value.trim()) {
         router.push(`/certificate-verification?certificateId=${value.trim()}`);
       }
     }, 300);
-
-    return () => clearTimeout(timeoutId);
   };
 
   const selectCertificate = (cert: Certificate) => {
     setCertificateIdInput(cert.certificate_id);
     setCertificate(cert);
     setSuggestions([]);
-    router.push(
-      `/certificate-verification?certificateId=${cert.certificate_id}`
-    );
+    router.push(`/certificate-verification?certificateId=${cert.certificate_id}`);
   };
 
-  // Format the issue date
   const formatDate = (dateString: string) => {
     if (!dateString) return "Not available";
     const date = new Date(dateString);
@@ -168,32 +141,18 @@ const CertificateVerificationClient = () => {
     });
   };
 
-  // Placeholder skills based on institute description
   const getSkillsFromInstitute = (institute: Institute | undefined) => {
     if (!institute) return ["Certificate Skills"];
 
-    // Default skills if nothing else is available
-    const defaultSkills = [
-      "Professional Development",
-      "Industry Knowledge",
-      "Technical Competence",
-    ];
+    const defaultSkills = ["Professional Development", "Industry Knowledge", "Technical Competence"];
 
-    // Try to extract meaningful skills from institute description
     if (institute.description) {
-      if (institute.description.toLowerCase().includes("tech")) {
-        return [
-          "Technical Skills",
-          "Technology Education",
-          "Digital Competence",
-        ];
+      const desc = institute.description.toLowerCase();
+      if (desc.includes("tech")) {
+        return ["Technical Skills", "Technology Education", "Digital Competence"];
       }
-      if (institute.description.toLowerCase().includes("education")) {
-        return [
-          "Educational Competence",
-          "Academic Excellence",
-          "Learning Development",
-        ];
+      if (desc.includes("education")) {
+        return ["Educational Competence", "Academic Excellence", "Learning Development"];
       }
     }
 
@@ -201,35 +160,27 @@ const CertificateVerificationClient = () => {
   };
 
   const handleBackButton = () => {
-    // Clear the certificate and reset other states
     setCertificate(null);
-    setBackupCertificates([]);
     setSuggestions([]);
     setCertificateIdInput("");
-    setSearchInput("");
-    // Remove the query parameter from the URL
     router.push("/certificate-verification");
   };
 
-  // Handle keyboard events for accessibility
   const handleKeyDown = (e: React.KeyboardEvent, cert: Certificate) => {
     if (e.key === "Enter" || e.key === " ") {
       selectCertificate(cert);
     }
   };
 
-  // Add keyboard event handler for the input field
   const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && certificateIdInput.trim()) {
-      router.push(
-        `/certificate-verification?certificateId=${certificateIdInput.trim()}`
-      );
+      router.push(`/certificate-verification?certificateId=${certificateIdInput.trim()}`);
     }
   };
 
   return (
     <div className="relative min-h-screen flex items-center justify-center px-4 py-20">
-      <div className="relative z-10 bg-opacity-95 p-10 rounded-xl w-full max-w-6xl text-center mt-40 mb-10">
+      <div className="relative z-10 bg-opacity-95 p-6 md:p-10 rounded-xl w-full max-w-6xl mx-auto text-center mt-32 md:mt-40 mb-10">
         <div className="mb-6">
           <Image
             src="/assets/logo/logo1.png"
@@ -241,23 +192,22 @@ const CertificateVerificationClient = () => {
           />
         </div>
 
-        <h2 className="text-4xl md:text-5xl font-bold text-center mb-10 text-[#74323B]">
+        <h2 className="text-3xl md:text-5xl font-bold text-center mb-10 text-[#74323B]">
           Certificate Verification
         </h2>
 
         {certificate ? (
-          <div className="p-8 rounded-md">
-            {/* Header Section */}
+          <div className="p-6 md:p-8 rounded-md">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-10">
-              <div className="flex items-center gap-6 mb-4 md:mb-0">
+              <div className="flex flex-col sm:flex-row items-center gap-6 mb-6 md:mb-0">
                 <Image
-                  src={"/assets/images/user.jpg"} // Fixed image path
+                  src={"/assets/images/user.jpg"}
                   alt="User"
                   width={100}
                   height={100}
                   className="rounded-full border-4 border-[#74323B]"
                 />
-                <div className="text-left">
+                <div className="text-center sm:text-left">
                   <p className="text-2xl font-bold text-[#74323B]">
                     {certificate.Student?.name}
                   </p>
@@ -271,7 +221,6 @@ const CertificateVerificationClient = () => {
               </div>
             </div>
 
-            {/* Certificate Details Section */}
             <div className="text-left mb-6">
               <h3 className="text-2xl font-semibold text-[#74323B] mb-2">
                 Certificate from {certificate.Institute?.name}
@@ -286,64 +235,43 @@ const CertificateVerificationClient = () => {
                   <h4 className="font-semibold text-[#74323B] mb-2">
                     Student Information
                   </h4>
-                  <p>
-                    <span className="font-medium">Name:</span>{" "}
-                    {certificate.Student?.name}
-                  </p>
-                  <p>
-                    <span className="font-medium">Student ID:</span>{" "}
-                    {certificate.Student?.username}
-                  </p>
-                  <p>
-                    <span className="font-medium">Country:</span>{" "}
-                    {certificate.Student?.country}
-                  </p>
+                  <p><span className="font-medium">Name:</span> {certificate.Student?.name}</p>
+                  <p><span className="font-medium">Student ID:</span> {certificate.Student?.username}</p>
+                  <p><span className="font-medium">Country:</span> {certificate.Student?.country}</p>
                 </div>
 
                 <div className="bg-gray-50 p-4 rounded-lg">
                   <h4 className="font-semibold text-[#74323B] mb-2">
                     Institute Information
                   </h4>
-                  <p>
-                    <span className="font-medium">Name:</span>{" "}
-                    {certificate.Institute?.name}
-                  </p>
-                  <p>
-                    <span className="font-medium">Institute ID:</span>{" "}
-                    {certificate.Institute?.username}
-                  </p>
-                  <p>
-                    <span className="font-medium">Description:</span>{" "}
-                    {certificate.Institute?.mini_description}
-                  </p>
+                  <p><span className="font-medium">Name:</span> {certificate.Institute?.name}</p>
+                  <p><span className="font-medium">Institute ID:</span> {certificate.Institute?.username}</p>
+                  <p><span className="font-medium">Description:</span> {certificate.Institute?.mini_description}</p>
                 </div>
               </div>
             </div>
 
-            {/* Skills and Back Button */}
-            <div className="flex flex-col md:flex-row md:justify-between items-start">
-              <div className="text-left mt-6">
+            <div className="flex flex-col md:flex-row md:justify-between items-start mt-6">
+              <div className="text-left">
                 <h4 className="text-lg font-semibold mb-2 text-[#74323B]">
                   Qualification Areas
                 </h4>
                 <div className="flex flex-wrap gap-3">
-                  {getSkillsFromInstitute(certificate.Institute).map(
-                    (skill, idx) => (
-                      <span
-                        key={idx}
-                        className="bg-white border border-[#74323B] text-[#74323B] px-4 py-1 rounded-full text-sm font-medium"
-                      >
-                        {skill}
-                      </span>
-                    )
-                  )}
+                  {getSkillsFromInstitute(certificate.Institute).map((skill, idx) => (
+                    <span
+                      key={idx}
+                      className="bg-white border border-[#74323B] text-[#74323B] px-4 py-1 rounded-full text-sm font-medium"
+                    >
+                      {skill}
+                    </span>
+                  ))}
                 </div>
               </div>
 
-              <div className="mt-6 md:ml-4">
+              <div className="mt-6 md:mt-0 md:ml-4">
                 <button
                   onClick={handleBackButton}
-                  className="bg-[#7C2B33] hover:bg-[#74323B] text-white font-semibold py-3 px-8 rounded-lg transition cursor-pointer"
+                  className="bg-[#7C2B33] hover:bg-[#74323B] text-white font-semibold py-3 px-8 rounded-lg transition cursor-pointer w-full md:w-auto"
                 >
                   Back to Search
                 </button>
@@ -353,9 +281,9 @@ const CertificateVerificationClient = () => {
         ) : (
           <>
             <p className="text-black text-xl mb-8 font-semibold">
-              Please enter the certificate ID exactly as it appears on the
-              verification document.
+              Please enter the certificate ID exactly as it appears on the verification document.
             </p>
+
             <div className="relative w-full mb-8">
               <span className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-gray-500 text-xl">
                 🔍
@@ -366,10 +294,9 @@ const CertificateVerificationClient = () => {
                 value={certificateIdInput}
                 onChange={handleInputChange}
                 onKeyDown={handleInputKeyDown}
-                className="w-full text-xl pl-12 pr-4 py-4 rounded-full shadow-md bg-white text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#74323B]"
+                className="w-full text-lg md:text-xl pl-12 pr-4 py-4 rounded-full shadow-md bg-white text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#74323B]"
               />
 
-              {/* Suggestions dropdown */}
               {suggestions.length > 0 && (
                 <div className="absolute z-20 bg-white rounded-lg shadow-lg mt-2 w-full text-left">
                   <div className="p-2 max-h-72 overflow-y-auto">
@@ -386,7 +313,7 @@ const CertificateVerificationClient = () => {
                         <div className="flex items-center">
                           <div className="flex-shrink-0">
                             <Image
-                              src="/assets/images/user.jpg" // Default user image
+                              src="/assets/images/user.jpg"
                               alt="User"
                               width={40}
                               height={40}
@@ -394,14 +321,10 @@ const CertificateVerificationClient = () => {
                             />
                           </div>
                           <div className="ml-3">
-                            <p className="font-medium text-gray-900">
-                              {cert.Student?.name || "Unknown"}
-                            </p>
+                            <p className="font-medium text-gray-900">{cert.Student?.name || "Unknown"}</p>
                             <p className="text-sm text-gray-500">
-                              <span className="font-semibold">ID:</span>{" "}
-                              {cert.certificate_id} |
-                              <span className="font-semibold"> Institute:</span>{" "}
-                              {cert.Institute?.name || "N/A"}
+                              <span className="font-semibold">ID:</span> {cert.certificate_id} |{" "}
+                              <span className="font-semibold">Institute:</span> {cert.Institute?.name || "N/A"}
                             </p>
                           </div>
                         </div>
@@ -419,10 +342,7 @@ const CertificateVerificationClient = () => {
             </div>
 
             <p className="text-black text-lg mt-6 leading-relaxed mb-8 text-left">
-              These certificates are issued by the United Kingdom College of
-              Advanced Studies and verify the successful completion of
-              accredited academic and professional programs. Each certificate
-              serves as an official record of achievement and authenticity.
+              These certificates are issued by the United Kingdom College of Advanced Studies and verify the successful completion of accredited academic and professional programs. Each certificate serves as an official record of achievement and authenticity.
             </p>
           </>
         )}
