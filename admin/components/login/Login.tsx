@@ -29,7 +29,7 @@ export default function LoginPage() {
         localStorage.setItem('isLoggedIn', 'true');
         
         // Try this alternative navigation approach
-        window.location.href = '/dashboard';
+        window.location.href = '/dashborad';
         // Instead of: router.push('/dashboard');
       } else {
         // Failed login

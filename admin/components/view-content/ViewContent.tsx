@@ -16,11 +16,12 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
+    <div className="flex flex-col md:flex-row min-h-screen bg-gray-100">
       {/* Sidebar */}
-      <div className="flex flex-col justify-between bg-gray-900 text-white w-64 p-6">
+      <div className="w-full md:w-64 flex flex-col justify-between bg-gray-900 text-white p-6">
         <div>
-          <div className="text-xl font-bold mb-6">Company Name</div>
+          <div className="text-xl font-bold mb-6 text-center md:text-left">Company Name</div>
+
           <div className="space-y-4">
             {/* Dashboard Menu */}
             <div>
@@ -32,19 +33,9 @@ export default function Dashboard() {
                 <span>{isDashboardOpen ? '▲' : '▼'}</span>
               </button>
               {isDashboardOpen && (
-                <div className="ml-4 space-y-2">
-                  <button
-                    className="block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md"
-                    onClick={() => router.push('/create-institutes')}
-                  >
-                    Create Institutes
-                  </button>
-                  <button
-                    className="block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md"
-                    onClick={() => router.push('/view-content')}
-                  >
-                    View Request Forms
-                  </button>
+                <div className="ml-2 md:ml-4 space-y-2">
+                  <button className="block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md" onClick={() => router.push('/create-institutes')}>Create Institutes</button>
+                  <button className="block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md" onClick={() => router.push('/view-content')}>View Request Forms</button>
                 </div>
               )}
             </div>
@@ -59,34 +50,16 @@ export default function Dashboard() {
                 <span>{isTransactionOpen ? '▲' : '▼'}</span>
               </button>
               {isTransactionOpen && (
-                <div className="ml-4 space-y-2">
-                  <button
-                    className="block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md"
-                    onClick={() => router.push('/pending-certificate')}
-                  >
-                    Pending Certificates
-                  </button>
-                  <button
-                    className="block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md"
-                    onClick={() => router.push('/issued-certificate')}
-                  >
-                    Issued Certificates
-                  </button>
-                  <button
-                    className="block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md"
-                    onClick={() => router.push('/institute-payment')}
-                  >
-                    Institute Payment
-                  </button>
-                  <button
-                    className="block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md"
-                    onClick={() => router.push('/create-news')}
-                  >
-                    Create News
-                  </button>
+                <div className="ml-2 md:ml-4 space-y-2">
+                  <button className="block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md" onClick={() => router.push('/pending-certificate')}>Pending Certificates</button>
+                  <button className="block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md" onClick={() => router.push('/issued-certificate')}>Issued Certificates</button>
+                  <button className="block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md" onClick={() => router.push('/institute-payment')}>Institute Payment</button>
+                  <button className="block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md" onClick={() => router.push('/create-news')}>Create News</button>
                 </div>
               )}
             </div>
+
+            {/* Records (dummy) */}
             <div>
               <button
                 className="flex items-center justify-between w-full p-2 rounded-md hover:bg-gray-700"
@@ -95,37 +68,30 @@ export default function Dashboard() {
                 <span className="text-lg">Records</span>
                 <span>{isDashboardOpen ? '▲' : '▼'}</span>
               </button>
-              {isDashboardOpen && (
-                <div className="ml-4 space-y-2">
-                </div>
-              )}
             </div>
           </div>
         </div>
 
         {/* Logout Button */}
         <div className="mt-6">
-          <button
-            className="bg-white text-red-600 px-10 py-3 rounded-2xl text-lg font-semibold hover:bg-red-200 transition duration-200 w-full"
-            onClick={handleLogout}
-          >
+          <button className="bg-white text-red-600 px-8 py-3 rounded-2xl text-lg font-semibold hover:bg-red-200 w-full" onClick={handleLogout}>
             Logout
           </button>
         </div>
       </div>
 
       {/* Main Content */}
-      <div className="flex flex-col flex-1 p-6 space-y-6">
+      <div className="flex-1 p-4 md:p-6 space-y-6">
         {/* Top Navbar */}
-        <div className="flex items-center justify-between bg-white p-4 rounded-md shadow">
+        <div className="flex flex-col md:flex-row items-center justify-between bg-white p-4 rounded-md shadow space-y-4 md:space-y-0">
           <h1 className="text-xl font-bold">Dashboard</h1>
-          <div className="flex items-center space-x-4">
-            {/* Search Bar */}
-            <div className="relative">
+          <div className="flex items-center space-x-4 w-full md:w-auto">
+            {/* Search */}
+            <div className="relative flex-1">
               <input
                 type="text"
                 placeholder="Search..."
-                className="border border-gray-300 rounded-full pl-10 pr-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="border border-gray-300 w-full rounded-full pl-10 pr-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
               <div className="absolute left-3 top-2.5">
                 <svg className="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
@@ -134,15 +100,15 @@ export default function Dashboard() {
               </div>
             </div>
 
-            {/* Notification Bell */}
+            {/* Notifications */}
             <button className="relative">
               <svg className="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11c0-3.866-2.239-7-5-7S8 7.134 8 11v3.159c0 .538-.214 1.055-.595 1.436L6 17h5m4 0v1a3 3 0 01-6 0v-1m6 0H9" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405M18 14.158V11c0-3.866-2.239-7-5-7S8 7.134 8 11v3.159" />
               </svg>
-              <span className="absolute top-0 right-0 inline-block w-2 h-2 bg-red-500 rounded-full"></span>
+              <span className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
             </button>
 
-            {/* User Profile */}
+            {/* Profile Image */}
             <div className="w-10 h-10 rounded-full overflow-hidden">
               <img src="/assets/images/profile.png" alt="Profile" className="w-full h-full object-cover" />
             </div>
@@ -150,7 +116,7 @@ export default function Dashboard() {
         </div>
 
         {/* Greeting Section */}
-        <div className="bg-yellow-50 p-4 rounded-md flex items-center justify-between">
+        <div className="bg-yellow-50 p-4 rounded-md flex flex-col md:flex-row md:items-center md:justify-between space-y-2 md:space-y-0">
           <h2 className="text-lg font-bold">Hi, Good morning!</h2>
           <div className="flex items-center space-x-2 text-green-600 text-sm">
             <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -163,14 +129,10 @@ export default function Dashboard() {
         {/* Table Section */}
         <div className="bg-white rounded-lg shadow p-6">
           {/* Header */}
-          <div className="flex items-center justify-between mb-6">
+          <div className="flex flex-col md:flex-row justify-between mb-6 space-y-4 md:space-y-0">
             <h1 className="text-2xl font-bold">Request Forms</h1>
-            <div className="flex space-x-2">
-              <input
-                type="text"
-                placeholder="Search..."
-                className="border rounded-md px-3 py-2 text-sm focus:outline-none"
-              />
+            <div className="flex flex-wrap gap-2">
+              <input type="text" placeholder="Search..." className="border rounded-md px-3 py-2 text-sm focus:outline-none" />
               <button className="border px-3 py-2 rounded-md text-sm hover:bg-gray-100">Filters</button>
               <button className="border px-3 py-2 rounded-md text-sm hover:bg-gray-100">Date Range</button>
             </div>
@@ -181,10 +143,10 @@ export default function Dashboard() {
             <table className="w-full text-sm text-left text-gray-700">
               <thead className="text-xs uppercase bg-gray-100 text-gray-700">
                 <tr>
-                  <th scope="col" className="px-6 py-3">Date</th>
-                  <th scope="col" className="px-6 py-3">Organization/Institute</th>
-                  <th scope="col" className="px-6 py-3">Status</th>
-                  <th scope="col" className="px-6 py-3">View</th>
+                  <th className="px-6 py-3">Date</th>
+                  <th className="px-6 py-3">Organization/Institute</th>
+                  <th className="px-6 py-3">Status</th>
+                  <th className="px-6 py-3">View</th>
                 </tr>
               </thead>
               <tbody>
@@ -197,12 +159,9 @@ export default function Dashboard() {
                     </span>
                   </td>
                   <td className="px-6 py-4">
-                    <button
-                      onClick={() => setIsModalOpen(true)}
-                      className="flex items-center space-x-2 cursor-pointer"
-                    >
+                    <button onClick={() => setIsModalOpen(true)} className="flex items-center space-x-2">
                       <Image src="/assets/images/search.png" alt="View" width={20} height={20} />
-                      View
+                      <span>View</span>
                     </button>
                   </td>
                 </tr>
@@ -211,7 +170,7 @@ export default function Dashboard() {
           </div>
 
           {/* Pagination */}
-          <div className="flex justify-center items-center mt-6 space-x-2">
+          <div className="flex justify-center items-center mt-6 flex-wrap gap-2">
             <button className="px-3 py-1 border rounded hover:bg-gray-100">&lt;</button>
             <button className="px-3 py-1 border rounded bg-blue-500 text-white">1</button>
             <button className="px-3 py-1 border rounded hover:bg-gray-100">2</button>
@@ -226,28 +185,34 @@ export default function Dashboard() {
       {/* Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-900/50 backdrop-blur-sm z-50">
-          <div className="bg-white rounded-2xl shadow-lg p-6 w-1/2 relative">
+          <div className="bg-white rounded-2xl shadow-lg p-6 w-[90%] md:w-[700px] relative">
             {/* Close Button */}
-            <button
-              onClick={() => setIsModalOpen(false)}
-              className="absolute top-4 right-4 text-gray-500 hover:text-black"
-            >
+            <button onClick={() => setIsModalOpen(false)} className="absolute top-4 right-4 text-gray-500 hover:text-black">
               ✖
             </button>
 
             {/* Modal Content */}
-            <h2 className="text-2xl font-bold mb-4">Request Form</h2>
+            <h2 className="text-2xl font-bold mb-6">Request Form</h2>
 
-            <div className="mb-4">
-              <p className="font-semibold">Request ID: <span className="font-normal text-gray-600">#0001</span></p>
+            <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 space-y-4 md:space-y-0">
+              <div className="text-base font-semibold text-gray-700">
+                Request ID: <span className="font-normal text-gray-500">#0001</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <span className="text-base font-semibold text-gray-700">Status:</span>
+                <div className="flex items-center text-blue-600">
+                  <span className="w-2 h-2 bg-blue-600 rounded-full mr-1"></span>
+                  <span className="text-sm font-semibold">Pending</span>
+                </div>
+              </div>
             </div>
 
-            <div className="mb-4">
-              <p className="font-semibold">Status: <span className="inline-flex items-center text-blue-600"><span className="w-2 h-2 rounded-full bg-blue-600 mr-1"></span>Pending</span></p>
-            </div>
-
-            <div className="mb-6">
-              <p className="font-semibold">Organization/Institute: <span className="font-normal text-gray-600">Arts University Bournemouth</span></p>
+            {/* Organization Name */}
+            <div className="mb-10">
+              <p className="text-base font-semibold text-gray-700">
+                Organization/Institute:{" "}
+                <span className="font-normal text-gray-500">Arts University Bournemouth</span>
+              </p>
             </div>
 
             {/* View More Button */}
@@ -255,9 +220,9 @@ export default function Dashboard() {
               <button
                 onClick={() => {
                   setIsModalOpen(false);
-                  router.push('/view-request-form');
+                  router.push("/view-request-form");
                 }}
-                className="px-6 py-2 rounded-md bg-white border border-gray-400 shadow-md text-gray-700 font-semibold hover:bg-gray-100"
+                className="px-6 py-2 rounded-md border border-gray-400 text-gray-700 font-semibold shadow-sm hover:bg-gray-100"
               >
                 View More
               </button>
