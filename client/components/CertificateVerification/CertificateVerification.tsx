@@ -1,71 +1,229 @@
-'use client';
+"use client";
 
-import React, { useEffect, useState } from 'react';
-import Image from 'next/image';
-import { useRouter, useSearchParams } from 'next/navigation';
+import React, { useEffect, useState } from "react";
+import Image from "next/image";
+import { useRouter, useSearchParams } from "next/navigation";
+import axios from "axios";
+import config from "@/config";
+// Remove the unused import from react-router-dom
+// import { data } from "react-router-dom";
 
-const dummyCertificates = [
-  {
-    certificateId: '1234',
-    user: {
-      name: 'John Doe',
-      image: '/assets/images/user.jpg',
-      course: {
-        name: 'React Development',
-        duration: '6 Months',
-        completionDate: '01 Dec 2025',
-        learningpartner: 'GA',
-        description:
-          'The React Development course provides comprehensive training in building dynamic, high-performance web applications using React.js.Students learn how to create reusable components, manage application state with Hooks and Context API, and integrate APIs. The course covers modern front-end development practices, responsive design principles, and deployment techniques. By the end of the program, students are capable of developing fully functional, scalable, and maintainable React applications.',
-        skills: ['React', 'JavaScript', 'Frontend', 'UI/UX'],
-      },
-    },
-  },
-  {
-    certificateId: '5678',
-    user: {
-      name: 'Jane Smith',
-      image: '/assets/images/user.jpg',
-      course: {
-        name: 'Python Fullstack',
-        duration: '4 Months',
-        completionDate: '15 Nov 2024',
-        learningpartner: 'GA',
-        description:
-          'The Python Fullstack course is designed to equip students with the skills to develop full-featured web applications using both frontend and backend technologies. Learners begin with Python and Flask/Django for server-side logic, and move on to JavaScript, HTML, and CSS for the client side. The course includes database management, REST API development, authentication, and cloud deployment. Graduates of this course are able to build and deploy fullstack applications from scratch.',
-        skills: ['Python', 'Django', 'API', 'HTML/CSS'],
-      },
-    },
-  },
-];
+interface Student {
+  id: number;
+  name: string;
+  institute_id: number;
+  age: number;
+  address: string;
+  mobile_number: string;
+  postal_code: string;
+  country: string;
+  created_by: string;
+  updated_by: string;
+  created_at: string;
+  updated_at: string;
+  username: string;
+}
+
+interface Institute {
+  id: number;
+  name: string;
+  slug: string;
+  address: string;
+  mobile_number: string;
+  img_url: string;
+  description: string;
+  mini_description: string;
+  terms_and_conditions: string;
+  created_by: string;
+  updated_by: string | null;
+  created_at: string;
+  updated_at: string;
+  username: string;
+}
+
+interface Certificate {
+  id: number;
+  institute_id: number;
+  student_id: number;
+  issue_date: string;
+  created_by: string;
+  updated_by: string;
+  created_at: string;
+  updated_at: string;
+  certificate_id: string;
+  Student: Student;
+  Institute: Institute;
+}
 
 const CertificateVerificationClient = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const [certificateIdInput, setCertificateIdInput] = useState('');
-  const [certificate, setCertificate] = useState<typeof dummyCertificates[0] | null>(null);
+  const [certificateIdInput, setCertificateIdInput] = useState("");
+  const [certificate, setCertificate] = useState<Certificate | null>(null);
+  const [suggestions, setSuggestions] = useState<Certificate[]>([]);
+  const [loading, setLoading] = useState(false);
+  // Fix: Changed the type to Certificate[] instead of Institute
+  const [backupCertificates, setBackupCertificates] = useState<Certificate[]>([]);
+  const [searchInput, setSearchInput] = useState("");
 
   useEffect(() => {
-    const id = searchParams.get('certificateId');
+    const id = searchParams.get("certificateId");
     if (id) {
-      const matched = dummyCertificates.find((cert) => cert.certificateId === id);
-      if (matched) {
-        setCertificate(matched);
-        setCertificateIdInput(id);
-      }
+      fetchCertificateById(id);
     }
   }, [searchParams]);
 
-  const handleSearch = () => {
-    const matched = dummyCertificates.find(
-      (cert) => cert.certificateId === certificateIdInput.trim()
-    );
-    if (matched) {
-      setCertificate(matched);
-      router.push(`/certificate-verification?certificateId=${certificateIdInput.trim()}`);
-    } else {
+  // Fetch certificate by ID (for direct URL access)
+  const fetchCertificateById = async (id: string) => {
+    if (!id.trim()) return;
+    
+    try {
+      setLoading(true);
+      // Search for exact certificate_id match
+      const response = await axios.get(
+        `${config.API_BASE_URL}/certificate/search?value=${id}`
+      );
+      const certificates = response.data;
+
+      // Find the exact match from search results
+      const exactMatch = certificates.find(
+        (cert: Certificate) => cert.certificate_id === id
+      );
+
+      if (exactMatch) {
+        setCertificate(exactMatch);
+        setCertificateIdInput(id);
+      } else {
+        setCertificate(null);
+      }
+    } catch (error) {
+      console.error("Error fetching certificate:", error);
       setCertificate(null);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Fetch certificate suggestions as user types
+  const fetchSuggestions = async (value: string) => {
+    if (!value.trim()) {
+      setSuggestions([]);
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const response = await axios.get(
+        `${config.API_BASE_URL}/certificate/search?value=${value}`
+      );
+      const certificates = response.data;
+      setSuggestions(certificates);
+      // Fix: Store the certificates array, not setting it to Institute type
+      setBackupCertificates(certificates);
+    } catch (error) {
+      console.error("Error fetching suggestions:", error);
+      setSuggestions([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Handle input change with debounce
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setCertificateIdInput(value);
+    setSearchInput(value); // Update the search input state as well
+
+    // Use debounce for API calls
+    const timeoutId = setTimeout(() => {
+      fetchSuggestions(value);
+
+      // If value is empty, don't update URL
+      if (value.trim()) {
+        router.push(`/certificate-verification?certificateId=${value.trim()}`);
+      }
+    }, 300);
+
+    return () => clearTimeout(timeoutId);
+  };
+
+  const selectCertificate = (cert: Certificate) => {
+    setCertificateIdInput(cert.certificate_id);
+    setCertificate(cert);
+    setSuggestions([]);
+    router.push(
+      `/certificate-verification?certificateId=${cert.certificate_id}`
+    );
+  };
+
+  // Format the issue date
+  const formatDate = (dateString: string) => {
+    if (!dateString) return "Not available";
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    });
+  };
+
+  // Placeholder skills based on institute description
+  const getSkillsFromInstitute = (institute: Institute | undefined) => {
+    if (!institute) return ["Certificate Skills"];
+
+    // Default skills if nothing else is available
+    const defaultSkills = [
+      "Professional Development",
+      "Industry Knowledge",
+      "Technical Competence",
+    ];
+
+    // Try to extract meaningful skills from institute description
+    if (institute.description) {
+      if (institute.description.toLowerCase().includes("tech")) {
+        return [
+          "Technical Skills",
+          "Technology Education",
+          "Digital Competence",
+        ];
+      }
+      if (institute.description.toLowerCase().includes("education")) {
+        return [
+          "Educational Competence",
+          "Academic Excellence",
+          "Learning Development",
+        ];
+      }
+    }
+
+    return defaultSkills;
+  };
+
+  const handleBackButton = () => {
+    // Clear the certificate and reset other states
+    setCertificate(null);
+    setBackupCertificates([]);
+    setSuggestions([]);
+    setCertificateIdInput("");
+    setSearchInput("");
+    // Remove the query parameter from the URL
+    router.push("/certificate-verification");
+  };
+
+  // Handle keyboard events for accessibility
+  const handleKeyDown = (e: React.KeyboardEvent, cert: Certificate) => {
+    if (e.key === "Enter" || e.key === " ") {
+      selectCertificate(cert);
+    }
+  };
+
+  // Add keyboard event handler for the input field
+  const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && certificateIdInput.trim()) {
+      router.push(
+        `/certificate-verification?certificateId=${certificateIdInput.trim()}`
+      );
     }
   };
 
@@ -93,75 +251,178 @@ const CertificateVerificationClient = () => {
             <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-10">
               <div className="flex items-center gap-6 mb-4 md:mb-0">
                 <Image
-                  src={certificate.user.image}
+                  src={"/assets/images/user.jpg"} // Fixed image path
                   alt="User"
                   width={100}
                   height={100}
                   className="rounded-full border-4 border-[#74323B]"
                 />
                 <div className="text-left">
-                  <p className="text-2xl font-bold text-[#74323B]">{certificate.user.name}</p>
-                  <p className="text-md text-gray-700">Issued on: {certificate.user.course.completionDate}</p>
+                  <p className="text-2xl font-bold text-[#74323B]">
+                    {certificate.Student?.name}
+                  </p>
+                  <p className="text-md text-gray-700">
+                    Issued on: {formatDate(certificate.issue_date)}
+                  </p>
+                  <p className="text-md text-gray-700">
+                    Certificate ID: {certificate.certificate_id}
+                  </p>
                 </div>
               </div>
             </div>
 
-            {/* Course Description Section */}
+            {/* Certificate Details Section */}
             <div className="text-left mb-6">
               <h3 className="text-2xl font-semibold text-[#74323B] mb-2">
-                {certificate.user.course.name}
+                Certificate from {certificate.Institute?.name}
               </h3>
               <p className="text-gray-800 leading-relaxed mb-4">
-                {certificate.user.course.description}
+                {certificate.Institute?.description ||
+                  "This certificate verifies that the student has successfully completed all required coursework and assessments according to the standards set by the issuing institution."}
               </p>
-              <p className="text-md text-gray-600">
-                <strong>Duration:</strong> {certificate.user.course.duration} &nbsp;&nbsp;
-                <strong>Learning Partner:</strong> {certificate.user.course.learningpartner}
-              </p>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <h4 className="font-semibold text-[#74323B] mb-2">
+                    Student Information
+                  </h4>
+                  <p>
+                    <span className="font-medium">Name:</span>{" "}
+                    {certificate.Student?.name}
+                  </p>
+                  <p>
+                    <span className="font-medium">Student ID:</span>{" "}
+                    {certificate.Student?.username}
+                  </p>
+                  <p>
+                    <span className="font-medium">Country:</span>{" "}
+                    {certificate.Student?.country}
+                  </p>
+                </div>
+
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <h4 className="font-semibold text-[#74323B] mb-2">
+                    Institute Information
+                  </h4>
+                  <p>
+                    <span className="font-medium">Name:</span>{" "}
+                    {certificate.Institute?.name}
+                  </p>
+                  <p>
+                    <span className="font-medium">Institute ID:</span>{" "}
+                    {certificate.Institute?.username}
+                  </p>
+                  <p>
+                    <span className="font-medium">Description:</span>{" "}
+                    {certificate.Institute?.mini_description}
+                  </p>
+                </div>
+              </div>
             </div>
 
-            {/* Skills */}
-            <div className="text-left mt-6">
-              <h4 className="text-lg font-semibold mb-2 text-[#74323B]">Skills</h4>
-              <div className="flex flex-wrap gap-3">
-                {certificate.user.course.skills.map((skill, idx) => (
-                  <span
-                    key={idx}
-                    className="bg-white border border-[#74323B] text-[#74323B] px-4 py-1 rounded-full text-sm font-medium"
-                  >
-                    {skill}
-                  </span>
-                ))}
+            {/* Skills and Back Button */}
+            <div className="flex flex-col md:flex-row md:justify-between items-start">
+              <div className="text-left mt-6">
+                <h4 className="text-lg font-semibold mb-2 text-[#74323B]">
+                  Qualification Areas
+                </h4>
+                <div className="flex flex-wrap gap-3">
+                  {getSkillsFromInstitute(certificate.Institute).map(
+                    (skill, idx) => (
+                      <span
+                        key={idx}
+                        className="bg-white border border-[#74323B] text-[#74323B] px-4 py-1 rounded-full text-sm font-medium"
+                      >
+                        {skill}
+                      </span>
+                    )
+                  )}
+                </div>
+              </div>
+
+              <div className="mt-6 md:ml-4">
+                <button
+                  onClick={handleBackButton}
+                  className="bg-[#7C2B33] hover:bg-[#74323B] text-white font-semibold py-3 px-8 rounded-lg transition cursor-pointer"
+                >
+                  Back to Search
+                </button>
               </div>
             </div>
           </div>
         ) : (
           <>
             <p className="text-black text-xl mb-8 font-semibold">
-              Please enter the certificate ID exactly as it appears on the verification document.
+              Please enter the certificate ID exactly as it appears on the
+              verification document.
             </p>
             <div className="relative w-full mb-8">
-              <span className="absolute inset-y-0 right-6 pl-4 flex items-center pointer-events-none text-gray-500 text-xl">
+              <span className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-gray-500 text-xl">
                 🔍
               </span>
               <input
                 type="text"
                 placeholder="Enter Certificate Number"
                 value={certificateIdInput}
-                onChange={(e) => setCertificateIdInput(e.target.value)}
+                onChange={handleInputChange}
+                onKeyDown={handleInputKeyDown}
                 className="w-full text-xl pl-12 pr-4 py-4 rounded-full shadow-md bg-white text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#74323B]"
               />
+
+              {/* Suggestions dropdown */}
+              {suggestions.length > 0 && (
+                <div className="absolute z-20 bg-white rounded-lg shadow-lg mt-2 w-full text-left">
+                  <div className="p-2 max-h-72 overflow-y-auto">
+                    {suggestions.map((cert, index) => (
+                      <div
+                        key={index}
+                        onClick={() => selectCertificate(cert)}
+                        onKeyDown={(e) => handleKeyDown(e, cert)}
+                        tabIndex={0}
+                        className="cursor-pointer hover:bg-gray-100 p-3 rounded-md mb-2 focus:outline-none focus:ring-2 focus:ring-[#74323B]"
+                        role="option"
+                        aria-selected={false}
+                      >
+                        <div className="flex items-center">
+                          <div className="flex-shrink-0">
+                            <Image
+                              src="/assets/images/user.jpg" // Default user image
+                              alt="User"
+                              width={40}
+                              height={40}
+                              className="rounded-full"
+                            />
+                          </div>
+                          <div className="ml-3">
+                            <p className="font-medium text-gray-900">
+                              {cert.Student?.name || "Unknown"}
+                            </p>
+                            <p className="text-sm text-gray-500">
+                              <span className="font-semibold">ID:</span>{" "}
+                              {cert.certificate_id} |
+                              <span className="font-semibold"> Institute:</span>{" "}
+                              {cert.Institute?.name || "N/A"}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {loading && (
+                <div className="absolute right-4 top-4">
+                  <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-[#74323B]"></div>
+                </div>
+              )}
             </div>
-            <button
-              onClick={handleSearch}
-              className="w-1/2 text-xl bg-[#7C2B33] hover:bg-[#74323B] text-white font-semibold py-4 rounded-lg transition cursor-pointer"
-            >
-              Search
-            </button>
+
             <p className="text-black text-lg mt-6 leading-relaxed mb-8 text-left">
-              These certificates are issued by the United Kingdom College of Advanced Studies and
-              verify the successful completion of accredited academic and professional programs.
-              Each certificate serves as an official record of achievement and authenticity.
+              These certificates are issued by the United Kingdom College of
+              Advanced Studies and verify the successful completion of
+              accredited academic and professional programs. Each certificate
+              serves as an official record of achievement and authenticity.
             </p>
           </>
         )}
