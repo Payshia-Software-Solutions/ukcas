@@ -8,4 +8,6 @@ router.get("/:id", accrediteFormController.getAccrediteForm);
 router.put("/:id", accrediteFormController.updateAccrediteForm);
 router.delete("/:id", accrediteFormController.deleteAccrediteForm);
 
+router.put("/:id/status", accrediteFormController.updateAccrediteStatus);
+
 module.exports = router;
