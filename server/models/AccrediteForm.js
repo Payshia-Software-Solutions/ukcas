@@ -53,6 +53,11 @@ const AccrediteForm = sequelize.define(
       type: DataTypes.TEXT,
       allowNull: true,
     },
+    accredite_status: {
+      type: DataTypes.STRING(50),
+      allowNull: false,
+      defaultValue: 'pending',
+    },
     created_by: {
       type: DataTypes.STRING(255),
       allowNull: false,
