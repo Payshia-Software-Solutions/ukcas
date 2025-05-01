@@ -1,12 +1,12 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Image from "next/image";
-import Sidebar from "../Sidebar";
 import ContentRow from "./ContentRow";
 import FullForm from "./FullForm";
+import config from "@/config"
 
 // Define the type for your data
 type Institute = {
@@ -17,22 +17,18 @@ type Institute = {
 };
 
 export default function Dashboard() {
-  const router = useRouter();
-  const [isDashboardOpen, setIsDashboardOpen] = useState(false);
-  const [isTransactionOpen, setIsTransactionOpen] = useState(false);
+
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [institutes, setInstitutes] = useState<Institute[]>([]);
-  const [selectedInstitute, setSelectedInstitute] = useState<Institute | null>(null);
+  const [selectedInstitute, setSelectedInstitute] = useState<Institute | null>(
+    null
+  );
   const [showFullForm, setShowFullForm] = useState(false);
-
-  const handleLogout = () => {
-    localStorage.removeItem("isLoggedIn");
-    router.push("/login");
-  };
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/v2/accredite")
+      .get(`${config.API_BASE_URL}/accredite`)  // {`http://localhost:5000/api/v2/accredite`
       .then((response) => {
         console.log(response.data);
         setInstitutes(response.data);
@@ -48,9 +44,13 @@ export default function Dashboard() {
     }
   }, [isModalOpen]);
 
+  const isValidStatus = (status: string): status is "pending" | "active" | "Rejected" => {
+    return ["pending", "active", "Rejected"].includes(status);
+  };
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-gray-100">
       <div className="flex-1 p-4 md:p-6 space-y-6">
+        {/* <Sidebar/> */}
         {/* Top Navbar */}
         <div className="flex flex-col md:flex-row items-center justify-between bg-white p-4 rounded-md shadow space-y-4 md:space-y-0">
           <h1 className="text-xl font-bold">Dashboard</h1>
@@ -90,9 +90,11 @@ export default function Dashboard() {
             </button>
 
             <div className="w-10 h-10 rounded-full overflow-hidden">
-              <img
+              <Image
                 src="/assets/images/profile.png"
                 alt="Profile"
+                width={40}
+                height={40}
                 className="w-full h-full object-cover"
               />
             </div>
@@ -146,7 +148,8 @@ export default function Dashboard() {
                     key={item.id}
                     date={new Date(item.created_at).toLocaleDateString()}
                     instituteName={item.name}
-                    status={item.accredite_status}
+                    status={isValidStatus(item.accredite_status) ? item.accredite_status : "pending"}
+
                     onView={() => {
                       setSelectedInstitute(item);
                       setIsModalOpen(true);
@@ -163,7 +166,9 @@ export default function Dashboard() {
             {[1, 2, "...", 9, 10].map((num, idx) => (
               <button
                 key={idx}
-                className={`px-3 py-1 border rounded ${num === 1 ? "bg-blue-500 text-white" : "hover:bg-gray-100"}`}
+                className={`px-3 py-1 border rounded ${
+                  num === 1 ? "bg-blue-500 text-white" : "hover:bg-gray-100"
+                }`}
               >
                 {num}
               </button>
@@ -215,7 +220,8 @@ export default function Dashboard() {
             </div>
 
             {showFullForm ? (
-              <FullForm id={selectedInstitute.id} />
+           <FullForm id={selectedInstitute.id.toString()} />
+
             ) : (
               <div className="flex justify-center">
                 <button

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import config from "@/config";
 
 interface RejectCardProps {
   setIsRejectModalOpen: (open: boolean) => void;
@@ -21,14 +22,9 @@ export const RejectCard: React.FC<RejectCardProps> = ({
   const handleReject = async () => {
     setIsLoading(true);
     try {
-      // Delete the accreditation request
-      const response = await axios.delete(`http://localhost:5000/api/v2/accredite/${id}`);
+      const response = await axios.delete(`${config.API_BASE_URL}/accredite/${id}`);
       console.log("Delete response:", response);
-      
-      // Ensure we set isRejected to true to show success message
       setIsRejected(true);
-      
-      // Call the success callback if provided
       if (onRejectionSuccess) {
         onRejectionSuccess();
       }
@@ -42,15 +38,13 @@ export const RejectCard: React.FC<RejectCardProps> = ({
 
   const handleDone = () => {
     setIsRejectModalOpen(false);
-    setIsRejected(false); // reset for next time
-    // Refresh the page when Done button is clicked
+    setIsRejected(false);
     window.location.reload();
   };
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-900/50 backdrop-blur-sm z-50">
       {!isRejected ? (
-        // Step 1: Confirm Rejection Screen
         <div className="bg-white rounded-2xl shadow-lg p-6 w-[90%] max-w-[700px] relative">
           <button
             onClick={() => setIsRejectModalOpen(false)}
@@ -82,7 +76,6 @@ export const RejectCard: React.FC<RejectCardProps> = ({
           </div>
         </div>
       ) : (
-        // Step 2: Rejection Success Screen
         <div className="bg-white rounded-2xl shadow-lg p-8 w-[90%] max-w-[600px] relative text-center">
           <button
             onClick={handleDone}
@@ -91,8 +84,6 @@ export const RejectCard: React.FC<RejectCardProps> = ({
           >
             ✖
           </button>
-          
-          {/* Success Card */}
           <div className="bg-green-50 border border-green-200 rounded-lg p-6 mb-6">
             <div className="flex items-center justify-center mb-4">
               <svg className="w-12 h-12 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -103,17 +94,15 @@ export const RejectCard: React.FC<RejectCardProps> = ({
               Successfully Deleted
             </h2>
             <p className="text-lg mb-2 text-green-600">
-              Institution: <span className="font-bold">"{name}"</span>
+              Institution: <span className="font-bold">&quot;{name}&quot;</span>
             </p>
             <p className="text-lg text-green-600">
               ID: <span className="font-bold">#{id}</span>
             </p>
           </div>
-          
           <p className="text-lg mb-6 text-red-500">
             This institution has been successfully rejected and removed from the system.
           </p>
-          
           <button
             onClick={handleDone}
             className="w-full bg-gray-800 text-white py-3 rounded-lg font-bold"

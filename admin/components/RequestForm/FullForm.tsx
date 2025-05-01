@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { ApprovalCard } from "../Common/ApprovalCard";
 import { RejectCard } from "../Common/RejectCard";
+import config from "@/config";
 
 interface FullFormProps {
   id: string;
@@ -54,15 +55,17 @@ export default function FullForm({ id }: FullFormProps) {
 
     setIsLoading(true);
     axios
-      .get(`http://localhost:5000/api/v2/accredite/${id}`)
+      .get(`${config.API_BASE_URL}/accredite/${id}`)
       .then((response) => {
         setData(response.data);
         setIsLoading(false);
       })
       .catch((error) => {
+        console.error("Error fetching accredite data:", error);
         setError("Error fetching data");
         setIsLoading(false);
       });
+      
   }, [id]);
 
   // Handle successful approval (callback from ApprovalCard)

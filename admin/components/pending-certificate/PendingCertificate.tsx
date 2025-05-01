@@ -112,7 +112,9 @@ export default function Dashboard() {
 
             {/* Profile */}
             <div className="w-10 h-10 rounded-full overflow-hidden">
-              <img src="/assets/images/profile.png" alt="Profile" className="w-full h-full object-cover" />
+                <Image
+                              width={500}
+                              height={300} src="/assets/images/profile.png" alt="Profile" className="w-full h-full object-cover" />
             </div>
           </div>
         </div>

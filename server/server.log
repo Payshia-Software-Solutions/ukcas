@@ -703,3 +703,85 @@ Local: http://localhost:5000
 2025-04-29T07:13:30.575Z - Network: http://192.168.8.103:5000
 2025-04-29T07:13:31.214Z - 
 ✅ Database synced successfully
+2025-04-30T16:12:07.041Z - Loading environment variables from: D:\pashiya project\ukcas\server\.env.local
+2025-04-30T16:12:07.597Z - Environment: development
+2025-04-30T16:12:07.666Z - Server running on port 5000
+2025-04-30T16:12:07.666Z - 
+Local: http://localhost:5000
+2025-04-30T16:12:07.667Z - Network: http://192.168.8.103:5000
+2025-04-30T16:12:08.650Z - 
+✅ Database synced successfully
+2025-05-01T07:03:35.001Z - Loading environment variables from: D:\pashiya project\ukcas\server\.env.local
+2025-05-01T07:03:35.545Z - Environment: development
+2025-05-01T07:03:35.605Z - Server running on port 5000
+2025-05-01T07:03:35.606Z - 
+Local: http://localhost:5000
+2025-05-01T07:03:35.606Z - Network: http://192.168.8.103:5000
+2025-05-01T07:03:36.655Z - 
+✅ Database synced successfully
+2025-05-01T07:07:19.645Z - Loading environment variables from: D:\pashiya project\ukcas\server\.env.local
+2025-05-01T07:07:19.943Z - Environment: development 
+2025-05-01T07:07:19.987Z - Server running on port 5000
+2025-05-01T07:07:19.988Z - 
+Local: http://localhost:5000
+2025-05-01T07:07:19.988Z - Network: http://192.168.8.103:5000
+2025-05-01T07:07:20.363Z - ❌ Error syncing database: Too many keys specified; max 64 keys allowed
+2025-05-01T07:07:26.553Z - Loading environment variables from: D:\pashiya project\ukcas\server\.env.local
+2025-05-01T07:07:26.916Z - Environment: development
+2025-05-01T07:07:26.967Z - Server running on port 5000
+2025-05-01T07:07:26.968Z - 
+Local: http://localhost:5000
+2025-05-01T07:07:26.968Z - Network: http://192.168.8.103:5000
+2025-05-01T07:07:27.510Z - ❌ Error syncing database: Too many keys specified; max 64 keys allowed
+2025-05-01T07:08:11.237Z - Loading environment variables from: D:\pashiya project\ukcas\server\.env.local
+2025-05-01T07:08:11.525Z - Environment: development
+2025-05-01T07:08:11.565Z - Server running on port 5000
+2025-05-01T07:08:11.566Z - 
+Local: http://localhost:5000
+2025-05-01T07:08:11.566Z - Network: http://192.168.8.103:5000
+2025-05-01T07:08:12.017Z - ❌ Error syncing database: Too many keys specified; max 64 keys allowed
+2025-05-01T07:10:00.289Z - Loading environment variables from: D:\pashiya project\ukcas\server\.env.local
+2025-05-01T07:10:00.560Z - Environment: development
+2025-05-01T07:10:00.600Z - Server running on port 5000
+2025-05-01T07:10:00.601Z - 
+Local: http://localhost:5000
+2025-05-01T07:10:00.602Z - Network: http://192.168.8.103:5000
+2025-05-01T07:10:01.147Z - ❌ Error syncing database: Too many keys specified; max 64 keys allowed
+2025-05-01T07:23:59.364Z - Loading environment variables from: D:\pashiya project\ukcas\server\.env.local
+2025-05-01T07:23:59.721Z - Environment: development
+2025-05-01T07:23:59.776Z - Server running on port 5000
+2025-05-01T07:23:59.776Z - 
+Local: http://localhost:5000
+2025-05-01T07:23:59.777Z - Network: http://192.168.8.103:5000
+2025-05-01T07:24:00.325Z - ❌ Error syncing database: Too many keys specified; max 64 keys allowed
+2025-05-01T07:26:03.404Z - Loading environment variables from: D:\pashiya project\ukcas\server\.env.local
+2025-05-01T07:26:03.732Z - Environment: development
+2025-05-01T07:26:03.790Z - Server running on port 5000
+2025-05-01T07:26:03.790Z - 
+Local: http://localhost:5000
+2025-05-01T07:26:03.791Z - Network: http://192.168.8.103:5000
+2025-05-01T07:26:04.014Z - 
+✅ Database synced successfully
+2025-05-01T07:33:22.573Z - Loading environment variables from: D:\pashiya project\ukcas\server\.env.local
+2025-05-01T07:33:22.923Z - Environment: development
+2025-05-01T07:33:22.978Z - Server running on port 5000
+2025-05-01T07:33:22.979Z - 
+Local: http://localhost:5000
+2025-05-01T07:33:22.979Z - Network: http://192.168.8.103:5000
+2025-05-01T07:33:23.571Z - ❌ Error syncing database: Too many keys specified; max 64 keys allowed
+2025-05-01T07:34:35.129Z - Loading environment variables from: D:\pashiya project\ukcas\server\.env.local
+2025-05-01T07:34:35.473Z - Environment: development
+2025-05-01T07:34:35.529Z - Server running on port 5000
+2025-05-01T07:34:35.530Z - 
+Local: http://localhost:5000
+2025-05-01T07:34:35.531Z - Network: http://192.168.8.103:5000
+2025-05-01T07:34:35.741Z - 
+✅ Database synced successfully
+2025-05-01T17:18:45.599Z - Loading environment variables from: D:\pashiya project\ukcas\server\.env.local
+2025-05-01T17:18:46.007Z - Environment: development
+2025-05-01T17:18:46.056Z - Server running on port 5000
+2025-05-01T17:18:46.057Z - 
+Local: http://localhost:5000
+2025-05-01T17:18:46.057Z - Network: http://192.168.8.103:5000
+2025-05-01T17:18:46.578Z - 
+✅ Database synced successfully
