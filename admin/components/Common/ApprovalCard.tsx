@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-
+import config from "@/config";
 interface ApprovalCardProps {
   setIsApproveModalOpen: (open: boolean) => void;
   id: string;
@@ -32,7 +32,7 @@ export const ApprovalCard: React.FC<ApprovalCardProps> = ({
       };
 
       const response = await axios.put(
-        `http://localhost:5000/api/v2/accredite/${id}/status`,
+        `${config.API_BASE_URL}/accredite/${id}/status`,
         payload
       );
 
@@ -156,7 +156,9 @@ export const ApprovalCard: React.FC<ApprovalCardProps> = ({
           >
             ✖
           </button>
-          <h2 className="text-2xl font-bold mb-2 text-gray-700">"{name}"</h2>
+          <h2 className="text-2xl font-bold mb-2 text-gray-700">
+            &quot;{name}&quot;
+          </h2>
           <p className="text-lg mb-6 text-gray-500">
             Successfully added to the system.
           </p>

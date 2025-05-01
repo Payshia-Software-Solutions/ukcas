@@ -1,7 +1,9 @@
 "use client"; // Ensure this component is client-side only
 
 import { useState } from "react";
-import { useRouter } from "next/router"; // Use useRouter for routing
+import { useRouter } from "next/navigation";
+
+
 
 const Sidebar: React.FC = () => {
   const router = useRouter(); // Get the router instance
@@ -13,10 +15,6 @@ const Sidebar: React.FC = () => {
     console.log("Logging out...");
   };
 
-  // Check if router is ready (can happen during SSR)
-  if (!router.isReady) {
-    return null; // Don't render the sidebar if router is not ready yet
-  }
 
   return (
     <div className="w-full md:w-64 flex flex-col justify-between bg-gray-900 text-white p-6">
