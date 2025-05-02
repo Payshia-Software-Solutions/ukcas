@@ -1,5 +1,5 @@
 "use client";
-import ViewContent from '@/components/view-content/ViewContent';
+import ViewContent from '@/components/RequestForm/ViewContent';
 
 export default function LoginPage() {
 

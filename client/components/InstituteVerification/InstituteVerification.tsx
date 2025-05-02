@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
-import Image from 'next/image';
-import { useRouter, useSearchParams } from 'next/navigation';
-
+import React, { useEffect, useState } from "react";
+import Image from "next/image";
+import { useRouter, useSearchParams } from "next/navigation";
+import { FaHome, FaPhoneAlt } from "react-icons/fa";
 
 type InstituteSuggestion = {
   id: string;
@@ -12,7 +12,6 @@ type InstituteSuggestion = {
   address: string;
   username: string;
 };
-
 
 type Institute = {
   name: string;
@@ -24,14 +23,14 @@ const InstituteVerificationClient = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const [searchInput, setSearchInput] = useState('');
-  const [institute, setInstitute] = useState<Institute | null>(null); // Proper type for institute
+  const [searchInput, setSearchInput] = useState("");
+  const [institute, setInstitute] = useState<Institute | null>(null);
   const [suggestions, setSuggestions] = useState<InstituteSuggestion[]>([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    const username = searchParams.get('username');
+    const username = searchParams.get("username");
     if (username) {
       fetchInstituteByUsername(username);
     }
@@ -40,15 +39,17 @@ const InstituteVerificationClient = () => {
   const fetchInstituteByUsername = async (username: string) => {
     try {
       setLoading(true);
-      const response = await fetch(`http://localhost:5000/api/v2/institute/slug/${username}`);
+      const response = await fetch(
+        `http://localhost:5000/api/v2/institute/slug/${username}`
+      );
       if (!response.ok) {
-        throw new Error('Institute not found');
+        throw new Error("Institute not found");
       }
       const data = await response.json();
       setInstitute(data);
       setSearchInput(username);
     } catch {
-      setError('Institute not found. Please check the ID and try again.');
+      setError("Institute not found. Please check the ID and try again.");
       setInstitute(null);
     } finally {
       setLoading(false);
@@ -61,8 +62,8 @@ const InstituteVerificationClient = () => {
 
   const handleBackButton = () => {
     setInstitute(null);
-    setSearchInput('');
-    router.push('/institute-verification');
+    setSearchInput("");
+    router.push("/institute-verification");
   };
 
   const fetchSuggestions = async (value: string) => {
@@ -70,10 +71,11 @@ const InstituteVerificationClient = () => {
       setSuggestions([]);
       return;
     }
-
     try {
       setLoading(true);
-      const response = await fetch(`http://localhost:5000/api/v2/institute/search?value=${value}`);
+      const response = await fetch(
+        `http://localhost:5000/api/v2/institute/search?value=${value}`
+      );
       if (response.ok) {
         const data = await response.json();
         setSuggestions(data);
@@ -94,9 +96,8 @@ const InstituteVerificationClient = () => {
   };
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center">
-      <div className="relative z-10 bg-opacity-95 p-16 rounded-xl w-full max-w-6xl text-center mt-60 mb-10">
-        
+    <div className="relative min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 bg-opacity-95 p-6 sm:p-10 md:p-16 rounded-xl w-full max-w-6xl text-center mt-32 mb-10">
         {/* Logo */}
         <div className="mb-6">
           <Image
@@ -109,48 +110,117 @@ const InstituteVerificationClient = () => {
           />
         </div>
 
-        <h2 className="text-6xl font-bold text-center mb-6 text-[#74323B]">Institute Verification</h2>
+        <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold text-center mb-6 text-[#74323B]">
+          Institute Verification
+        </h2>
 
         {institute ? (
-          <div className="text-left mb-6">
-            <div className="border border-[#74323B] p-6 rounded-md  bg-[#E7C7C9] shadow-[#74323B] shadow-lg">
-              <div className="flex flex-wrap justify-start ml-1">
-                <div className="w-full md:w-1/2 mb-6 text-3xl font-bold text-[#74323B]">
-                  <p>Institute Name</p>
-                  <hr className="border-[#74323B] my-4" />
-                  <p>Address</p>
-                  <hr className="border-[#74323B] my-4" />
-                  <p>Contact Number</p>
+          <div>
+            <div className="relative bg-white border border-gray-100 rounded-xl p-4 sm:p-6 shadow-lg mb-6">
+              {/* Verified badge */}
+              <div className="absolute -top-4 sm:-top-5 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-3 sm:px-4 py-1 rounded-full flex items-center space-x-1 shadow-md text-xs sm:text-sm">
+                <svg
+                  className="w-3 h-3 sm:w-4 sm:h-4"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+                <span className="font-semibold">Verified Institute</span>
+              </div>
+
+              <div className="mt-8 text-center mb-8">
+                <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-2">
+                  {institute.name}
+                </h3>
+                <p className="text-sm sm:text-base text-gray-500">
+                  {institute.address}
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                <div className="bg-gradient-to-r from-pink-50 to-white rounded-lg p-4 sm:p-6 border border-pink-100 flex items-center">
+                  <div className="p-2 bg-pink-100 rounded-lg mr-4 shrink-0">
+                    <FaHome className="w-5 h-5 sm:w-8 sm:h-8" />
+                  </div>
+                  <div>
+                    <h4 className="text-xs sm:text-sm font-semibold text-gray-500 mb-1">
+                      ADDRESS
+                    </h4>
+                    <p className="text-sm sm:text-base md:text-lg font-semibold text-gray-800 break-words">
+                      {institute.address}
+                    </p>
+                  </div>
                 </div>
-                <div className="w-full md:w-1/2 mb-6 text-3xl font-semibold text-[#74323B]">
-                  <p>: {institute.name}</p>
-                  <hr className="border-[#74323B] my-4" />
-                  <p>: {institute.address}</p>
-                  <hr className="border-[#74323B] my-4" />
-                  <p>: {institute.mobile_number || 'N/A'}</p>
+
+                <div className="bg-gradient-to-r from-pink-50 to-white rounded-lg p-4 sm:p-6 border border-blue-100 flex items-center">
+                  <div className="p-2 bg-pink-100 rounded-lg mr-4 shrink-0">
+                    <FaPhoneAlt className="w-5 h-5 sm:w-8 sm:h-8" />
+                  </div>
+                  <div>
+                    <h4 className="text-xs sm:text-sm font-semibold text-gray-500 mb-1">
+                      CONTACT NUMBER
+                    </h4>
+                    <p className="text-sm sm:text-base md:text-lg font-semibold text-gray-800">
+                      {institute.mobile_number || "N/A"}
+                    </p>
+                  </div>
                 </div>
               </div>
+
+              <div className="bg-green-50 border border-green-100 rounded-lg p-4 sm:p-6 mb-4 text-left">
+                <div className="flex items-center">
+                  <svg
+                    className="h-8 w-8 sm:h-10 sm:w-10 text-green-600 mr-4 shrink-0"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                  >
+                    <path d="M12 22a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm-3.54-4.46a1 1 0 0 1 1.42-1.42L12 16.34l5.54-5.54a1 1 0 0 1 1.42 1.42l-6.25 6.25a1 1 0 0 1-1.42 0l-2.83-2.83z" />
+                  </svg>
+                  <div>
+                    <h4 className="font-bold text-green-800 text-sm sm:text-base mb-1">
+                      Accreditation Confirmed
+                    </h4>
+                    <p className="text-green-700 text-xs sm:text-sm">
+                      This institution has been officially verified and is
+                      currently accredited by the United Kingdom College of
+                      Advanced Studies.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex justify-center mt-4">
+                <button
+                  onClick={handleBackButton}
+                  className="bg-[#74323B] hover:bg-[#9A3642] text-white text-sm sm:text-base px-6 py-3 rounded-lg transition duration-300"
+                >
+                  ← Back to Search
+                </button>
+              </div>
             </div>
-            
-            {/* Back Button */}
-            <div className="mt-6 text-center">
-              <button
-                onClick={handleBackButton}
-                className="bg-[#7C2B33] hover:bg-[#74323B] text-white font-semibold py-3 px-8 rounded-lg transition cursor-pointer"
+
+            <div className="text-center mt-6">
+              <a
+                href="#"
+                className="text-[#74323B] hover:text-[#9A3642] text-xs sm:text-sm font-medium inline-flex items-center"
               >
-                Back to Search
-              </button>
+                🖨️ Print Verification Certificate
+              </a>
             </div>
           </div>
         ) : (
           <>
-            <p className="text-black text-xl mb-8 font-semibold">
+            <p className="text-black text-lg sm:text-xl mb-8 font-semibold">
               Enter the Institute name or ID to verify its authenticity.
             </p>
 
-            {/* Styled input with search icon */}
             <div className="relative w-full mb-8">
-              <span className="absolute inset-y-0 right-6 pl-4 flex items-center pointer-events-none text-gray-500 text-xl">
+              <span className="absolute inset-y-0 right-6 flex items-center text-gray-400">
                 🔍
               </span>
               <input
@@ -158,41 +228,42 @@ const InstituteVerificationClient = () => {
                 placeholder="Search by name or ID"
                 value={searchInput}
                 onChange={handleInputChange}
-                className="w-full text-xl pl-12 pr-4 py-4 rounded-full shadow-md bg-white text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#74323B]"
+                className="w-full text-base sm:text-xl pl-6 pr-12 py-3 sm:py-4 rounded-full shadow-md bg-white text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#74323B]"
               />
             </div>
 
-            {/* Suggestions */}
             {suggestions.length > 0 && (
               <div className="mb-8">
-                <h3 className="text-left text-xl font-semibold mb-4 text-[#74323B]">Suggestions:</h3>
+                <h3 className="text-left text-lg sm:text-xl font-semibold mb-4 text-[#74323B]">
+                  Suggestions:
+                </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {suggestions.map((inst) => (
-                    <div 
+                    <div
                       key={inst.id}
                       onClick={() => handleSuggestionClick(inst.slug)}
-                      className="border border-[#74323B] p-4 rounded-md shadow-md bg-[#E7C7C9] cursor-pointer hover:shadow-lg transition-shadow"
+                      className="border border-[#74323B] p-4 rounded-lg shadow-md bg-[#E7C7C9] cursor-pointer hover:shadow-lg transition"
                     >
-                      <h4 className="text-xl font-bold text-[#74323B]">{inst.name}</h4>
-                      <p className="text-md text-[#74323B] mt-1">{inst.address}</p>
-                      <p className="text-sm text-gray-700 mt-1">ID: {inst.username}</p>
+                      <h4 className="text-lg font-bold text-[#74323B]">
+                        {inst.name}
+                      </h4>
+                      <p className="text-sm text-[#74323B]">{inst.address}</p>
+                      <p className="text-xs text-gray-600">ID: {inst.username}</p>
                     </div>
                   ))}
                 </div>
               </div>
             )}
 
-            {loading && (
-              <p className="text-[#74323B] mb-4">Loading...</p>
-            )}
+            {loading && <p className="text-[#74323B] mb-4">Loading...</p>}
 
-            {error && (
-              <p className="text-red-600 mb-4">{error}</p>
-            )}
+            {error && <p className="text-red-600 mb-4">{error}</p>}
 
-            {/* Institute description */}
-            <p className="text-black text-lg mt-6 leading-relaxed text-left">
-              These records represent institutions officially accredited by the United Kingdom College of Advanced Studies. Verifying an institute ID ensures the institution&apos;s authenticity, current accreditation status, and alignment with our academic and professional quality standards.
+            <p className="text-black text-sm sm:text-lg mt-6 text-left leading-relaxed">
+              These records represent institutions officially accredited by the
+              United Kingdom College of Advanced Studies. Verifying an institute
+              ID ensures the institution&apos;s authenticity and current accreditation
+              status aligned with our academic and professional standards.
             </p>
           </>
         )}
