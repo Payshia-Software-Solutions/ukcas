@@ -5,6 +5,7 @@ import Sidebar from "../Sidebar";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
+
 const Services = () => {
   const router = useRouter();
 
@@ -82,14 +83,14 @@ const Services = () => {
               d="M15 19l-7-7 7-7"
             />
           </svg>
-          Manage Events
+          Manage News
         </button>
 
         {/* Form & Preview Section */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Left: Create New Service */}
           <div className="bg-yellow-50 p-6  rounded-2xl space-y-4 shadow-md">
-            <h2 className="text-2xl text-gray-600 font-bold mb-4">Create New Event</h2>
+            <h2 className="text-2xl text-gray-600 font-bold mb-4">Create New News</h2>
             {/* Date/Time Scheduler */}
   <div>
     <label className="block font-semibold text-xl text-gray-500 mb-2">
@@ -121,7 +122,7 @@ const Services = () => {
   </div>
 
             <div>
-              <label className="block font-semibold text-xl text-gray-500 mb-1">Event Title</label>
+              <label className="block font-semibold text-xl text-gray-500 mb-1">News Title</label>
               <input
                 type="text"
                 placeholder="Enter title here"
@@ -130,7 +131,7 @@ const Services = () => {
             </div>
 
             <div>
-              <label className="block font-semibold text-xl text-gray-500 mb-1">Event Category</label>
+              <label className="block font-semibold text-xl text-gray-500 mb-1">News Category</label>
               <select
                 className="w-full px-4 py-3 rounded-xl border border-gray-300 shadow-inner bg-white text-gray-700 shadow-md focus:outline-none focus:ring-2 focus:ring-gray-400"
               >
@@ -142,25 +143,7 @@ const Services = () => {
             </div>
 
             <div>
-              <label className="block font-semibold text-xl text-gray-500 mb-1">Title Image</label>
-              <div className="flex items-center space-x-4 bg-[#fff7e6] p-3 rounded-lg">
-                <div className="w-16 h-16 bg-gray-200 rounded-md flex items-center justify-center border border-dashed shadow-sm">
-                  <svg className="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3v18h18" />
-                  </svg>
-                </div>
-                <div className="flex-1">
-                  <p className="text-md text-gray-500 mb-1">Please upload square image, size less than 100KB</p>
-                  <input
-                    type="file"
-                    className="border px-3 py-1 w-full rounded-lg text-sm bg-white"
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div>
-              <label className="block font-semibold text-xl text-gray-500 mb-1">Event Description</label>
+              <label className="block font-semibold text-xl text-gray-500 mb-1">Write a news </label>
               <textarea
                 rows={5}
                 placeholder="Type Description"
@@ -175,7 +158,7 @@ const Services = () => {
 
           {/* Right: Current Services */}
           <div className="bg-yellow-50 p-6 rounded-lg space-y-4 shadow-sm">
-            <h2 className="text-2xl font-bold mb-4 text-gray-600">Current Events</h2>
+            <h2 className="text-2xl font-bold mb-4 text-gray-600">Already Published News</h2>
             {[1, 2, 3, 4, 5].map((item) => (
               <div
                 key={item}
@@ -197,7 +180,7 @@ const Services = () => {
                   </svg>
                 </div>
                 <div>
-                  <h3 className="font-bold text-gray-700">Event 1</h3>
+                  <h3 className="font-bold text-gray-700">News 1</h3>
                   <p className="text-sm text-gray-600">
                     The United Kingdom has a diverse landscape of institutions,
                     including renowned...
