@@ -1,14 +1,13 @@
 "use client";
 
-
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Image from "next/image";
 import ContentRow from "./ContentRow";
 import FullForm from "./FullForm";
-import config from "@/config"
+import config from "@/config";
+import Sidebar from "../Sidebar";
 
-// Define the type for your data
 type Institute = {
   id: number;
   name: string;
@@ -17,20 +16,15 @@ type Institute = {
 };
 
 export default function Dashboard() {
-
-
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [institutes, setInstitutes] = useState<Institute[]>([]);
-  const [selectedInstitute, setSelectedInstitute] = useState<Institute | null>(
-    null
-  );
+  const [selectedInstitute, setSelectedInstitute] = useState<Institute | null>(null);
   const [showFullForm, setShowFullForm] = useState(false);
 
   useEffect(() => {
     axios
-      .get(`${config.API_BASE_URL}/accredite`)  // {`http://localhost:5000/api/v2/accredite`
+      .get(`${config.API_BASE_URL}/accredite`)
       .then((response) => {
-        console.log(response.data);
         setInstitutes(response.data);
       })
       .catch((error) => {
@@ -47,10 +41,14 @@ export default function Dashboard() {
   const isValidStatus = (status: string): status is "pending" | "active" | "Rejected" => {
     return ["pending", "active", "Rejected"].includes(status);
   };
+
   return (
-    <div className="flex flex-col md:flex-row min-h-screen bg-gray-100">
+    <div className="flex min-h-screen bg-gray-100">
+      {/* Sidebar */}
+      <Sidebar />
+
+      {/* Main Content */}
       <div className="flex-1 p-4 md:p-6 space-y-6">
-        {/* <Sidebar/> */}
         {/* Top Navbar */}
         <div className="flex flex-col md:flex-row items-center justify-between bg-white p-4 rounded-md shadow space-y-4 md:space-y-0">
           <h1 className="text-xl font-bold">Dashboard</h1>
@@ -62,23 +60,14 @@ export default function Dashboard() {
                 className="border border-gray-300 w-full rounded-full pl-10 pr-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
               <div className="absolute left-3 top-2.5">
-                <svg
-                  className="w-4 h-4 text-gray-400"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
+                <svg className="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
                   <path d="M12.9 14.32a8 8 0 111.414-1.414l5.387 5.387-1.414 1.414-5.387-5.387zM8 14a6 6 0 100-12 6 6 0 000 12z" />
                 </svg>
               </div>
             </div>
 
             <button className="relative">
-              <svg
-                className="w-6 h-6 text-gray-600"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
+              <svg className="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -101,7 +90,7 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Greeting */}
+        {/* Greeting Section */}
         <div className="bg-yellow-50 p-4 rounded-md flex flex-col md:flex-row md:items-center md:justify-between space-y-2 md:space-y-0">
           <h2 className="text-lg font-bold">Hi, Good morning!</h2>
           <div className="flex items-center space-x-2 text-green-600 text-sm">
@@ -112,7 +101,7 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Table Section */}
+        {/* Request Forms Table */}
         <div className="bg-white rounded-lg shadow p-6">
           <div className="flex flex-col md:flex-row justify-between mb-6 space-y-4 md:space-y-0">
             <h1 className="text-2xl font-bold">Request Forms</h1>
@@ -122,16 +111,11 @@ export default function Dashboard() {
                 placeholder="Search..."
                 className="border rounded-md px-3 py-2 text-sm focus:outline-none"
               />
-              <button className="border px-3 py-2 rounded-md text-sm hover:bg-gray-100">
-                Filters
-              </button>
-              <button className="border px-3 py-2 rounded-md text-sm hover:bg-gray-100">
-                Date Range
-              </button>
+              <button className="border px-3 py-2 rounded-md text-sm hover:bg-gray-100">Filters</button>
+              <button className="border px-3 py-2 rounded-md text-sm hover:bg-gray-100">Date Range</button>
             </div>
           </div>
 
-          {/* Table */}
           <div className="overflow-x-auto">
             <table className="w-full text-sm text-left text-gray-700">
               <thead className="text-xs uppercase bg-gray-100 text-gray-700">
@@ -149,7 +133,6 @@ export default function Dashboard() {
                     date={new Date(item.created_at).toLocaleDateString()}
                     instituteName={item.name}
                     status={isValidStatus(item.accredite_status) ? item.accredite_status : "pending"}
-
                     onView={() => {
                       setSelectedInstitute(item);
                       setIsModalOpen(true);
@@ -161,7 +144,6 @@ export default function Dashboard() {
             </table>
           </div>
 
-          {/* Pagination */}
           <div className="flex justify-center items-center mt-6 flex-wrap gap-2">
             {[1, 2, "...", 9, 10].map((num, idx) => (
               <button
@@ -193,19 +175,13 @@ export default function Dashboard() {
             <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 space-y-4 md:space-y-0">
               <div className="text-base font-semibold text-gray-700">
                 Request ID:{" "}
-                <span className="font-normal text-gray-500">
-                  #{selectedInstitute.id}
-                </span>
+                <span className="font-normal text-gray-500">#{selectedInstitute.id}</span>
               </div>
               <div className="flex items-center space-x-2">
-                <span className="text-base font-semibold text-gray-700">
-                  Status:
-                </span>
+                <span className="text-base font-semibold text-gray-700">Status:</span>
                 <div className="flex items-center text-blue-600">
                   <span className="w-2 h-2 bg-blue-600 rounded-full mr-1"></span>
-                  <span className="text-sm font-semibold">
-                    {selectedInstitute.accredite_status}
-                  </span>
+                  <span className="text-sm font-semibold">{selectedInstitute.accredite_status}</span>
                 </div>
               </div>
             </div>
@@ -213,15 +189,12 @@ export default function Dashboard() {
             <div className="mb-6">
               <p className="text-base font-semibold text-gray-700">
                 Organization/Institute:{" "}
-                <span className="font-normal text-gray-500">
-                  {selectedInstitute.name}
-                </span>
+                <span className="font-normal text-gray-500">{selectedInstitute.name}</span>
               </p>
             </div>
 
             {showFullForm ? (
-           <FullForm id={selectedInstitute.id.toString()} />
-
+              <FullForm id={selectedInstitute.id.toString()} />
             ) : (
               <div className="flex justify-center">
                 <button

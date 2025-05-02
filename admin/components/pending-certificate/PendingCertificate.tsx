@@ -1,87 +1,14 @@
 "use client";
-
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Image from "next/image";
-
+import Sidebar from "../Sidebar";
 export default function Dashboard() {
-  const router = useRouter();
-  const [isDashboardOpen, setIsDashboardOpen] = useState(false);
-  const [isTransactionOpen, setIsTransactionOpen] = useState(false);
   const [showCertificateDetails, setShowCertificateDetails] = useState(false);
-
-  const handleLogout = () => {
-    localStorage.removeItem("isLoggedIn");
-    router.push("/login");
-  };
 
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-gray-100">
       {/* Sidebar */}
-      <div className="w-full md:w-64 flex flex-col justify-between bg-gray-900 text-white p-6">
-        <div>
-          <div className="text-xl font-bold mb-6 text-center md:text-left">Company Name</div>
-
-          <div className="space-y-4">
-            {/* Dashboard Menu */}
-            <div>
-              <button
-                className="flex items-center justify-between w-full p-2 rounded-md hover:bg-gray-700"
-                onClick={() => setIsDashboardOpen(!isDashboardOpen)}
-              >
-                <span className="text-lg">Dashboard</span>
-                <span>{isDashboardOpen ? "▲" : "▼"}</span>
-              </button>
-              {isDashboardOpen && (
-                <div className="ml-2 md:ml-4 space-y-2">
-                  <button
-                    className="block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md"
-                    onClick={() => router.push("/create-institutes")}
-                  >
-                    Create Institutes
-                  </button>
-                  <button
-                    className="block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md"
-                    onClick={() => router.push("/view-content")}
-                  >
-                    View Request Forms
-                  </button>
-                </div>
-              )}
-            </div>
-
-            {/* Transaction Menu */}
-            <div>
-              <button
-                className="flex items-center justify-between w-full p-2 rounded-md hover:bg-gray-700"
-                onClick={() => setIsTransactionOpen(!isTransactionOpen)}
-              >
-                <span className="text-lg">Transaction</span>
-                <span>{isTransactionOpen ? "▲" : "▼"}</span>
-              </button>
-              {isTransactionOpen && (
-                <div className="ml-2 md:ml-4 space-y-2">
-                  <button className="block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md" onClick={() => router.push("/pending-certificate")}>Pending Certificates</button>
-                  <button className="block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md" onClick={() => router.push("/issued-certificate")}>Issued Certificates</button>
-                  <button className="block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md" onClick={() => router.push("/institute-payment")}>Institute Payment</button>
-                  <button className="block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md" onClick={() => router.push("/create-news")}>Create News</button>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-
-        {/* Logout Button */}
-        <div className="mt-6">
-          <button
-            className="bg-white text-red-600 px-8 py-3 rounded-2xl text-lg font-semibold hover:bg-red-200 w-full"
-            onClick={handleLogout}
-          >
-            Logout
-          </button>
-        </div>
-      </div>
-
+      <Sidebar/>
       {/* Main Content */}
       <div className="flex-1 p-4 md:p-6 space-y-6">
         {/* Top Navbar */}

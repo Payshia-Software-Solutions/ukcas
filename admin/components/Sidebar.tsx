@@ -1,20 +1,17 @@
-"use client"; // Ensure this component is client-side only
+"use client";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-
-
 const Sidebar: React.FC = () => {
-  const router = useRouter(); // Get the router instance
+  const router = useRouter();
   const [isDashboardOpen, setIsDashboardOpen] = useState<boolean>(false);
   const [isTransactionOpen, setIsTransactionOpen] = useState<boolean>(false);
 
   const handleLogout = (): void => {
-    // Implement logout logic here
-    console.log("Logging out...");
+    localStorage.removeItem("isLoggedIn");
+    router.push("/login");
   };
-
 
   return (
     <div className="w-full md:w-64 flex flex-col justify-between bg-gray-900 text-white p-6">
@@ -34,16 +31,16 @@ const Sidebar: React.FC = () => {
               <span>{isDashboardOpen ? "▲" : "▼"}</span>
             </button>
             {isDashboardOpen && (
-              <div className="ml-2 md:ml-4 space-y-2">
+              <div className="space-y-2 pl-4">
                 <button
                   onClick={() => router.push("/create-institutes")}
-                  className="block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md"
+                  className="block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md text-left"
                 >
                   Create Institutes
                 </button>
                 <button
-                  onClick={() => router.push("/test")}
-                  className="block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md"
+                  onClick={() => router.push("/view-content")}
+                  className="block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md text-left"
                 >
                   View Request Forms
                 </button>
@@ -61,28 +58,28 @@ const Sidebar: React.FC = () => {
               <span>{isTransactionOpen ? "▲" : "▼"}</span>
             </button>
             {isTransactionOpen && (
-              <div className="ml-2 md:ml-4 space-y-2">
+              <div className="space-y-2 pl-4">
                 <button
                   onClick={() => router.push("/pending-certificate")}
-                  className="block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md"
+                  className="block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md text-left"
                 >
                   Pending Certificates
                 </button>
                 <button
                   onClick={() => router.push("/issued-certificate")}
-                  className="block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md"
+                  className="block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md text-left"
                 >
                   Issued Certificates
                 </button>
                 <button
                   onClick={() => router.push("/institute-payment")}
-                  className="block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md"
+                  className="block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md text-left"
                 >
                   Institute Payment
                 </button>
                 <button
                   onClick={() => router.push("/create-news")}
-                  className="block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md"
+                  className="block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md text-left"
                 >
                   Create News
                 </button>
@@ -92,7 +89,10 @@ const Sidebar: React.FC = () => {
 
           {/* Records */}
           <div>
-            <button className="flex items-center justify-between w-full p-2 rounded-md hover:bg-gray-700">
+            <button
+              onClick={() => router.push("/records")}
+              className="flex items-center justify-between w-full p-2 rounded-md hover:bg-gray-700"
+            >
               <span className="text-lg">Records</span>
             </button>
           </div>
