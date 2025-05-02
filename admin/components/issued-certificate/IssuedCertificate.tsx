@@ -1,108 +1,16 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Image from "next/image";
+import Sidebar from "../Sidebar";
 
-export default function Dashboard() {
-  const router = useRouter();
-  const [isDashboardOpen, setIsDashboardOpen] = useState(false);
-  const [isTransactionOpen, setIsTransactionOpen] = useState(false);
+export default function IssuedCertificate() {
   const [showCertificateDetails, setShowCertificateDetails] = useState(false);
 
-  const handleLogout = () => {
-    localStorage.removeItem("isLoggedIn");
-    router.push("/login");
-  };
-
   return (
-    <div className="flex flex-col md:flex-row min-h-screen bg-gray-100">
+    <div className="flex min-h-screen bg-gray-100">
       {/* Sidebar */}
-      <div className="w-full md:w-64 flex flex-col justify-between bg-gray-900 text-white p-6">
-        <div>
-          <div className="text-2xl md:text-xl font-bold mb-6 text-center md:text-left">
-            Company Name
-          </div>
-
-          <div className="space-y-4">
-            {/* Dashboard Menu */}
-            <div>
-              <button
-                className="flex items-center justify-between w-full p-3 rounded-md hover:bg-gray-700"
-                onClick={() => setIsDashboardOpen(!isDashboardOpen)}
-              >
-                <span className="text-lg">Dashboard</span>
-                <span>{isDashboardOpen ? "▲" : "▼"}</span>
-              </button>
-              {isDashboardOpen && (
-                <div className="ml-4 space-y-2">
-                  <button
-                    className="block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md text-left"
-                    onClick={() => router.push("/create-institutes")}
-                  >
-                    Create Institutes
-                  </button>
-                  <button
-                    className="block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md text-left"
-                    onClick={() => router.push("/view-content")}
-                  >
-                    View Request Forms
-                  </button>
-                </div>
-              )}
-            </div>
-
-            {/* Transaction Menu */}
-            <div>
-              <button
-                className="flex items-center justify-between w-full p-3 rounded-md hover:bg-gray-700"
-                onClick={() => setIsTransactionOpen(!isTransactionOpen)}
-              >
-                <span className="text-lg">Transaction</span>
-                <span>{isTransactionOpen ? "▲" : "▼"}</span>
-              </button>
-              {isTransactionOpen && (
-                <div className="ml-4 space-y-2">
-                  <button
-                    className="block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md text-left"
-                    onClick={() => router.push("/pending-certificate")}
-                  >
-                    Pending Certificates
-                  </button>
-                  <button
-                    className="block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md text-left"
-                    onClick={() => router.push("/issued-certificate")}
-                  >
-                    Issued Certificates
-                  </button>
-                  <button
-                    className="block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md text-left"
-                    onClick={() => router.push("/institute-payment")}
-                  >
-                    Institute Payment
-                  </button>
-                  <button
-                    className="block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md text-left"
-                    onClick={() => router.push("/create-news")}
-                  >
-                    Create News
-                  </button>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-
-        {/* Logout */}
-        <div className="mt-6">
-          <button
-            className="w-full bg-white text-red-600 px-4 py-3 rounded-2xl text-lg font-semibold hover:bg-red-200 transition duration-200"
-            onClick={handleLogout}
-          >
-            Logout
-          </button>
-        </div>
-      </div>
+      <Sidebar />
 
       {/* Main Content */}
       <div className="flex-1 p-6 space-y-6">
@@ -131,7 +39,7 @@ export default function Dashboard() {
               </div>
             </div>
 
-            {/* Notifications */}
+            {/* Notification */}
             <button className="relative">
               <svg
                 className="w-6 h-6 text-gray-600"
@@ -143,7 +51,7 @@ export default function Dashboard() {
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth={2}
-                  d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11c0-3.866-2.239-7-5-7S8 7.134 8 11v3.159c0 .538-.214 1.055-.595 1.436L6 17h5m4 0v1a3 3 0 01-6 0v-1m6 0H9"
+                  d="M15 17h5l-1.405-1.405M18 14.158V11c0-3.866-2.239-7-5-7S8 7.134 8 11v3.159"
                 />
               </svg>
               <span className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
@@ -152,17 +60,17 @@ export default function Dashboard() {
             {/* Profile */}
             <div className="w-10 h-10 rounded-full overflow-hidden">
               <Image
-                width={500}
-                height={300}
                 src="/assets/images/profile.png"
                 alt="Profile"
+                width={40}
+                height={40}
                 className="w-full h-full object-cover"
               />
             </div>
           </div>
         </div>
 
-        {/* Greeting */}
+        {/* Greeting Section */}
         <div className="bg-yellow-50 p-4 rounded-md flex flex-col md:flex-row md:items-center justify-between text-center md:text-left">
           <h2 className="text-lg font-bold">Hi, Good morning!</h2>
           <div className="flex items-center justify-center space-x-2 text-green-600 text-sm mt-2 md:mt-0">
@@ -173,10 +81,10 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Main Card Section */}
+        {/* Certificate Table or Details */}
         {!showCertificateDetails ? (
           <div className="bg-white rounded-lg shadow p-6">
-            {/* Pending Certificate Table */}
+            {/* Table Header */}
             <div className="flex flex-col md:flex-row md:items-center justify-between mb-6">
               <h1 className="text-2xl font-bold text-center md:text-left mb-4 md:mb-0">
                 Issued Certificate
@@ -196,6 +104,7 @@ export default function Dashboard() {
               </div>
             </div>
 
+            {/* Table */}
             <div className="overflow-x-auto">
               <table className="w-full text-sm text-left text-gray-700">
                 <thead className="text-xs uppercase bg-gray-100">
@@ -240,7 +149,7 @@ export default function Dashboard() {
           </div>
         ) : (
           <div className="bg-white border-2 border-blue-400 rounded-lg shadow p-6">
-            {/* Certificate Details View */}
+            {/* Header */}
             <div className="flex justify-between mb-6">
               <button
                 onClick={() => setShowCertificateDetails(false)}
@@ -270,40 +179,17 @@ export default function Dashboard() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-4">
-                <p>
-                  <span className="font-semibold">Student ID:</span> UK-422
-                </p>
-                <p>
-                  <span className="font-semibold">
-                    Student Name (with Initial):
-                  </span>{" "}
-                  J. Perera
-                </p>
-                <p>
-                  <span className="font-semibold">Student Name (Full):</span>{" "}
-                  John Perera
-                </p>
-                <p>
-                  <span className="font-semibold">Student Grade:</span> A
-                </p>
+                <p><span className="font-semibold">Student ID:</span> UK-422</p>
+                <p><span className="font-semibold">Student Name (with Initial):</span> J. Perera</p>
+                <p><span className="font-semibold">Student Name (Full):</span> John Perera</p>
+                <p><span className="font-semibold">Student Grade:</span> A</p>
               </div>
 
               <div className="space-y-4">
-                <p>
-                  <span className="font-semibold">Certificate ID:</span> #
-                  CF-4522-2025-100
-                </p>
-                <p>
-                  <span className="font-semibold">Issued Date:</span> 02 April
-                  2025
-                </p>
-                <p>
-                  <span className="font-semibold">Email:</span> xyz@bournem.uk
-                </p>
-                <p>
-                  <span className="font-semibold">Organization/Institute:</span>{" "}
-                  Arts University Bournemouth
-                </p>
+                <p><span className="font-semibold">Certificate ID:</span> # CF-4522-2025-100</p>
+                <p><span className="font-semibold">Issued Date:</span> 02 April 2025</p>
+                <p><span className="font-semibold">Email:</span> xyz@bournem.uk</p>
+                <p><span className="font-semibold">Organization/Institute:</span> Arts University Bournemouth</p>
               </div>
             </div>
 
