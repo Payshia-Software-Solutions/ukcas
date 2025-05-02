@@ -1,5 +1,5 @@
 "use client";
-import PendingCertificate from '@/components/pending-certificate/PendingCertificate';
+import PendingCertificate from '@/components/Pending-Certificate/PendingCertificate';
 
 export default function LoginPage() {
 

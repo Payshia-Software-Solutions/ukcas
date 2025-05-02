@@ -44,6 +44,19 @@ const Sidebar: React.FC = () => {
                 >
                   View Request Forms
                 </button>
+                <button
+                  onClick={() => router.push("/manage-services")}
+                  className="block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md text-left"
+                >
+                  Manage Services
+                </button>
+                <button
+                  onClick={() => router.push("/events")}
+                  className="block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md text-left"
+                >
+                  Manage Events
+                </button>
+                
               </div>
             )}
           </div>
