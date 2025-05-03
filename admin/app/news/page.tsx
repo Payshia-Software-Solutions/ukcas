@@ -1,5 +1,5 @@
 "use client";
-import Events from '@/components/Events/Events';
+import Events from '@/components/News/Events';
 
 
 export default function LoginPage() {

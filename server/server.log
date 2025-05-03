@@ -785,3 +785,11 @@ Local: http://localhost:5000
 2025-05-01T17:18:46.057Z - Network: http://192.168.8.103:5000
 2025-05-01T17:18:46.578Z - 
 ✅ Database synced successfully
+2025-05-03T14:02:05.111Z - Loading environment variables from: D:\pashiya project\ukcas\server\.env.local
+2025-05-03T14:02:05.752Z - Environment: development
+2025-05-03T14:02:05.814Z - Server running on port 5000
+2025-05-03T14:02:05.814Z - 
+Local: http://localhost:5000
+2025-05-03T14:02:05.815Z - Network: http://192.168.8.103:5000
+2025-05-03T14:02:06.634Z - 
+✅ Database synced successfully
