@@ -51,10 +51,10 @@ const Sidebar: React.FC = () => {
                   Manage Services
                 </button>
                 <button
-                  onClick={() => router.push("/events")}
+                  onClick={() => router.push("/news")}
                   className="block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md text-left"
                 >
-                  Manage Events
+                  Manage News
                 </button>
                 
               </div>
