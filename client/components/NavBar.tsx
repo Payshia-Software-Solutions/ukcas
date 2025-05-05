@@ -52,14 +52,7 @@ const NavBar: React.FC = () => {
         <div className="flex justify-center">
           <div className="bg-[#74323B] w-full text-sm py-2 px-4 flex sm:justify-start md:justify-center text-white">
             <div className="flex gap-6">
-              <Link href={"#"} className="font-semibold">
-                Partership
-              </Link>
-              <div className="hidden md:flex gap-6">
-                <Link href={"#"}>Portal</Link>
-                <Link href={"#"}>Graduation</Link>
-                <Link href={"#"}>Certificate</Link>
-              </div>
+            <p>Hurry Up Get Accredited !</p>
             </div>
           </div>
         </div>
@@ -79,49 +72,43 @@ const NavBar: React.FC = () => {
             </div>
 
             {/* Nav Section */}
-            <nav className="hidden md:flex gap-8 md:gap-10 items-center" ref={dropdownRef}>
-              <Link href="/" className="hover:text-gray-300">Home</Link>
-              <Link href="/about" className="hover:text-gray-300">About Us</Link>
-              <Link href="/services" className="hover:text-gray-300">Services</Link>
+<nav className="hidden md:flex gap-8 md:gap-10 items-center">
+  <Link href="/" className="hover:text-gray-300">Home</Link>
+  <Link href="/about" className="hover:text-gray-300">About Us</Link>
+  <Link href="/services" className="hover:text-gray-300">Services</Link>
 
-              {/* Dropdown for Verification */}
-              <div className="relative">
-                <button
-                  className="hover:text-gray-300 focus:outline-none flex items-center gap-1"
-                  onClick={() => setShowVerificationDropdown(!showVerificationDropdown)}
-                >
-                  Verification
-                  <Image
-                    src="/assets/images/drop.png"
-                    alt="Dropdown"
-                    width={12}
-                    height={12}
-                    className={`transition-transform duration-300 ${showVerificationDropdown ? "rotate-180" : ""}`}
-                  />
-                </button>
-                {showVerificationDropdown && (
-                  <div className="absolute left-0 mt-2 w-56 bg-white">
-                    <Link
-                      href="/certificate-verification"
-                      className="block px-4 py-2 text-black hover:bg-gray-100"
-                      onClick={() => setShowVerificationDropdown(false)}
-                    >
-                      Certificate Verification
-                    </Link>
-                    <Link
-                      href="/institute-verification"
-                      className="block px-4 py-2 text-black hover:bg-gray-100"
-                      onClick={() => setShowVerificationDropdown(false)}
-                    >
-                      Institute Verification
-                    </Link>
-                  </div>
-                )}
-              </div>
+  {/* Dropdown for Verification - now on hover */}
+  <div className="relative group">
+    <button className="hover:text-gray-300 focus:outline-none flex items-center gap-1">
+      Verification
+      <Image
+        src="/assets/images/drop.png"
+        alt="Dropdown"
+        width={10}
+        height={10}
+        className="transition-transform duration-300 group-hover:rotate-180"
+      />
+    </button>
+    <div className="absolute left-0 mt-2 w-56 bg-white opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 shadow-md">
+      <Link
+        href="/certificate-verification"
+        className="block px-4 py-2 text-black hover:bg-gray-100"
+      >
+        Certificate Verification
+      </Link>
+      <Link
+        href="/institute-verification"
+        className="block px-4 py-2 text-black hover:bg-gray-100"
+      >
+        Institute Verification
+      </Link>
+    </div>
+  </div>
 
-              <Link href="/Partnerships" className="hover:text-gray-300">Partnerships</Link>
-              <Link href="/contact" className="hover:text-gray-300">Contact Us</Link>
-            </nav>
+  <Link href="/Partnerships" className="hover:text-gray-300">Partnerships</Link>
+  <Link href="/contact" className="hover:text-gray-300">Contact Us</Link>
+</nav>
+
 
             {/* Mobile menu icon */}
             <div className="flex items-center justify-end gap-4">
