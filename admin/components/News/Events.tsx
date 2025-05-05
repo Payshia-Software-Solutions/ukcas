@@ -84,13 +84,13 @@ const Services = () => {
               d="M15 19l-7-7 7-7"
             />
           </svg>
-          Manage Services
+          Manage Events
         </button>
 
         {/* Form & Preview Section */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Left: Create New Service */}
-          <LeftSide/>
+           <LeftSide/>
 
           {/* Right: Current Services */}
           <RightSide/>

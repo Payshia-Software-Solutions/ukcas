@@ -1,5 +1,5 @@
 "use client";
-import IssuedCertificate from '@/components/Issued-Certificate/IssuedCertificate';
+import IssuedCertificate from '@/components/issued-certificate/IssuedCertificate';
 
 export default function LoginPage() {
 
