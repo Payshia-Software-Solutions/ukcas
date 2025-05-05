@@ -285,17 +285,22 @@ const CertificateVerificationClient = () => {
             </p>
 
             <div className="relative w-full mb-8">
-              <span className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-gray-500 text-xl">
-                🔍
+            <span className="absolute inset-y-0 right-4 flex items-center pointer-events-none">
+              <Image
+              src="/assets/images/search.png"
+              alt="Search Icon"
+              width={24}
+              height={24}
+              className="object-contain"
+              />
               </span>
               <input
-                type="text"
-                placeholder="Enter Certificate Number"
-                value={certificateIdInput}
-                onChange={handleInputChange}
-                onKeyDown={handleInputKeyDown}
-                className="w-full text-lg md:text-xl pl-12 pr-4 py-4 rounded-full shadow-md bg-white text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#74323B]"
-              />
+              type="text"
+              placeholder="Enter Certificate Number"
+              value={certificateIdInput}
+              onChange={handleInputChange}
+              onKeyDown={handleInputKeyDown}
+              className="w-full text-lg md:text-xl pl-12 pr-4 py-4 rounded-full shadow-md bg-white text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#74323B]"/>
 
               {suggestions.length > 0 && (
                 <div className="absolute z-20 bg-white rounded-lg shadow-lg mt-2 w-full text-left">

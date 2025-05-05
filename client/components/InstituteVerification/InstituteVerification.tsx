@@ -220,9 +220,15 @@ const InstituteVerificationClient = () => {
             </p>
 
             <div className="relative w-full mb-8">
-              <span className="absolute inset-y-0 right-6 flex items-center text-gray-400">
-                🔍
-              </span>
+            <span className="absolute inset-y-0 right-4 flex items-center pointer-events-none">
+                          <Image
+                          src="/assets/images/search.png"
+                          alt="Search Icon"
+                          width={24}
+                          height={24}
+                          className="object-contain"
+                          />
+                          </span>
               <input
                 type="text"
                 placeholder="Search by name or ID"
