@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -10,9 +10,7 @@ const NavBar: React.FC = () => {
   const [isVisible, setIsVisible] = useState<boolean>(true);
   const [lastScrollY, setLastScrollY] = useState<number>(0);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
-  const [showVerificationDropdown, setShowVerificationDropdown] = useState<boolean>(false);
   const pathname = usePathname();
-  const dropdownRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (pathname !== "/") {
@@ -30,17 +28,6 @@ const NavBar: React.FC = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY, pathname]);
 
-  // Close dropdown when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setShowVerificationDropdown(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
   return (
     <div>
       <header
@@ -52,7 +39,7 @@ const NavBar: React.FC = () => {
         <div className="flex justify-center">
           <div className="bg-[#74323B] w-full text-sm py-2 px-4 flex sm:justify-start md:justify-center text-white">
             <div className="flex gap-6">
-            <p>Hurry Up Get Accredited !</p>
+              <p>Hurry Up Get Accredited !</p>
             </div>
           </div>
         </div>
@@ -72,43 +59,42 @@ const NavBar: React.FC = () => {
             </div>
 
             {/* Nav Section */}
-<nav className="hidden md:flex gap-8 md:gap-10 items-center">
-  <Link href="/" className="hover:text-gray-300">Home</Link>
-  <Link href="/about" className="hover:text-gray-300">About Us</Link>
-  <Link href="/services" className="hover:text-gray-300">Services</Link>
+            <nav className="hidden md:flex gap-8 md:gap-10 items-center">
+              <Link href="/" className="hover:text-gray-300">Home</Link>
+              <Link href="/about" className="hover:text-gray-300">About Us</Link>
+              <Link href="/services" className="hover:text-gray-300">Services</Link>
 
-  {/* Dropdown for Verification - now on hover */}
-  <div className="relative group">
-    <button className="hover:text-gray-300 focus:outline-none flex items-center gap-1">
-      Verification
-      <Image
-        src="/assets/images/drop.png"
-        alt="Dropdown"
-        width={10}
-        height={10}
-        className="transition-transform duration-300 group-hover:rotate-180"
-      />
-    </button>
-    <div className="absolute left-0 mt-2 w-56 bg-white opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 shadow-md">
-      <Link
-        href="/certificate-verification"
-        className="block px-4 py-2 text-black hover:bg-gray-100"
-      >
-        Certificate Verification
-      </Link>
-      <Link
-        href="/institute-verification"
-        className="block px-4 py-2 text-black hover:bg-gray-100"
-      >
-        Institute Verification
-      </Link>
-    </div>
-  </div>
+              {/* Dropdown for Verification */}
+              <div className="relative group">
+                <button className="hover:text-gray-300 focus:outline-none flex items-center gap-1">
+                  Verification
+                  <Image
+                    src="/assets/images/drop.png"
+                    alt="Dropdown"
+                    width={10}
+                    height={10}
+                    className="transition-transform duration-300 group-hover:rotate-180"
+                  />
+                </button>
+                <div className="absolute left-0 mt-2 w-56 bg-white opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 shadow-md">
+                  <Link
+                    href="/certificate-verification"
+                    className="block px-4 py-2 text-black hover:bg-gray-100"
+                  >
+                    Certificate Verification
+                  </Link>
+                  <Link
+                    href="/institute-verification"
+                    className="block px-4 py-2 text-black hover:bg-gray-100"
+                  >
+                    Institute Verification
+                  </Link>
+                </div>
+              </div>
 
-  <Link href="/Partnerships" className="hover:text-gray-300">Partnerships</Link>
-  <Link href="/contact" className="hover:text-gray-300">Contact Us</Link>
-</nav>
-
+              <Link href="/Partnerships" className="hover:text-gray-300">Partnerships</Link>
+              <Link href="/contact" className="hover:text-gray-300">Contact Us</Link>
+            </nav>
 
             {/* Mobile menu icon */}
             <div className="flex items-center justify-end gap-4">
