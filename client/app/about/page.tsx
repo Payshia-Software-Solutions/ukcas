@@ -9,7 +9,7 @@ import Breadcrumb from '@/components/Breadcrumb';
 
 const Page: React.FC = () => {
   return (
-    <div className='mt-20'>
+    <div className='mt-20 px-4 sm:px-6'>
          <Breadcrumb
         crumbs={[
           { href: "/", label: "Home" },

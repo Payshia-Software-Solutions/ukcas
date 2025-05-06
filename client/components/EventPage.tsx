@@ -67,7 +67,7 @@ const EventPage: React.FC = () => {
             </SwiperSlide>
           ))}
         </Swiper>
-        <div className="custom-swiper-pagination absolute left-1/2 -translate-x-1/2 flex gap-2 mt-4"></div>
+        <div className="custom-swiper-pagination-news absolute left-1/2 translate-x-1/2 flex gap-4 mt-4"></div>
       </div>
 
       {/* Desktop View: 3-column Grid */}
