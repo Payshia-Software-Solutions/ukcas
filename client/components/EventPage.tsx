@@ -5,6 +5,11 @@ import EventCard from "@/components/Common/EventCard";
 import Link from "next/link";
 import config from "../config";
 
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/pagination";
+
 // ✅ Define the type for each event item
 interface Event {
   id: string;
@@ -22,8 +27,7 @@ const EventPage: React.FC = () => {
   useEffect(() => {
     const fetchNews = async () => {
       try {
-        const res = await axios.get(`${config.API_BASE_URL}/news`);  //   {}"http://localhost:5000/api/v2/news"
-        console.log("Fetched news:", res.data);
+        const res = await axios.get(`${config.API_BASE_URL}/news`);
         setEvents(res.data);
       } catch (err) {
         console.error("Failed to fetch news:", err);
@@ -40,7 +44,34 @@ const EventPage: React.FC = () => {
         <p className="text-red-500 font-semibold mt-2">LATEST NEWS</p>
       </div>
 
-      <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+      {/* Mobile View: Swiper Slider */}
+      <div className="block md:hidden relative px-2">
+        <Swiper
+          modules={[Pagination]}
+          spaceBetween={20}
+          slidesPerView={1.1}
+          pagination={{
+            clickable: true,
+            el: ".custom-swiper-pagination-news",
+          }}
+        >
+          {events.map((event) => (
+            <SwiperSlide key={event.id}>
+              <EventCard
+                image={`/assets/curriculum/${event.img_url}`}
+                category={event.category}
+                title={event.title}
+                description={event.mini_description || event.description}
+                link={`/${event.slug}`}
+              />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+        <div className="custom-swiper-pagination absolute left-1/2 -translate-x-1/2 flex gap-2 mt-4"></div>
+      </div>
+
+      {/* Desktop View: 3-column Grid */}
+      <div className="hidden md:grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
         {events.map((event) => (
           <EventCard
             key={event.id}
@@ -53,7 +84,7 @@ const EventPage: React.FC = () => {
         ))}
       </div>
 
-      <div className="flex justify-center mt-6">
+      <div className="flex justify-center mt-12">
         <Link href="/event">
           <button className="px-6 py-3 bg-[#7E3841] hover:bg-[#74323B] text-white font-semibold rounded-full shadow-md transition">
             LEARN MORE
