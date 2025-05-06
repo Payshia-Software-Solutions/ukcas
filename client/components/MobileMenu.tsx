@@ -10,11 +10,11 @@ interface MobileMenuProps {
 }
 
 const MobileMenu: React.FC<MobileMenuProps> = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [showVerificationDropdown, setShowVerificationDropdown] = useState(false);
 
   const handleLinkClick = () => {
     setIsMobileMenuOpen(false);
-    setIsDropdownOpen(false);
+    setShowVerificationDropdown(false);
   };
 
   return (
@@ -45,47 +45,62 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ isMobileMenuOpen, setIsMobileMe
           <Image src="/assets/logo/mainlogo.png" alt="Logo" width={250} height={250} className="h-auto w-1/2" />
         </div>
 
-        {/* Navigation */}
+        {/* Nav Items */}
         <nav className="px-4 space-y-4">
-          <Link href="/" className="block py-1 text-lg font-medium transition hover:text-green-400" onClick={handleLinkClick}>
+          <Link href="/" onClick={handleLinkClick} className="block text-lg font-medium">
             Home
           </Link>
-          <Link href="/about" className="block py-1 text-lg font-medium transition hover:text-green-400" onClick={handleLinkClick}>
+          <Link href="/about" onClick={handleLinkClick} className="block text-lg font-medium">
             About Us
           </Link>
-          <Link href="/services" className="block py-1 text-lg font-medium transition hover:text-green-400" onClick={handleLinkClick}>
+          <Link href="/services" onClick={handleLinkClick} className="block text-lg font-medium">
             Services
           </Link>
 
-          {/* Dropdown */}
-          <div className="space-y-1">
-            <button
-              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className="block py-1 text-lg font-medium transition hover:text-green-400 w-full text-left"
+          {/* Dropdown Menu */}
+          <div>
+            <div
+              className="flex justify-between items-center cursor-pointer text-lg font-medium"
+              onClick={() => setShowVerificationDropdown(!showVerificationDropdown)}
             >
-              Verification {isDropdownOpen ? "▲" : "▼"}
-            </button>
-            {isDropdownOpen && (
-              <div className="ml-4 space-y-2">
-                <Link href="/certificate-verification" className="block text-base hover:text-green-400" onClick={handleLinkClick}>
+              <span>Verification</span>
+              <Image
+                src="/assets/images/drop.png"
+                alt="Dropdown"
+                width={20}
+                height={20}
+                className={`transition-transform duration-300 ${showVerificationDropdown ? "rotate-180" : ""}`}
+              />
+            </div>
+            {showVerificationDropdown && (
+              <div className="ml-4 mt-2 space-y-2 text-base">
+                <Link href="/certificate-verification" onClick={handleLinkClick} className="block hover:text-green-500">
                   Certificate Verification
                 </Link>
-                <Link href="/institute-verification" className="block text-base hover:text-green-400" onClick={handleLinkClick}>
+                <Link href="/institute-verification" onClick={handleLinkClick} className="block hover:text-green-500">
                   Institute Verification
                 </Link>
               </div>
             )}
           </div>
 
-          <Link href="/Partnerships" className="block py-1 text-lg font-medium transition hover:text-green-400" onClick={handleLinkClick}>
+          <Link href="/Partnerships" onClick={handleLinkClick} className="block text-lg font-medium">
             Partnerships
           </Link>
-          <Link href="/contact" className="block py-1 text-lg font-medium transition hover:text-green-400" onClick={handleLinkClick}>
+          <Link href="/contact" onClick={handleLinkClick} className="block text-lg font-medium">
             Contact Us
           </Link>
-          <Link href="/get-accredited" className="block py-2 text-lg font-semibold bg-[#7C2B33] text-white rounded text-center" onClick={handleLinkClick}>
-            Get Accredited
-          </Link>
+
+          {/* CTA Button */}
+          <div className="pt-4">
+            <Link
+              href="/get-accredited"
+              onClick={handleLinkClick}
+              className="block text-center bg-[#7C2B33] text-white py-2 rounded-md font-semibold"
+            >
+              Get Accredited
+            </Link>
+          </div>
         </nav>
       </div>
     </div>

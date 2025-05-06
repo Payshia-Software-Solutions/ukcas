@@ -71,8 +71,8 @@ const NavBar: React.FC = () => {
                   <Image
                     src="/assets/images/drop.png"
                     alt="Dropdown"
-                    width={10}
-                    height={10}
+                    width={20}
+                    height={20}
                     className="transition-transform duration-300 group-hover:rotate-180"
                   />
                 </button>
