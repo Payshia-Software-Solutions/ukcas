@@ -808,3 +808,50 @@ Local: http://localhost:5000
 2025-05-06T03:38:50.252Z - Network: http://192.168.8.155:5000
 2025-05-06T03:38:51.626Z - 
 ✅ Database synced successfully
+2025-05-07T03:29:50.192Z - Loading environment variables from: E:\Projects\ukcas\server\.env.local
+2025-05-07T03:29:58.389Z - Environment: development 
+2025-05-07T03:29:58.636Z - Server running on port 5000
+2025-05-07T03:29:58.637Z - 
+Local: http://localhost:5000
+2025-05-07T03:29:58.637Z - Network: http://192.168.8.155:5000
+2025-05-07T03:29:58.660Z - ❌ Error syncing database: 
+2025-05-07T03:30:08.894Z - Loading environment variables from: E:\Projects\ukcas\server\.env.local
+2025-05-07T03:30:09.280Z - Environment: development 
+2025-05-07T03:30:09.335Z - Server running on port 5000
+2025-05-07T03:30:09.335Z - 
+Local: http://localhost:5000
+2025-05-07T03:30:09.336Z - Network: http://192.168.8.155:5000
+2025-05-07T03:30:10.657Z - 
+✅ Database synced successfully
+2025-05-07T06:09:24.468Z - Loading environment variables from: E:\Projects\ukcas\server\.env.local
+2025-05-07T06:09:26.265Z - Environment: development 
+2025-05-07T06:09:26.323Z - Server running on port 5000
+2025-05-07T06:09:26.324Z - 
+Local: http://localhost:5000
+2025-05-07T06:09:26.324Z - Network: http://192.168.135.128:5000
+2025-05-07T06:09:27.383Z - 
+✅ Database synced successfully
+2025-05-07T06:11:10.449Z - Loading environment variables from: E:\Projects\ukcas\server\.env.local
+2025-05-07T06:11:10.835Z - Environment: development 
+2025-05-07T06:11:10.894Z - Server running on port 5000
+2025-05-07T06:11:10.895Z - 
+Local: http://localhost:5000
+2025-05-07T06:11:10.895Z - Network: http://192.168.135.128:5000
+2025-05-07T06:11:11.896Z - 
+✅ Database synced successfully
+2025-05-07T06:11:24.059Z - Loading environment variables from: E:\Projects\ukcas\server\.env.local
+2025-05-07T06:11:24.437Z - Environment: development
+2025-05-07T06:11:24.491Z - Server running on port 5000
+2025-05-07T06:11:24.491Z - 
+Local: http://localhost:5000
+2025-05-07T06:11:24.492Z - Network: http://192.168.135.128:5000
+2025-05-07T06:11:25.505Z - 
+✅ Database synced successfully
+2025-05-07T06:14:20.136Z - Loading environment variables from: E:\Projects\ukcas\server\.env.local
+2025-05-07T06:14:20.694Z - Environment: development
+2025-05-07T06:14:20.772Z - Server running on port 5000
+2025-05-07T06:14:20.772Z - 
+Local: http://localhost:5000
+2025-05-07T06:14:20.773Z - Network: http://192.168.135.128:5000
+2025-05-07T06:14:22.007Z - 
+✅ Database synced successfully

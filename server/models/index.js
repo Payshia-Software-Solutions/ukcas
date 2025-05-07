@@ -7,6 +7,7 @@ const AccrediteForm = require("./AccrediteForm");
 const Institute = require("./Institute");     
 const Student = require("./Student");
 const Certificate = require("./Certificate");
+const Service = require("./Service");
 
 
 
@@ -51,5 +52,6 @@ module.exports = {
   AccrediteForm,
   Institute,
   Student,
-  Certificate
+  Certificate,
+  Service
 };
