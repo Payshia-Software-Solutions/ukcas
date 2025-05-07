@@ -10,6 +10,8 @@ interface ServiceCardProps {
   imageUrl: string;
   description: string;
   onClick?: () => void;
+  link: string;
+  
 }
 
 const ServiceCard: React.FC<ServiceCardProps> = ({ 

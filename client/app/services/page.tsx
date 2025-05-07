@@ -1,134 +1,114 @@
-import React from 'react';
-import SectionHeader from '@/components/Common/SectionHeader';
-import ServiceCard from '@/components/ServiceCard';
-import Breadcrumb from '@/components/Breadcrumb';
+"use client";
 
-interface ServiceItem {
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import ServiceCard from "@/components/ServiceCard"; // Make sure to create the ServiceCard component
+import { motion } from "framer-motion";
+import Breadcrumb from "@/components/Breadcrumb";
+import config from "@/config";
+
+// 🧩 Define the Service type
+interface Service {
   id: number;
   category: string;
   title: string;
-  imageUrl: string;
   description: string;
+  imageUrl: string;
+  slug: string;
 }
 
-export const metadata = {
-  title: 'Services | Bosa - Professional Services for Your Business',
-  description:
-    'Explore Bosa’s wide range of services, including skill assessments, certifications, research, consultancy, and more. Enhance your business operations with expert solutions tailored to your needs.',
-  keywords: [
-    'Business Services',
-    'Skill Assessments',
-    'Certifications',
-    'Consultancy',
-    'Research Publications',
-    'Quality Control',
-    'Accreditation Services',
-  ],
-  openGraph: {
-    title: 'Services | Bosa - Professional Services for Your Business',
-    description:
-      'Discover Bosa’s comprehensive services to help businesses grow. From skill assessments to quality control, find tailored solutions for your organization.',
-    url: 'https://www.bosa.com/services',
-    images: [
-      {
-        url: 'https://www.bosa.com/assets/services/overview-image.jpg',
-        width: 1200,
-        height: 630,
-        alt: 'Professional Services for Your Business at Bosa',
-      },
-    ],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Services | Bosa - Professional Services for Your Business',
-    description:
-      'Explore Bosa’s expert services, from assessments to consultancy. Enhance your business with tailored solutions.',
-    image: 'https://www.bosa.com/images/services-banner.jpg',
-  },
-};
+export default function ServicesPage() {
+  const [services, setServices] = useState<Service[]>([]);
 
-const Page: React.FC = () => {
-  const services: ServiceItem[] = [
-    {
-      id: 1,
-      category: 'ASSESSMENTS ',
-      title: 'Skill Assessments',
-      imageUrl: '/assets/services/Bosa-finance-img1.jpg',
-      description: 'Evaluate the skills of your team or candidates through comprehensive assessments tailored to industry standards and job roles.'
+  useEffect(() => {
+    const fetchServices = async () => {
+      try {
+        // Fetch services from the backend API
+        const res = await axios.get(`${config.API_BASE_URL}/services`);
+        console.log("Fetched services:", res.data); // 🔍 Log to see the data
+        setServices(res.data);
+      } catch (err) {
+        console.error("Error fetching services:", err);
+      }
+    };
+
+    fetchServices();
+  }, []);
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
     },
-    {
-      id: 2,
-      category: 'STANDARDIZATION',
-      title: 'Research & Publications',
-      imageUrl: '/assets/services/Bosa-finance-img2.jpg',
-      description: 'Access in-depth research and expertly curated publications that provide valuable insights and data to enhance your business decisions.'
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        type: "spring",
+        stiffness: 100,
+        damping: 12,
+      },
     },
-    {
-      id: 3,
-      category: 'CERTIFICATIONS',
-      title: 'Skill Certifications',
-      imageUrl: '/assets/services/Bosa-finance-img3.jpg',
-      description: 'Boost your professional credibility with recognized certifications that validate your expertise and skills in various domains.'
-    },
-    {
-      id: 4,
-      category: 'STANDARDIZATION',
-      title: 'Accreditation',
-      imageUrl: '/assets/services/Bosa-finance-img4.jpg',
-      description: 'Gain formal recognition for your organization through our accreditation services, ensuring compliance with international standards.'
-    },
-    {
-      id: 5,
-      category: 'STANDARDIZATION',
-      title: 'Quality Control',
-      imageUrl: '/assets/services/Bosa-finance-img5.jpg',
-      description: 'Ensure the highest quality in your products and services with our robust quality control processes, aligned with industry best practices.'
-    },
-    {
-      id: 6,
-      category: 'ADVISORY',
-      title: 'Consultancy Consultancy',
-      imageUrl: '/assets/services/Bosa-finance-img6.jpg',
-      description: 'Receive expert guidance and strategic advice tailored to your business needs, helping you navigate complex challenges and achieve your goals.'
-    }
-  ];
+  };
 
   return (
-    <div className='mt-20'>
-      <Breadcrumb
-        crumbs={[{ href: '/', label: 'Home' }, { href: '/services', label: 'Services' }]}
-        fontColor=""
-      />
-
-      <SectionHeader
-        imgURL="/assets/about/headerimage.jpg"
-        title='Our Services'
-      />
-      
-      <div className="container mx-auto px-4 py-12">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl text-slate-800 mb-2">What We Can Do</h2>
-          <div className="flex items-center justify-center">
-            <div className="h-px bg-red-400 w-20"></div>
-            <p className="mx-4 text-slate-600 uppercase tracking-wider">Our Services</p>
-            <div className="h-px bg-red-400 w-20"></div>
-          </div>
+    <div className="bg-gradient-to-b mt-20 from-gray-50 to-gray-100 min-h-screen py-16 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto">
+        <div className="my-6">
+          <Breadcrumb
+            crumbs={[
+              { href: "/", label: "Home" },
+              { href: "/services", label: "Services" },
+            ]}
+            fontColor=""
+          />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {services.map((service) => (
-            <ServiceCard
-              key={service.id}
-              category={service.category}
-              title={service.title}
-              imageUrl={service.imageUrl}
-              description={service.description}
-            />
-          ))}
+        <div className="text-center my-8">
+          <h2 className="text-4xl font-bold mb-4">Our Services</h2>
+          <p className="text-xl mb-4">
+            Explore our wide range of services designed to meet your business needs.
+          </p>
         </div>
+
+        <motion.div
+          className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-16"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          {services.length === 0 ? (
+            <p className="text-center col-span-full text-gray-500">
+              No services available at the moment. Check back later!
+            </p>
+          ) : (
+            services.map((service: Service) => (
+              <motion.div
+                key={service.id}
+                variants={itemVariants}
+                whileHover={{ scale: 1.03 }}
+                transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                className="flex justify-center"
+              >
+                <ServiceCard
+                  imageUrl={service.imageUrl}
+                  category={service.category}
+                  title={service.title}
+                  description={service.description}
+                  link={`/services/${service.slug}`} // Link to service detail page using the slug
+                />
+              </motion.div>
+            ))
+          )}
+        </motion.div>
       </div>
     </div>
   );
-};
-
-export default Page;
+}

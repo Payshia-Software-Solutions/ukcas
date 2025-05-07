@@ -49,6 +49,7 @@ const accrediteFormRoutes = require("./routes/accrediteFormRoutes");
 const instituteRoutes = require("./routes/instituteRoutes"); 
 const studentRoutes = require("./routes/studentRoutes");  
 const certificateRoutes = require("./routes/certificateRoutes");  
+const serviceRoutes = require("./routes/serviceRoutes");
 
 const app = express();
 
@@ -75,6 +76,7 @@ app.use(`/api/${apiVersion}/accredite`, accrediteFormRoutes);
 app.use(`/api/${apiVersion}/institute`, instituteRoutes); 
 app.use(`/api/${apiVersion}/student`, studentRoutes); 
 app.use(`/api/${apiVersion}/certificate`, certificateRoutes); 
+app.use(`/api/${apiVersion}/service`, serviceRoutes);
 
 
 // Root route (optional)
