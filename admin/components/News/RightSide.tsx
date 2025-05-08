@@ -4,9 +4,12 @@ import { FaPencil, FaTrash } from "react-icons/fa6";
 import UpdateForm from "./UpdateForm";
 import Image from "next/image";
 
-const RightSide: React.FC = () => {
+interface Props {
+  filterKeyword?: string;
+}
 
-  // Define NewsItem interface to type the news objects
+const RightSide: React.FC<Props> = ({ filterKeyword = "" }) => {
+
   interface NewsItem {
     id: string;
     title: string;
@@ -14,8 +17,7 @@ const RightSide: React.FC = () => {
     img_url?: string;
   }
 
-  // Use NewsItem[] instead of any[]
-  const [newsList, setNewsList] = useState<NewsItem[]>([]); 
+  const [newsList, setNewsList] = useState<NewsItem[]>([]);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [deleteStatus, setDeleteStatus] = useState<'idle' | 'success' | 'failed'>('idle');
@@ -70,12 +72,16 @@ const RightSide: React.FC = () => {
     setDeleteError(null);
   };
 
-  return (
-    <div className="bg-yellow-50 p-6 rounded-lg space-y-4 shadow-sm relative">
-      <h2 className="text-2xl font-bold mb-4 text-gray-600">Current Events</h2>
+  const filteredNews = newsList.filter((news) =>
+    news.title.toLowerCase().includes(filterKeyword.toLowerCase())
+  );
 
-      <div className="max-h-[500px] overflow-y-auto pr-2 space-y-4">
-        {newsList.slice(0, 10).map((news) => (
+  return (
+    <div className=" p-6 rounded-lg space-y-4 relative">
+      <h2 className="text-2xl font-bold mb-4 text-gray-600">Show All News</h2>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-[500px] overflow-y-auto pr-2">
+        {filteredNews.slice(0, 10).map((news) => (
           <div
             key={news.id}
             className="bg-white rounded-xl shadow p-4 flex items-start justify-between hover:shadow-md transition shadow-lg cursor-pointer"
@@ -109,12 +115,6 @@ const RightSide: React.FC = () => {
               <div>
                 <h3 className="font-bold text-gray-700">{news.title}</h3>
                 <p className="text-sm text-gray-600">{news.mini_description}</p>
-                <a
-                  href="#"
-                  className="text-blue-600 text-xs font-semibold hover:underline justify-end flex items-center mt-2"
-                >
-                  See more &gt;&gt;
-                </a>
               </div>
             </div>
             <div className="flex items-center justify-center gap-4 space-x-2">
@@ -137,23 +137,13 @@ const RightSide: React.FC = () => {
 
       <button className="text-gray-500 font-semibold text-md flex items-center justify-center w-full mt-4 cursor-pointer hover:text-gray-600 transition duration-300">
         Load More
-        <svg
-          className="w-4 h-4 ml-1"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            d="M19 9l-7 7-7-7"
-            strokeWidth={2}
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
+        <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path d="M19 9l-7 7-7-7" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       </button>
 
       {editingId && (
-        <div className="fixed inset-0 bg-white/50 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-xl w-full max-w-6xl max-h-[90vh] overflow-y-auto">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-lg font-bold">Update Event</h3>
@@ -166,10 +156,7 @@ const RightSide: React.FC = () => {
                 </svg>
               </button>
             </div>
-            <UpdateForm
-              id={editingId}
-              onClose={() => setEditingId(null)}
-            />
+            <UpdateForm id={editingId} onClose={() => setEditingId(null)} />
           </div>
         </div>
       )}
@@ -178,9 +165,7 @@ const RightSide: React.FC = () => {
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-xl w-full max-w-md">
             <h3 className="text-xl font-bold text-gray-700 mb-3">Confirm Deletion</h3>
-            <p className="text-gray-600 mb-5">
-              Are you sure you want to delete this news article? This action cannot be undone.
-            </p>
+            <p className="text-gray-600 mb-5">Are you sure you want to delete this news article? This action cannot be undone.</p>
             <div className="flex space-x-3">
               <button
                 onClick={cancelDelete}
@@ -209,8 +194,8 @@ const RightSide: React.FC = () => {
                 <>
                   <div className="flex justify-center mb-3">
                     <div className="bg-green-500 rounded-full p-2 w-16 h-16 flex items-center justify-center">
-                      <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7"></path>
+                      <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                       </svg>
                     </div>
                   </div>
@@ -221,8 +206,8 @@ const RightSide: React.FC = () => {
                 <>
                   <div className="flex justify-center mb-3">
                     <div className="bg-red-500 rounded-full p-2 w-16 h-16 flex items-center justify-center">
-                      <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M6 18L18 6M6 6l12 12"></path>
+                      <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" />
                       </svg>
                     </div>
                   </div>

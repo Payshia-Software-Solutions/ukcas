@@ -301,7 +301,7 @@ const UpdateForm: React.FC<UpdateFormProps> = ({ id, onClose }) => {
         <div className="text-red-500 font-semibold">{error}</div>
         <button
           onClick={onClose}
-          className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600"
+          className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 cursor-pointer transition duration-300"
         >
           Close
         </button>
@@ -312,7 +312,7 @@ const UpdateForm: React.FC<UpdateFormProps> = ({ id, onClose }) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-yellow-50 p-6 rounded-2xl space-y-4 shadow-md"
+      className=" p-6 rounded-2xl space-y-4"
     >
       <h2 className="text-2xl text-gray-600 font-bold mb-4">
         Update News Article
