@@ -83,7 +83,7 @@ export default function LoginPage() {
 
               <button
                 type="submit"
-                className="w-full bg-[#2c2c34] text-white py-3 rounded-lg font-medium transition duration-300 hover:bg-gray-800"
+                className="w-full bg-[#2c2c34] text-white py-3 rounded-lg font-medium transition duration-300 hover:bg-gray-800 cursor-pointer"
                 disabled={isLoading}
               >
                 {isLoading ? 'LOGGING IN...' : 'LOGIN'}
@@ -92,7 +92,7 @@ export default function LoginPage() {
           </div>
 
           {/* Right side - Logo and Info */}
-          <div className="w-full md:w-1/2 bg-[#2c2c34] text-white p-8 flex flex-col justify-center items-center">
+          <div className="w-full md:w-1/2 bg-[#2c2c34] text-white p-8 flex flex-col justify-center items-center ">
             <div className="bg-white rounded-lg p-6 mb-8 w-64">
               <Image
                 src="/assets/images/logo.png"
@@ -104,10 +104,7 @@ export default function LoginPage() {
             </div>
 
             <p className="text-sm text-gray-300 max-w-sm">
-              &quot;When you set an object to fixed, Figma will move it above the other
-              layers in the frame and label them as Fixed in the Layer&apos;s section of the
-              left navigation panel. It&apos;s not possible to position scrolling objects above
-              fixed layers&quot;
+              &quot;Transform your life through knowledge and skills. Raise your standards by acquiring internationally verifiable credentials from the UK.&quot;
             </p>
           </div>
         </div>

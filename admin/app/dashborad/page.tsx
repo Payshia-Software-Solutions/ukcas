@@ -1,6 +1,6 @@
 // app/dashboard/page.tsx
 "use client";
-import DashboardContent from '@/components/dashboard/dashboard';
+import DashboardContent from '@/components/Dashboard/dashboard';
 
 export default function DashboardPage() {
 
