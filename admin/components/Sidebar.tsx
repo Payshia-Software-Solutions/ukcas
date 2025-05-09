@@ -100,13 +100,13 @@ const Sidebar: React.FC = () => {
                   }`}
                 >
                   <Image
-                    src="/assets/images/student.png"
+                    src="/assets/images/speaker.png"
                     alt="Dashboard"
                     width={27}
                     height={20}
                     className="mr-3"
                   />
-                  Students
+                  Mange News
                 </button>
               </div>
             )}
