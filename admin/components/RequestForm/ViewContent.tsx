@@ -20,12 +20,19 @@ export default function Dashboard() {
   const [institutes, setInstitutes] = useState<Institute[]>([]);
   const [selectedInstitute, setSelectedInstitute] = useState<Institute | null>(null);
   const [showFullForm, setShowFullForm] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const [pendingCount, setPendingCount] = useState(0);
+  const [activeCount, setActiveCount] = useState(0);
 
   useEffect(() => {
     axios
       .get(`${config.API_BASE_URL}/accredite`)
       .then((response) => {
-        setInstitutes(response.data);
+        const allData = response.data;
+        setInstitutes(allData);
+        setPendingCount(allData.filter((i: Institute) => i.accredite_status === "pending").length);
+        setActiveCount(allData.filter((i: Institute) => i.accredite_status === "active").length);
       })
       .catch((error) => {
         console.error("Error fetching accreditation data:", error);
@@ -42,12 +49,14 @@ export default function Dashboard() {
     return ["pending", "active", "Rejected"].includes(status);
   };
 
+  const filteredInstitutes = institutes.filter((institute) =>
+    institute.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="flex min-h-screen bg-gray-100">
-      {/* Sidebar */}
       <Sidebar />
 
-      {/* Main Content */}
       <div className="flex-1 p-4 md:p-6 space-y-6">
         {/* Top Navbar */}
         <div className="flex flex-col md:flex-row items-center justify-between bg-white p-4 rounded-md shadow space-y-4 md:space-y-0">
@@ -65,32 +74,13 @@ export default function Dashboard() {
                 </svg>
               </div>
             </div>
-
-            <button className="relative">
-              <svg className="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M15 17h5l-1.405-1.405M18 14.158V11c0-3.866-2.239-7-5-7S8 7.134 8 11v3.159"
-                />
-              </svg>
-              <span className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
-            </button>
-
             <div className="w-10 h-10 rounded-full overflow-hidden">
-              <Image
-                src="/assets/images/profile.png"
-                alt="Profile"
-                width={40}
-                height={40}
-                className="w-full h-full object-cover"
-              />
+              <Image src="/assets/images/profile.png" alt="Profile" width={40} height={40} />
             </div>
           </div>
         </div>
 
-        {/* Greeting Section */}
+        {/* Greeting */}
         <div className="bg-yellow-50 p-4 rounded-md flex flex-col md:flex-row md:items-center md:justify-between space-y-2 md:space-y-0">
           <h2 className="text-lg font-bold">Hi, Good morning!</h2>
           <div className="flex items-center space-x-2 text-green-600 text-sm">
@@ -101,21 +91,50 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Request Forms Table */}
-        <div className="bg-white rounded-lg shadow p-6">
-          <div className="flex flex-col md:flex-row justify-between mb-6 space-y-4 md:space-y-0">
-            <h1 className="text-2xl font-bold">Request Forms</h1>
-            <div className="flex flex-wrap gap-2">
-              <input
-                type="text"
-                placeholder="Search..."
-                className="border rounded-md px-3 py-2 text-sm focus:outline-none"
-              />
-              <button className="border px-3 py-2 rounded-md text-sm hover:bg-gray-100">Filters</button>
-              <button className="border px-3 py-2 rounded-md text-sm hover:bg-gray-100">Date Range</button>
+        {/* Counter Section */}
+        <div className="flex justify-center gap-40 mt-6">
+          <div className="bg-white p-6 rounded-2xl shadow flex items-center space-x-4 w-100 h-40">
+            <div className="text-4xl">
+              <Image src="/assets/images/pending.png" alt="Pending" width={50} height={20} className="mr-3" />
+            </div>
+            <div>
+              <p className="text-sm text-gray-500">Pending Institute</p>
+              <p className="text-2xl font-bold">{pendingCount}</p>
             </div>
           </div>
 
+          <div className="bg-white p-6 rounded-2xl shadow flex items-center space-x-4 w-100 h-40">
+            <div className="text-4xl">
+              <Image src="/assets/images/checklist.png" alt="Active" width={50} height={20} className="mr-3" />
+            </div>
+            <div>
+              <p className="text-sm text-gray-500">Active Institute</p>
+              <p className="text-2xl font-bold">{activeCount}</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Search Institute */}
+        <div className="flex items-center justify-center mt-6 mb-4">
+          <p className="text-2xl font-bold text-gray-500">Search Institute</p>
+        </div>
+
+        {/* Search + Filter */}
+        <div className="relative w-full flex flex-col md:flex-row items-center justify-center gap-4 mt-6">
+          <input
+            type="text"
+            placeholder="Search Institute..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full md:w-1/2 px-4 py-2 border rounded-full shadow-sm"
+          />
+          <button className="bg-gray-800 text-white px-5 py-2 rounded-full shadow hover:bg-black transition">
+            Filter
+          </button>
+        </div>
+
+        {/* Request Table */}
+        <div className="bg-white rounded-lg shadow p-6">
           <div className="overflow-x-auto">
             <table className="w-full text-sm text-left text-gray-700">
               <thead className="text-xs uppercase bg-gray-100 text-gray-700">
@@ -127,7 +146,7 @@ export default function Dashboard() {
                 </tr>
               </thead>
               <tbody>
-                {institutes.map((item) => (
+                {filteredInstitutes.map((item) => (
                   <ContentRow
                     key={item.id}
                     date={new Date(item.created_at).toLocaleDateString()}
@@ -143,19 +162,6 @@ export default function Dashboard() {
               </tbody>
             </table>
           </div>
-
-          <div className="flex justify-center items-center mt-6 flex-wrap gap-2">
-            {[1, 2, "...", 9, 10].map((num, idx) => (
-              <button
-                key={idx}
-                className={`px-3 py-1 border rounded ${
-                  num === 1 ? "bg-blue-500 text-white" : "hover:bg-gray-100"
-                }`}
-              >
-                {num}
-              </button>
-            ))}
-          </div>
         </div>
       </div>
 
@@ -169,30 +175,12 @@ export default function Dashboard() {
             >
               ✖
             </button>
-
             <h2 className="text-2xl font-bold mb-6">Request Form</h2>
-
-            <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 space-y-4 md:space-y-0">
-              <div className="text-base font-semibold text-gray-700">
-                Request ID:{" "}
-                <span className="font-normal text-gray-500">#{selectedInstitute.id}</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <span className="text-base font-semibold text-gray-700">Status:</span>
-                <div className="flex items-center text-blue-600">
-                  <span className="w-2 h-2 bg-blue-600 rounded-full mr-1"></span>
-                  <span className="text-sm font-semibold">{selectedInstitute.accredite_status}</span>
-                </div>
-              </div>
-            </div>
-
             <div className="mb-6">
               <p className="text-base font-semibold text-gray-700">
-                Organization/Institute:{" "}
-                <span className="font-normal text-gray-500">{selectedInstitute.name}</span>
+                Organization/Institute: <span className="font-normal text-gray-500">{selectedInstitute.name}</span>
               </p>
             </div>
-
             {showFullForm ? (
               <FullForm id={selectedInstitute.id.toString()} />
             ) : (

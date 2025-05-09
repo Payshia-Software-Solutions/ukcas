@@ -96,8 +96,14 @@ const Services = () => {
           </button>
         </div>
 
+        <div className="flex items-center justify-center mt-6 mb-4">
+          <p className="text-2xl font-bold text-gray-500">Search News</p>
+        </div>
+
         {/* Search + Filter */}
+       
         <div className="relative w-full flex flex-col md:flex-row items-center justify-center gap-4 mt-6">
+          
           <input
             type="text"
             value={searchQuery}
