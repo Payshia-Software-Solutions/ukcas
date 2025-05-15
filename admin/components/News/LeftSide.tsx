@@ -89,7 +89,7 @@ const LeftSide: React.FC<LeftSideProps> = ({ onCreateSuccess }) => {
         }
         return response.json();
       })
-      .then(data => {
+      .then( () => {
         setSubmitStatus({
           success: true,
           message: "News created successfully!"

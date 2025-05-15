@@ -24,7 +24,6 @@ const Services = () => {
 
   const handleCreate = () => setShowCreateModal(true);
   const handleNewsCreated = () => setNewsCount((prev) => prev + 1);
-  const handleNewsDeleted = () => setNewsCount((prev) => Math.max(0, prev - 1));
   const handleFilter = () => setFilterKeyword(searchQuery); // Apply filter
 
   return (

@@ -9,9 +9,9 @@ import AddStudent from "../Student/Form";
 const Services = () => {
   const router = useRouter();
   const [showCreateModal, setShowCreateModal] = useState(false);
-  const [newsCount, setNewsCount] = useState(0);
+  const [, setNewsCount] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
-  const [filterKeyword, setFilterKeyword] = useState("");
+  const [, setFilterKeyword] = useState("");
 
   useEffect(() => {
     fetch("http://localhost:5000/api/v2/news")
