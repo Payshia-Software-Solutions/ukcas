@@ -106,8 +106,24 @@ const Sidebar: React.FC = () => {
                     height={20}
                     className="mr-3"
                   />
-                  Mange News
+                  Manage News
                 </button>
+                <button
+                  onClick={() => router.push("/student")}
+                  className={`block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md text-left flex ${
+                    currentPath === "/student" ? "bg-gray-700" : ""
+                  }`}
+                >
+                  <Image
+                    src="/assets/images/student.png"
+                    alt="Dashboard"
+                    width={27}
+                    height={20}
+                    className="mr-3"
+                  />
+                  Student
+                </button>
+                
               </div>
             )}
           </div>
@@ -138,7 +154,7 @@ const Sidebar: React.FC = () => {
             {isTransactionOpen && (
               <div className="space-y-4 pl-4"> {/* Increased space-y value here */}
                 <button
-                  onClick={() => router.push("/pending-certificate")}
+                  onClick={() => router.push("")}
                   className={`block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md text-left mt-5 flex ${
                     currentPath === "/pending-certificate" ? "bg-gray-700" : ""
                   }`}
@@ -153,7 +169,7 @@ const Sidebar: React.FC = () => {
                   Payments
                 </button>
                 <button
-                  onClick={() => router.push("/issued-certificate")}
+                  onClick={() => router.push("/certificate")}
                   className={`block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md text-left flex ${
                     currentPath === "/issued-certificate" ? "bg-gray-700" : ""
                   }`}
