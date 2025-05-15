@@ -123,6 +123,21 @@ const Sidebar: React.FC = () => {
                   />
                   Student
                 </button>
+                <button
+                  onClick={() => router.push("/manage-services")}
+                  className={`block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md text-left flex ${
+                    currentPath === "/manage-services" ? "bg-gray-700" : ""
+                  }`}
+                >
+                  <Image
+                    src="/assets/images/repairing-service.png"
+                    alt="Dashboard"
+                    width={27}
+                    height={20}
+                    className="mr-3"
+                  />
+                  Manage Services
+                </button>
                 
               </div>
             )}
