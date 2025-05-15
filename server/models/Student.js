@@ -9,7 +9,11 @@ const Student = sequelize.define(
       autoIncrement: true,
       primaryKey: true,
     },
-    name: {
+    first_name: {
+      type: DataTypes.STRING(255),
+      allowNull: false,
+    },
+    last_name: {
       type: DataTypes.STRING(255),
       allowNull: false,
     },
@@ -17,24 +21,28 @@ const Student = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    age: {
-      type: DataTypes.INTEGER,
+    nic: {
+      type: DataTypes.STRING(50),
+      allowNull: true,
+    },
+    birthday: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
+    country: {
+      type: DataTypes.STRING(100),
       allowNull: true,
     },
     address: {
       type: DataTypes.STRING(255),
       allowNull: true,
     },
-    mobile_number: {
+    phone_number: {
       type: DataTypes.STRING(20),
       allowNull: true,
     },
-    postal_code: {
-      type: DataTypes.STRING(20),
-      allowNull: true,
-    },
-    country: {
-      type: DataTypes.STRING(100),
+    email: {
+      type: DataTypes.STRING(255),
       allowNull: true,
     },
     created_by: {
@@ -59,40 +67,39 @@ const Student = sequelize.define(
       type: DataTypes.STRING(255),
       unique: true,
     },
+    postal_code: {
+      type: DataTypes.STRING(20),
+      allowNull: true,
+    },
   },
   {
-    tableName: "student",
+    tableName: "students", // Table name should be plural
     timestamps: true,
     createdAt: "created_at",
     updatedAt: "updated_at",
     hooks: {
       beforeCreate: async (student) => {
-        
         const year = new Date().getFullYear();
-        const lastTwoDigitsOfYear = year.toString().slice(-2); 
+        const lastTwoDigitsOfYear = year.toString().slice(-2);
         const month = new Date().getMonth() + 1;
         const monthStr = month.toString().padStart(2, "0");
 
-    
         const baseUsername = `S${lastTwoDigitsOfYear}${monthStr}`;
 
-      
         const lastStudent = await Student.findOne({
           where: {
             username: {
-              [Op.like]: `${baseUsername}%`, 
+              [Op.like]: `${baseUsername}%`,
             },
           },
-          order: [["id", "DESC"]], 
+          order: [["id", "DESC"]],
           attributes: ["username"],
         });
 
-     
         let newNumber = 1;
         if (lastStudent && lastStudent.username) {
-         
-          const lastNum = lastStudent.username.slice(-2);ts
-          newNumber = parseInt(lastNum, 10) + 1; 
+          const lastNum = lastStudent.username.slice(-2);
+          newNumber = parseInt(lastNum, 10) + 1;
         }
 
         const newUsername = `${baseUsername}${newNumber.toString().padStart(2, "0")}`;
