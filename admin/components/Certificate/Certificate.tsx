@@ -15,9 +15,9 @@ type Institute = {
 
 export default function Dashboard() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [institutes, setInstitutes] = useState<Institute[]>([]);
-  const [selectedInstitute, setSelectedInstitute] = useState<Institute | null>(null);
-  const [showFullForm, setShowFullForm] = useState(false);
+  const [, setInstitutes] = useState<Institute[]>([]);
+  const [selectedInstitute,] = useState<Institute | null>(null);
+  const [, setShowFullForm] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
 
   const [pendingCount, setPendingCount] = useState(0);
@@ -43,13 +43,7 @@ export default function Dashboard() {
     }
   }, [isModalOpen]);
 
-  const isValidStatus = (status: string): status is "pending" | "active" | "Rejected" => {
-    return ["pending", "active", "Rejected"].includes(status);
-  };
 
-  const filteredInstitutes = institutes.filter((institute) =>
-    institute.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
 
   return (
     <div className="flex min-h-screen bg-gray-100">
