@@ -127,7 +127,7 @@ const Services = () => {
         {/* Create Modal */}
         {showCreateModal && (
           <div className="fixed inset-0 flex justify-center items-center z-50 bg-black/50">
-            <div className="bg-white rounded-lg p-6 w-full max-w-4xl relative">
+            <div className="bg-white rounded-lg p-6 w-full max-w-4xl relative max-h-[90vh] overflow-y-auto">
               <button
                 onClick={() => setShowCreateModal(false)}
                 className="absolute top-2 right-2 text-xl font-bold text-gray-600 hover:text-gray-800 cursor-pointer"

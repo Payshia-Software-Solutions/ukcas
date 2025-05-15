@@ -92,8 +92,8 @@ export default function Dashboard() {
         </div>
 
         {/* Counter Section */}
-        <div className="flex justify-center gap-40 mt-6">
-          <div className="bg-white p-6 rounded-2xl shadow flex items-center space-x-4 w-100 h-40">
+        <div className="flex justify-start gap-10 mt-6">
+          <div className="bg-white p-6 rounded-2xl shadow flex items-center space-x-4 w-130 h-28">
             <div className="text-4xl">
               <Image src="/assets/images/pending.png" alt="Pending" width={50} height={20} className="mr-3" />
             </div>
@@ -103,16 +103,17 @@ export default function Dashboard() {
             </div>
           </div>
 
-          <div className="bg-white p-6 rounded-2xl shadow flex items-center space-x-4 w-100 h-40">
-            <div className="text-4xl">
-              <Image src="/assets/images/checklist.png" alt="Active" width={50} height={20} className="mr-3" />
-            </div>
-            <div>
-              <p className="text-sm text-gray-500">Active Institute</p>
-              <p className="text-2xl font-bold">{activeCount}</p>
+            <div className="bg-white p-6 rounded-2xl shadow flex items-center space-x-4 w-130 h-28">
+              <div className="text-4xl">
+                <Image src="/assets/images/checklist.png" alt="Active" width={50} height={20} className="mr-3" />
+              </div>
+              <div>
+                <p className="text-sm text-gray-500">Active Institute</p>
+                <p className="text-2xl font-bold">{activeCount}</p>
+              </div>
             </div>
           </div>
-        </div>
+
 
         {/* Search Institute */}
         <div className="flex items-center justify-center mt-6 mb-4">

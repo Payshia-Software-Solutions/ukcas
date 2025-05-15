@@ -1,4 +1,5 @@
 import React, { useState, ChangeEvent } from 'react';
+import { Editor } from '@tinymce/tinymce-react';
 
 // Interface for the form data
 interface NewsFormData {
@@ -63,6 +64,12 @@ const LeftSide: React.FC<LeftSideProps> = ({ onCreateSuccess }) => {
         img_url: `${fileName}`,
       });
     }
+  };
+   const handleEditorChange = (content: string) => {
+    setFormData({
+      ...formData,
+      description: content,
+    });
   };
 
   const handleSubmit = () => {
@@ -233,16 +240,27 @@ const LeftSide: React.FC<LeftSideProps> = ({ onCreateSuccess }) => {
           </div>
         </div>
 
-        {/* News Description */}
+        {/* News Description with TinyMCE Editor */}
         <div>
           <label className="block font-semibold text-xl text-gray-500 mb-1">News Description</label>
-          <textarea
-            name="description"
+          <Editor
+            apiKey="bcmoy3sawjsp7clc7s2dwfar6vmlq11b4mvsxok6bwh2q08b" 
             value={formData.description}
-            onChange={handleChange}
-            rows={5}
-            className="w-full px-4 py-3 rounded-xl border shadow-inner"
-          ></textarea>
+            init={{
+              height: 200,
+              menubar: false,
+              plugins: [
+                'advlist autolink lists link image charmap preview anchor',
+                'searchreplace visualblocks code fullscreen',
+                'insertdatetime media table paste help wordcount'
+              ],
+              toolbar:
+                'undo redo | formatselect | bold italic underline | \
+                alignleft aligncenter alignright alignjustify | \
+                bullist numlist outdent indent | removeformat | help'
+            }}
+            onEditorChange={handleEditorChange}
+          />
         </div>
 
         {/* Mini Description */}

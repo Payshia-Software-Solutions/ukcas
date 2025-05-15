@@ -2,7 +2,23 @@
 
 import { useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
-import Image from "next/image";
+import {
+  FiGrid,
+  FiHome,
+  FiUsers,
+  FiSpeaker,
+  FiUser,
+  FiSettings,
+  FiDollarSign,
+  FiCreditCard,
+  FiBarChart2,
+  FiBox,
+  FiBook,
+  FiFileText,
+  FiLogOut,
+  FiChevronDown,
+  FiChevronUp,
+} from "react-icons/fi";
 
 const Sidebar: React.FC = () => {
   const router = useRouter();
@@ -10,7 +26,7 @@ const Sidebar: React.FC = () => {
   const [isTransactionOpen, setIsTransactionOpen] = useState<boolean>(false);
   const [isRecordOpen, setIsRecordOpen] = useState<boolean>(false);
 
-  const currentPath = usePathname(); // Get the current URL path
+  const currentPath = usePathname();
 
   const handleLogout = (): void => {
     localStorage.removeItem("isLoggedIn");
@@ -19,12 +35,12 @@ const Sidebar: React.FC = () => {
 
   const handleTransactionClick = () => {
     setIsTransactionOpen(!isTransactionOpen);
-    setIsRecordOpen(false); // Close Records dropdown when Transaction is clicked
+    setIsRecordOpen(false);
   };
 
   const handleRecordClick = () => {
     setIsRecordOpen(!isRecordOpen);
-    setIsTransactionOpen(false); // Close Transaction dropdown when Records is clicked
+    setIsTransactionOpen(false);
   };
 
   return (
@@ -34,30 +50,25 @@ const Sidebar: React.FC = () => {
           Company Name
         </div>
 
-        <div className="space-y-6"> {/* Increased space-y value here */}
+        <div className="space-y-6">
           {/* Dashboard Menu */}
           <div>
             <button
               onClick={() => router.push("/dashboard")}
-              className={`flex items-center justify-start w-full p-2 rounded-md hover:bg-gray-700 ${
+              className={`flex items-center justify-start w-full p-2 rounded-md cursor-pointer hover:bg-gray-700 ${
                 currentPath === "/dashboard" ? "bg-gray-700" : ""
               }`}
             >
-              <Image
-                src="/assets/images/dashboard.png"
-                alt="Dashboard"
-                width={25}
-                height={20}
-                className="mr-3"
-              />
+              <FiGrid className="mr-3" size={20} />
               <span className="text-lg">Dashboard</span>
             </button>
           </div>
 
+          {/* Master Menu */}
           <div>
             <button
               onClick={() => setIsDashboardOpen(!isDashboardOpen)}
-              className={`flex items-center justify-start w-full p-2 rounded-md hover:bg-gray-700  ${
+              className={`flex items-center justify-start w-full p-2 rounded-md cursor-pointer hover:bg-gray-700  ${
                 currentPath.includes("create-institutes") ||
                 currentPath.includes("view-content") ||
                 currentPath.includes("manage-services") ||
@@ -66,79 +77,50 @@ const Sidebar: React.FC = () => {
                   : ""
               }`}
             >
-              <Image
-                src="/assets/images/home.png"
-                alt="Dashboard"
-                width={25}
-                height={20}
-                className="mr-3"
-              />
+              <FiHome className="mr-3" size={20} />
               <span className="text-lg">Master</span>
-              <span className="ml-auto">{isDashboardOpen ? "▲" : "▼"}</span>
+              <span className="ml-auto">
+                {isDashboardOpen ? <FiChevronUp /> : <FiChevronDown />}
+              </span>
             </button>
             {isDashboardOpen && (
-              <div className="space-y-4 pl-4"> {/* Increased space-y value here */}
+              <div className="space-y-4 pl-4">
                 <button
                   onClick={() => router.push("/view-content")}
-                  className={`block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md text-left mt-5 flex ${
+                  className={`block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md text-left mt-5 flex cursor-pointer items-center ${
                     currentPath === "/view-content" ? "bg-gray-700" : ""
                   }`}
                 >
-                  <Image
-                    src="/assets/images/institute.png"
-                    alt="Dashboard"
-                    width={27}
-                    height={20}
-                    className="mr-3"
-                  />
+                  <FiUsers className="mr-3" size={20} />
                   Institutes
                 </button>
                 <button
                   onClick={() => router.push("/news")}
-                  className={`block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md text-left flex ${
+                  className={`block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md text-left flex cursor-pointer items-center ${
                     currentPath === "/news" ? "bg-gray-700" : ""
                   }`}
                 >
-                  <Image
-                    src="/assets/images/speaker.png"
-                    alt="Dashboard"
-                    width={27}
-                    height={20}
-                    className="mr-3"
-                  />
+                  <FiSpeaker className="mr-3" size={20} />
                   Manage News
                 </button>
                 <button
                   onClick={() => router.push("/student")}
-                  className={`block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md text-left flex ${
+                  className={`block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md text-left flex cursor-pointer items-center ${
                     currentPath === "/student" ? "bg-gray-700" : ""
                   }`}
                 >
-                  <Image
-                    src="/assets/images/student.png"
-                    alt="Dashboard"
-                    width={27}
-                    height={20}
-                    className="mr-3"
-                  />
+                  <FiUser className="mr-3" size={20} />
                   Student
                 </button>
                 <button
                   onClick={() => router.push("/manage-services")}
-                  className={`block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md text-left flex ${
+                  className={`block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md text-left flex cursor-pointer items-center ${
                     currentPath === "/manage-services" ? "bg-gray-700" : ""
                   }`}
                 >
-                  <Image
-                    src="/assets/images/repairing-service.png"
-                    alt="Dashboard"
-                    width={27}
-                    height={20}
-                    className="mr-3"
-                  />
+                  <FiSettings className="mr-3" size={20} />
                   Manage Services
                 </button>
-                
               </div>
             )}
           </div>
@@ -147,7 +129,7 @@ const Sidebar: React.FC = () => {
           <div>
             <button
               onClick={handleTransactionClick}
-              className={`flex items-center justify-start w-full p-2 rounded-md hover:bg-gray-700 ${
+              className={`flex items-center justify-start w-full p-2 rounded-md cursor-pointer hover:bg-gray-700 ${
                 currentPath.includes("pending-certificate") ||
                 currentPath.includes("issued-certificate") ||
                 currentPath.includes("institute-payment") ||
@@ -156,46 +138,30 @@ const Sidebar: React.FC = () => {
                   : ""
               }`}
             >
-              <Image
-                src="/assets/images/coin.png"
-                alt="Dashboard"
-                width={27}
-                height={20}
-                className="mr-3"
-              />
+              <FiDollarSign className="mr-3" size={20} />
               <span className="text-lg">Transaction</span>
-              <span className="ml-auto">{isTransactionOpen ? "▲" : "▼"}</span>
+              <span className="ml-auto">
+                {isTransactionOpen ? <FiChevronUp /> : <FiChevronDown />}
+              </span>
             </button>
             {isTransactionOpen && (
-              <div className="space-y-4 pl-4"> {/* Increased space-y value here */}
+              <div className="space-y-4 pl-4">
                 <button
                   onClick={() => router.push("")}
-                  className={`block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md text-left mt-5 flex ${
+                  className={`block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md text-left mt-5 flex cursor-pointer items-center ${
                     currentPath === "/pending-certificate" ? "bg-gray-700" : ""
                   }`}
                 >
-                  <Image
-                    src="/assets/images/cash-payment.png"
-                    alt="Dashboard"
-                    width={27}
-                    height={20}
-                    className="mr-3"
-                  />
+                  <FiCreditCard className="mr-3" size={20} />
                   Payments
                 </button>
                 <button
                   onClick={() => router.push("/certificate")}
-                  className={`block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md text-left flex ${
+                  className={`block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md text-left flex cursor-pointer items-center ${
                     currentPath === "/issued-certificate" ? "bg-gray-700" : ""
                   }`}
                 >
-                  <Image
-                    src="/assets/images/diploma.png"
-                    alt="Dashboard"
-                    width={27}
-                    height={20}
-                    className="mr-3"
-                  />
+                  <FiBook className="mr-3" size={20} />
                   Certificates
                 </button>
               </div>
@@ -206,7 +172,7 @@ const Sidebar: React.FC = () => {
           <div>
             <button
               onClick={handleRecordClick}
-              className={`flex items-center justify-start w-full p-2 rounded-md hover:bg-gray-700 ${
+              className={`flex items-center justify-start w-full p-2 rounded-md cursor-pointer hover:bg-gray-700 ${
                 currentPath.includes("institute-report") ||
                 currentPath.includes("student-report") ||
                 currentPath.includes("payment-report") ||
@@ -215,88 +181,60 @@ const Sidebar: React.FC = () => {
                   : ""
               }`}
             >
-              <Image
-                src="/assets/images/bar-chart.png"
-                alt="Dashboard"
-                width={27}
-                height={20}
-                className="mr-3"
-              />
+              <FiBarChart2 className="mr-3" size={20} />
               <span className="text-lg">Records</span>
-              <span className="ml-auto">{isRecordOpen ? "▲" : "▼"}</span>
+              <span className="ml-auto">
+                {isRecordOpen ? <FiChevronUp /> : <FiChevronDown />}
+              </span>
             </button>
             {isRecordOpen && (
-              <div className="space-y-4 pl-4"> {/* Increased space-y value here */}
+              <div className="space-y-4 pl-4">
                 <button
                   onClick={() => {
                     router.push("/institute-report");
-                    setIsRecordOpen(false); // Close the dropdown after item click
+                    setIsRecordOpen(false);
                   }}
-                  className={`block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md text-left mt-5 flex ${
+                  className={`block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md text-left mt-5 flex  cursor-pointer items-center ${
                     currentPath === "/institute-report" ? "bg-gray-700" : ""
                   }`}
                 >
-                  <Image
-                    src="/assets/images/organization.png"
-                    alt="Dashboard"
-                    width={27}
-                    height={20}
-                    className="mr-3"
-                  />
+                  <FiBox className="mr-3" size={20} />
                   Institute Report
                 </button>
                 <button
                   onClick={() => {
                     router.push("/student-report");
-                    setIsRecordOpen(false); // Close the dropdown after item click
+                    setIsRecordOpen(false);
                   }}
-                  className={`block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md text-left flex ${
+                  className={`block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md text-left flex cursor-pointer items-center ${
                     currentPath === "/student-report" ? "bg-gray-700" : ""
                   }`}
                 >
-                  <Image
-                    src="/assets/images/education.png"
-                    alt="Dashboard"
-                    width={27}
-                    height={20}
-                    className="mr-3"
-                  />
+                  <FiUser className="mr-3" size={20} />
                   Student Report
                 </button>
                 <button
                   onClick={() => {
                     router.push("/payment-report");
-                    setIsRecordOpen(false); // Close the dropdown after item click
+                    setIsRecordOpen(false);
                   }}
-                  className={`block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md text-left flex ${
+                  className={`block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md text-left flex cursor-pointer items-center ${
                     currentPath === "/payment-report" ? "bg-gray-700" : ""
                   }`}
                 >
-                  <Image
-                    src="/assets/images/plan.png"
-                    alt="Dashboard"
-                    width={27}
-                    height={20}
-                    className="mr-3"
-                  />
+                  <FiFileText className="mr-3" size={20} />
                   Payment Report
                 </button>
                 <button
                   onClick={() => {
                     router.push("/creditors");
-                    setIsRecordOpen(false); // Close the dropdown after item click
+                    setIsRecordOpen(false);
                   }}
-                  className={`block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md text-left flex ${
-                    currentPath === "/creditors" ? "bg-gray-700" : ""
+                  className={`block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md text-left flex cursor-pointer items-center  ${ 
+                    currentPath === "/creditors" ? "bg-gray-700" : "" 
                   }`}
                 >
-                  <Image
-                    src="/assets/images/money.png"
-                    alt="Dashboard"
-                    width={27}
-                    height={20}
-                    className="mr-3"
-                  />
+                  <FiDollarSign className="mr-3" size={20} />
                   Creditors
                 </button>
               </div>
@@ -309,15 +247,10 @@ const Sidebar: React.FC = () => {
       <div className="mt-6">
         <button
           onClick={handleLogout}
-          className="bg-white text-red-600 px-10 py-3 rounded-2xl text-lg font-semibold hover:bg-red-200 w-full flex items-center justify-center space-x-2"
+          className="bg-white text-red-600 px-10 py-3 rounded-2xl text-lg font-semibold hover:bg-red-200 w-full flex items-center justify-center space-x-2 cursor-pointer"
         >
-          <Image
-            src="/assets/images/logout.png"
-            alt="Logout"
-            width={25}
-            height={20}
-          />
-          Logout
+          <FiLogOut size={20} />
+          <span>Logout</span>
         </button>
       </div>
     </div>
