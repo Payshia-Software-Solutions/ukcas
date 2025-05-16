@@ -53,7 +53,7 @@ const LeftSide: React.FC<LeftSideProps> = ({ onCreateSuccess }) => {
     setIsSubmitting(true);
     setSubmitStatus({ success: false, message: '' });
 
-    fetch('http://localhost:5000/api/v2/services', {  // <-- update API endpoint if needed
+    fetch('http://localhost:5000/api/v2/service', {  // <-- update API endpoint if needed
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData),

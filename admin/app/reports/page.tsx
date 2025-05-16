@@ -1,6 +1,6 @@
 // app/dashboard/page.tsx
 "use client";
-import Institute from '@/components/Institute-Report/Institute-Report';
+import Institute from '@/components/Reports/Reports';
 
 export default function Institutepage() {
 

@@ -14,7 +14,7 @@ const Services = () => {
   const [, setFilterKeyword] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/v2/news")
+    fetch("http://localhost:5000/api/v2/student")
       .then((res) => res.json())
       .then((data) => setNewsCount(data.length))
       .catch((err) => console.error("Error fetching news count:", err));

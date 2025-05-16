@@ -19,7 +19,7 @@ const RightSide: React.FC<Props> = ({ filterKeyword = "" }) => {
 
   const fetchServices = () => {
     axios
-      .get("http://localhost:5000/api/v2/services")
+      .get("http://localhost:5000/api/v2/service")
       .then((response) => setServiceList(response.data))
       .catch((error) => console.error("Error fetching services:", error));
   };

@@ -12,7 +12,6 @@ import {
   FiDollarSign,
   FiCreditCard,
   FiBarChart2,
-  FiBox,
   FiBook,
   FiFileText,
   FiLogOut,
@@ -191,51 +190,15 @@ const Sidebar: React.FC = () => {
               <div className="space-y-4 pl-4">
                 <button
                   onClick={() => {
-                    router.push("/institute-report");
+                    router.push("/reports");
                     setIsRecordOpen(false);
                   }}
                   className={`block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md text-left mt-5 flex  cursor-pointer items-center ${
                     currentPath === "/institute-report" ? "bg-gray-700" : ""
                   }`}
                 >
-                  <FiBox className="mr-3" size={20} />
-                  Institute Report
-                </button>
-                <button
-                  onClick={() => {
-                    router.push("/student-report");
-                    setIsRecordOpen(false);
-                  }}
-                  className={`block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md text-left flex cursor-pointer items-center ${
-                    currentPath === "/student-report" ? "bg-gray-700" : ""
-                  }`}
-                >
-                  <FiUser className="mr-3" size={20} />
-                  Student Report
-                </button>
-                <button
-                  onClick={() => {
-                    router.push("/payment-report");
-                    setIsRecordOpen(false);
-                  }}
-                  className={`block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md text-left flex cursor-pointer items-center ${
-                    currentPath === "/payment-report" ? "bg-gray-700" : ""
-                  }`}
-                >
                   <FiFileText className="mr-3" size={20} />
-                  Payment Report
-                </button>
-                <button
-                  onClick={() => {
-                    router.push("/creditors");
-                    setIsRecordOpen(false);
-                  }}
-                  className={`block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md text-left flex cursor-pointer items-center  ${ 
-                    currentPath === "/creditors" ? "bg-gray-700" : "" 
-                  }`}
-                >
-                  <FiDollarSign className="mr-3" size={20} />
-                  Creditors
+                  All Reports
                 </button>
               </div>
             )}
