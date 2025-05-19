@@ -4,10 +4,36 @@ const studentController = {
   // Create a new student
   async createStudent(req, res) {
     try {
-      // Include the new fields (e.g., first_name, last_name, etc.)
-      const student = await Student.create(req.body);
+      // All fields are now parsed from FormData using multer.none()
+      const {
+        first_name,
+        last_name,
+        institute_id,
+        nic,
+        birthday,
+        country,
+        address,
+        phone_number,
+        email,
+        created_by
+      } = req.body;
+
+      const student = await Student.create({
+        first_name,
+        last_name,
+        institute_id,
+        nic,
+        birthday,
+        country,
+        address,
+        phone_number,
+        email,
+        created_by
+      });
+
       res.status(201).json(student);
     } catch (error) {
+      console.error("Error creating student:", error);
       res.status(400).json({ error: error.message });
     }
   },
@@ -20,6 +46,7 @@ const studentController = {
       });
       res.json(students);
     } catch (error) {
+      console.error("Error fetching students:", error);
       res.status(500).json({ error: error.message });
     }
   },
@@ -30,9 +57,12 @@ const studentController = {
       const student = await Student.findByPk(req.params.id, {
         include: [{ model: Institute }],
       });
-      if (!student) return res.status(404).json({ error: "Student not found" });
+      if (!student) {
+        return res.status(404).json({ error: "Student not found" });
+      }
       res.json(student);
     } catch (error) {
+      console.error("Error fetching student:", error);
       res.status(500).json({ error: error.message });
     }
   },
@@ -41,9 +71,10 @@ const studentController = {
   async updateStudent(req, res) {
     try {
       const student = await Student.findByPk(req.params.id);
-      if (!student) return res.status(404).json({ error: "Student not found" });
+      if (!student) {
+        return res.status(404).json({ error: "Student not found" });
+      }
 
-      // Ensure we only update fields that exist in the model
       const updatedData = {
         first_name: req.body.first_name || student.first_name,
         last_name: req.body.last_name || student.last_name,
@@ -60,6 +91,7 @@ const studentController = {
       await student.update(updatedData);
       res.json(student);
     } catch (error) {
+      console.error("Error updating student:", error);
       res.status(400).json({ error: error.message });
     }
   },
@@ -68,10 +100,13 @@ const studentController = {
   async deleteStudent(req, res) {
     try {
       const student = await Student.findByPk(req.params.id);
-      if (!student) return res.status(404).json({ error: "Student not found" });
+      if (!student) {
+        return res.status(404).json({ error: "Student not found" });
+      }
       await student.destroy();
       res.status(204).send();
     } catch (error) {
+      console.error("Error deleting student:", error);
       res.status(500).json({ error: error.message });
     }
   },

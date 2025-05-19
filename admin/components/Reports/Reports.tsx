@@ -3,7 +3,20 @@
 import Image from "next/image";
 import Sidebar from "../Sidebar";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import dynamic from "next/dynamic";
+
+import "datatables.net-dt/css/dataTables.dataTables.css";
+
+const DataTable = dynamic(
+  async () => {
+    const dtReact = await import("datatables.net-react");
+    const dtNet = await import("datatables.net-dt");
+
+    dtReact.default.use(dtNet.default);
+    return dtReact.default;
+  },
+  { ssr: false }
+);
 
 const tabs = ["Institute Reports", "Student Reports", "Payment Reports"] as const;
 type Tab = typeof tabs[number];
@@ -30,6 +43,9 @@ interface PaymentReport {
   title: string;
   description: string;
 }
+
+// Union type for reports
+type Report = InstituteReport | StudentReport | PaymentReport;
 
 const reportsData: Record<Tab, InstituteReport[] | StudentReport[] | PaymentReport[]> = {
   "Institute Reports": [
@@ -81,11 +97,57 @@ const reportsData: Record<Tab, InstituteReport[] | StudentReport[] | PaymentRepo
 };
 
 export default function ReportsPage() {
-  const router = useRouter();
   const [activeTab, setActiveTab] = useState<Tab>("Institute Reports");
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
 
   const activeReports = reportsData[activeTab];
+
+  let detailTableColumns: string[] = [];
+  let detailTableData: string[][] = [];
+
+  if (activeTab === "Institute Reports") {
+    const selected = activeReports[selectedIndex] as InstituteReport;
+    detailTableColumns = [
+      "Institute Name",
+      "Institute ID",
+      "Registered Date",
+      "Location",
+      "Total Students",
+      "Total Issued Certificates",
+    ];
+    detailTableData = [
+      [
+        selected.name,
+        selected.id,
+        selected.date,
+        selected.location,
+        selected.students.toString(),
+        selected.certificates.toString(),
+      ],
+    ];
+  } else if (activeTab === "Student Reports") {
+    const selected = activeReports[selectedIndex] as StudentReport;
+    detailTableColumns = [
+      "Student Name",
+      "Student ID",
+      "Registered Date",
+      "Course",
+      "Status",
+    ];
+    detailTableData = [
+      [
+        selected.name,
+        selected.id,
+        selected.registeredDate,
+        selected.course,
+        selected.status,
+      ],
+    ];
+  } else if (activeTab === "Payment Reports") {
+    const selected = activeReports[selectedIndex] as PaymentReport;
+    detailTableColumns = ["Title", "Description"];
+    detailTableData = [[selected.title, selected.description]];
+  }
 
   return (
     <div className="flex min-h-screen bg-gray-100">
@@ -130,7 +192,7 @@ export default function ReportsPage() {
           ))}
         </div>
 
-        {/* Main content: Left list + Right details */}
+        {/* Main content: Left list + Right DataTable */}
         <div className="flex flex-1 gap-6">
           {/* Left side: report list */}
           <div className="w-1/3 bg-white rounded-lg shadow-md overflow-y-auto max-h-[70vh] border border-gray-200">
@@ -158,8 +220,8 @@ export default function ReportsPage() {
                 </tr>
               </thead>
               <tbody>
-                {(activeReports as any[]).map(
-                  (report: InstituteReport | StudentReport | PaymentReport, index: number) => (
+                {(activeReports as Report[]).map(
+                  (report, index: number) => (
                     <tr
                       key={index}
                       className={`cursor-pointer hover:bg-gray-100 ${
@@ -192,71 +254,35 @@ export default function ReportsPage() {
             </table>
           </div>
 
-          {/* Right side: details as horizontal table */}
+          {/* Right side: DataTable for details */}
           <div className="flex-1 bg-white rounded-lg shadow-md p-6 overflow-auto max-h-[70vh] border border-gray-200">
-            {activeReports.length === 0 ? (
+            {detailTableData.length === 0 ? (
               <p className="text-center text-gray-400 mt-20">No reports available.</p>
             ) : (
-              <table className="min-w-full text-left text-gray-700 border border-gray-300 rounded-md">
-                <thead className="bg-gray-400">
+              <DataTable
+                key={activeTab + selectedIndex} // Force remount on tab or row change
+                className="display"
+                data={detailTableData}
+                options={{
+                  paging: true,
+                  searching: true,
+                  info: true,
+                  lengthChange: true,
+                  pageLength: 5,
+                  ordering: true,
+                  destroy: true,
+                }}
+              >
+                <thead>
                   <tr>
-                    {activeTab === "Institute Reports" && (
-                      <>
-                        <th className="px-6 py-3 border-r">Institute Name</th>
-                        <th className="px-6 py-3 border-r">Institute ID</th>
-                        <th className="px-6 py-3 border-r">Registered Date</th>
-                        <th className="px-6 py-3 border-r">Location</th>
-                        <th className="px-6 py-3 border-r">Total Students</th>
-                        <th className="px-6 py-3">Total Issued Certificates</th>
-                      </>
-                    )}
-                    {activeTab === "Student Reports" && (
-                      <>
-                        <th className="px-6 py-3 border-r">Student Name</th>
-                        <th className="px-6 py-3 border-r">Student ID</th>
-                        <th className="px-6 py-3 border-r">Registered Date</th>
-                        <th className="px-6 py-3 border-r">Course</th>
-                        <th className="px-6 py-3">Status</th>
-                      </>
-                    )}
-                    {activeTab === "Payment Reports" && (
-                      <>
-                        <th className="px-6 py-3 border-r">Title</th>
-                        <th className="px-6 py-3">Description</th>
-                      </>
-                    )}
+                    {detailTableColumns.map((col) => (
+                      <th key={col} className="bg-gray-400 px-6 py-3 border-r last:border-r-0">
+                        {col}
+                      </th>
+                    ))}
                   </tr>
                 </thead>
-                <tbody>
-                  <tr>
-                    {activeTab === "Institute Reports" && (
-                      <>
-                        <td className="px-6 py-3 border-r">{(activeReports[selectedIndex] as InstituteReport).name}</td>
-                        <td className="px-6 py-3 border-r">{(activeReports[selectedIndex] as InstituteReport).id}</td>
-                        <td className="px-6 py-3 border-r">{(activeReports[selectedIndex] as InstituteReport).date}</td>
-                        <td className="px-6 py-3 border-r">{(activeReports[selectedIndex] as InstituteReport).location}</td>
-                        <td className="px-6 py-3 border-r">{(activeReports[selectedIndex] as InstituteReport).students}</td>
-                        <td className="px-6 py-3">{(activeReports[selectedIndex] as InstituteReport).certificates}</td>
-                      </>
-                    )}
-                    {activeTab === "Student Reports" && (
-                      <>
-                        <td className="px-6 py-3 border-r">{(activeReports[selectedIndex] as StudentReport).name}</td>
-                        <td className="px-6 py-3 border-r">{(activeReports[selectedIndex] as StudentReport).id}</td>
-                        <td className="px-6 py-3 border-r">{(activeReports[selectedIndex] as StudentReport).registeredDate}</td>
-                        <td className="px-6 py-3 border-r">{(activeReports[selectedIndex] as StudentReport).course}</td>
-                        <td className="px-6 py-3">{(activeReports[selectedIndex] as StudentReport).status}</td>
-                      </>
-                    )}
-                    {activeTab === "Payment Reports" && (
-                      <>
-                        <td className="px-6 py-3 border-r">{(activeReports[selectedIndex] as PaymentReport).title}</td>
-                        <td className="px-6 py-3">{(activeReports[selectedIndex] as PaymentReport).description}</td>
-                      </>
-                    )}
-                  </tr>
-                </tbody>
-              </table>
+              </DataTable>
             )}
           </div>
         </div>

@@ -12,7 +12,7 @@ export default function AddStudent() {
   const [formData, setFormData] = useState({
     first_name: "",
     last_name: "",
-    institute_id: "",   
+    institute_id: "",
     nic: "",
     birthday: "",
     country: "",
@@ -28,13 +28,11 @@ export default function AddStudent() {
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
-    console.log(`Input Changed - Field: ${name}, Value: ${value}`);  // Log input changes
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, files } = e.target;
-    console.log(`File Changed - Field: ${name}, File:`, files?.[0]);  // Log file input changes
     setDocuments((prev) => ({ ...prev, [name]: files && files[0] }));
   };
 
@@ -43,39 +41,35 @@ export default function AddStudent() {
     try {
       const formDataToSend = new FormData();
 
-      // Append form fields, converting institute_id to integer string
       Object.entries(formData).forEach(([key, value]) => {
         if (key === "institute_id") {
           const val = parseInt(value as string, 10).toString();
-          console.log(`Appending form field: ${key} = ${val}`);
           formDataToSend.append(key, val);
         } else {
-          console.log(`Appending form field: ${key} = ${value}`);
           formDataToSend.append(key, value);
         }
       });
 
-      // Append files if any
       Object.entries(documents).forEach(([key, file]) => {
         if (file instanceof File) {
-          console.log(`Appending file: ${key}`, file);
           formDataToSend.append(key, file);
         }
       });
 
-      console.log("Sending form data via POST to:", `${config.API_BASE_URL}/student`);
       await axios.post(`${config.API_BASE_URL}/student`, formDataToSend);
 
       toast.success("Student registered successfully");
-      router.back();
+      router.push("/student"); // ✅ Immediately go to /student
     } catch (error) {
       console.error("Error submitting form:", error);
       toast.error("Failed to register student");
     }
   };
 
-  const inputStyle = `border border-gray-100 rounded-md px-4 py-2 text-sm w-full focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-gray-400`;
-  const fileInputStyle = `block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-gray-100 file:text-gray-700 hover:file:bg-blue-100`;
+  const inputStyle =
+    "border border-gray-100 rounded-md px-4 py-2 text-sm w-full focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-gray-400";
+  const fileInputStyle =
+    "block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-gray-100 file:text-gray-700 hover:file:bg-blue-100";
 
   return (
     <div className="w-full min-h-screen p-8">
@@ -92,7 +86,9 @@ export default function AddStudent() {
           encType="multipart/form-data"
         >
           <div>
-            <h3 className="font-semibold text-gray-700 mb-2">Personal Information</h3>
+            <h3 className="font-semibold text-gray-700 mb-2">
+              Personal Information
+            </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <label className="w-full">
                 <span className="text-sm font-semibold text-gray-700 mb-1 block">
@@ -127,7 +123,7 @@ export default function AddStudent() {
                   Institute
                 </span>
                 <select
-                  name="institute_id"  // <-- Must match backend model field name
+                  name="institute_id"
                   value={formData.institute_id}
                   onChange={handleChange}
                   className={inputStyle}
