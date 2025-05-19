@@ -16,7 +16,7 @@ const Services = () => {
 
   // Fetch service count on load
   useEffect(() => {
-    fetch("http://localhost:5000/api/v2/services")
+    fetch("http://localhost:5000/api/v2/service")
       .then((res) => res.json())
       .then((data) => setServiceCount(data.length))
       .catch((err) => console.error("Error fetching service count:", err));
