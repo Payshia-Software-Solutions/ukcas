@@ -4,31 +4,32 @@ const studentController = {
   // Create a new student
   async createStudent(req, res) {
     try {
-      // All fields are now parsed from FormData using multer.none()
       const {
         first_name,
         last_name,
         institute_id,
+        student_id,
         nic,
         birthday,
         country,
         address,
         phone_number,
         email,
-        created_by
+        created_by,
       } = req.body;
 
       const student = await Student.create({
         first_name,
         last_name,
         institute_id,
+        student_id,
         nic,
         birthday,
         country,
         address,
         phone_number,
         email,
-        created_by
+        created_by,
       });
 
       res.status(201).json(student);
@@ -51,7 +52,7 @@ const studentController = {
     }
   },
 
-  // Get a specific student by ID with related institute data
+  // Get a specific student by numeric ID
   async getStudent(req, res) {
     try {
       const student = await Student.findByPk(req.params.id, {
@@ -63,6 +64,25 @@ const studentController = {
       res.json(student);
     } catch (error) {
       console.error("Error fetching student:", error);
+      res.status(500).json({ error: error.message });
+    }
+  },
+
+  // ✅ Get student by custom student_id (like "S250501")
+  async getStudentByStudentId(req, res) {
+    try {
+      const student = await Student.findOne({
+        where: { student_id: req.params.student_id },
+        include: [{ model: Institute }],
+      });
+
+      if (!student) {
+        return res.status(404).json({ error: "Student not found" });
+      }
+
+      res.json(student);
+    } catch (error) {
+      console.error("Error fetching student by student_id:", error);
       res.status(500).json({ error: error.message });
     }
   },
@@ -79,6 +99,7 @@ const studentController = {
         first_name: req.body.first_name || student.first_name,
         last_name: req.body.last_name || student.last_name,
         institute_id: req.body.institute_id || student.institute_id,
+        student_id: req.body.student_id || student.student_id,
         nic: req.body.nic || student.nic,
         birthday: req.body.birthday || student.birthday,
         country: req.body.country || student.country,

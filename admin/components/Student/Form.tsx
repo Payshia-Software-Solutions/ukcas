@@ -135,6 +135,19 @@ export default function AddStudent() {
               </label>
               <label className="w-full">
                 <span className="text-sm font-semibold text-gray-700 mb-1 block">
+                  Student Id
+                </span>
+                <input
+                  type="text"
+                  name="nic"
+                  placeholder="Enter student id number"
+                  value={formData.nic}
+                  onChange={handleChange}
+                  className={inputStyle}
+                />
+              </label>
+              <label className="w-full">
+                <span className="text-sm font-semibold text-gray-700 mb-1 block">
                   NIC Number
                 </span>
                 <input
@@ -146,6 +159,7 @@ export default function AddStudent() {
                   className={inputStyle}
                 />
               </label>
+              
               <label className="w-full">
                 <span className="text-sm font-semibold text-gray-700 mb-1 block">
                   Birthday

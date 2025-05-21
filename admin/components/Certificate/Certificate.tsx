@@ -5,6 +5,7 @@ import axios from "axios";
 import Image from "next/image";
 import config from "@/config";
 import Sidebar from "../Sidebar";
+import AddCertificate from "./NewCertificate"; // Adjust path as necessary
 
 type Institute = {
   id: number;
@@ -16,7 +17,6 @@ type Institute = {
 export default function Dashboard() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [, setInstitutes] = useState<Institute[]>([]);
-  const [selectedInstitute,] = useState<Institute | null>(null);
   const [, setShowFullForm] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -61,13 +61,22 @@ export default function Dashboard() {
                 className="border border-gray-300 w-full rounded-full pl-10 pr-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
               <div className="absolute left-3 top-2.5">
-                <svg className="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                <svg
+                  className="w-4 h-4 text-gray-400"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
                   <path d="M12.9 14.32a8 8 0 111.414-1.414l5.387 5.387-1.414 1.414-5.387-5.387zM8 14a6 6 0 100-12 6 6 0 000 12z" />
                 </svg>
               </div>
             </div>
             <div className="w-10 h-10 rounded-full overflow-hidden">
-              <Image src="/assets/images/profile.png" alt="Profile" width={40} height={40} />
+              <Image
+                src="/assets/images/profile.png"
+                alt="Profile"
+                width={40}
+                height={40}
+              />
             </div>
           </div>
         </div>
@@ -76,18 +85,39 @@ export default function Dashboard() {
         <div className="bg-yellow-50 p-4 rounded-md flex flex-col md:flex-row md:items-center md:justify-between space-y-2 md:space-y-0">
           <h2 className="text-lg font-bold">Hi, Good morning!</h2>
           <div className="flex items-center space-x-2 text-green-600 text-sm">
-            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <svg
+              className="w-5 h-5"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+            >
               <path d="M10 20v-6h4v6h5v-8h3L10 0 2 12h3v8z" />
             </svg>
             <span>Dashboard / Request Forms</span>
           </div>
         </div>
 
+        {/* Add Button */}
+        <div className="flex justify-between items-center w-full space-x-4 w-1/3">
+          <div></div>
+          <button
+            className="bg-black text-white px-4 py-3 text-sm shadow hover:bg-gray-800 transition duration-300 rounded-2xl mr-10 cursor-pointer"
+            onClick={() => setIsModalOpen(true)}
+          >
+            + Create New Certificate
+          </button>
+        </div>
+
         {/* Counter Section */}
         <div className="flex justify-center gap-40 mt-6">
           <div className="bg-white p-6 rounded-2xl shadow flex items-center space-x-4 w-100 h-40">
             <div className="text-4xl">
-              <Image src="/assets/images/pending.png" alt="Pending" width={50} height={20} className="mr-3" />
+              <Image
+                src="/assets/images/pending.png"
+                alt="Pending"
+                width={50}
+                height={20}
+                className="mr-3"
+              />
             </div>
             <div>
               <p className="text-sm text-gray-500">Pending Institute</p>
@@ -97,7 +127,13 @@ export default function Dashboard() {
 
           <div className="bg-white p-6 rounded-2xl shadow flex items-center space-x-4 w-100 h-40">
             <div className="text-4xl">
-              <Image src="/assets/images/checklist.png" alt="Active" width={50} height={20} className="mr-3" />
+              <Image
+                src="/assets/images/checklist.png"
+                alt="Active"
+                width={50}
+                height={20}
+                className="mr-3"
+              />
             </div>
             <div>
               <p className="text-sm text-gray-500">Active Institute</p>
@@ -137,14 +173,16 @@ export default function Dashboard() {
                   <th className="px-6 py-3">View</th>
                 </tr>
               </thead>
-              
+
+              {/* Your table body here */}
+
             </table>
           </div>
         </div>
       </div>
 
       {/* Modal */}
-      {isModalOpen && selectedInstitute && (
+      {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-900/50 backdrop-blur-sm z-50">
           <div className="bg-white rounded-2xl shadow-lg p-6 w-[90%] max-w-3xl relative max-h-[90vh] overflow-y-auto">
             <button
@@ -153,13 +191,10 @@ export default function Dashboard() {
             >
               ✖
             </button>
-            <h2 className="text-2xl font-bold mb-6">Request Form</h2>
-            <div className="mb-6">
-              <p className="text-base font-semibold text-gray-700">
-                Organization/Institute: <span className="font-normal text-gray-500">{selectedInstitute.name}</span>
-              </p>
-            </div>
-            
+            <h2 className="text-2xl font-bold mb-6">Create New Certificate</h2>
+
+            {/* AddCertificate form with onSuccess callback */}
+            <AddCertificate/>
           </div>
         </div>
       )}

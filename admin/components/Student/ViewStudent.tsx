@@ -88,7 +88,7 @@ const StudentList = ({ searchQuery }: { searchQuery: string }) => {
                   {student.first_name} {student.last_name}
                 </h3>
                 <p className="text-sm text-gray-600">
-                  <strong>Student Id:</strong> {student.student_id || "STD - 0001"} <br />
+                  <strong>Student Id:</strong> {student.student_id ? student.student_id : "N/A"} <br />
                   <strong>Institute:</strong> {student.institute?.name || "XYZ Institute"} <br />
                   <strong>Country:</strong> {student.country || "N/A"}
                 </p>
@@ -173,7 +173,7 @@ const StudentList = ({ searchQuery }: { searchQuery: string }) => {
                 {selectedStudent.first_name} {selectedStudent.last_name}
               </h2>
               <p className="text-sm text-gray-600">
-                {selectedStudent.student_id || "STD - #0001"} <br />
+                {selectedStudent.student_id ? selectedStudent.student_id : "N/A"} <br />
                 {selectedStudent.institute?.name || "XYZ Institute"}
               </p>
             </div>
