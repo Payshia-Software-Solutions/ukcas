@@ -5,13 +5,22 @@ const multer = require("multer");
 
 const upload = multer(); // using memory storage by default
 
-// ✅ Accept FormData (text fields only, no files)
+// ✅ Create a new student (accepting FormData, text fields only)
 router.post("/", upload.none(), studentController.createStudent);
 
-// ✅ Other routes remain unchanged
+// ✅ Get all students with their institute
 router.get("/", studentController.getAllStudents);
+
+// ✅ Get a student by numeric database ID
 router.get("/:id", studentController.getStudent);
+
+// ✅ Get a student by custom student_id (like "S250501")
+router.get("/by-student-id/:student_id", studentController.getStudentByStudentId);
+
+// ✅ Update a student
 router.put("/:id", studentController.updateStudent);
+
+// ✅ Delete a student
 router.delete("/:id", studentController.deleteStudent);
 
 module.exports = router;

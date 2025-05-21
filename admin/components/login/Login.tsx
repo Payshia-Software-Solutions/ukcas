@@ -23,7 +23,7 @@ export default function LoginPage() {
     setTimeout(() => {
       if (username === DUMMY_CREDENTIALS.username && password === DUMMY_CREDENTIALS.password) {
         localStorage.setItem('isLoggedIn', 'true');
-        window.location.href = '/dashborad';
+        window.location.href = '/dashboard';
       } else {
         setError('Invalid username or password');
         setIsLoading(false);

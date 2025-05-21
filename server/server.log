@@ -961,3 +961,87 @@ Local: http://localhost:5000
 2025-05-19T09:33:05.782Z - Network: http://192.168.8.155:5000
 2025-05-19T09:33:07.001Z - 
 ✅ Database synced successfully
+2025-05-20T08:39:56.324Z - Loading environment variables from: E:\Projects\ukcas\server\.env.local
+2025-05-20T08:40:03.617Z - Environment: development
+2025-05-20T08:40:04.535Z - Server running on port 5000
+2025-05-20T08:40:04.535Z - 
+Local: http://localhost:5000
+2025-05-20T08:40:04.536Z - Network: http://192.168.8.155:5000
+2025-05-20T08:40:05.960Z - 
+✅ Database synced successfully
+2025-05-20T09:07:02.865Z - Loading environment variables from: E:\Projects\ukcas\server\.env.local
+2025-05-20T09:07:03.228Z - Environment: development
+2025-05-20T09:07:03.306Z - Server running on port 5000
+2025-05-20T09:07:03.306Z - 
+Local: http://localhost:5000
+2025-05-20T09:07:03.307Z - Network: http://192.168.8.155:5000
+2025-05-20T09:07:04.683Z - 
+✅ Database synced successfully
+2025-05-20T09:25:34.497Z - Loading environment variables from: E:\Projects\ukcas\server\.env.local
+2025-05-20T09:25:34.862Z - Environment: development
+2025-05-20T09:25:49.345Z - Loading environment variables from: E:\Projects\ukcas\server\.env.local
+2025-05-20T09:25:49.692Z - Environment: development
+2025-05-20T09:27:18.817Z - Loading environment variables from: E:\Projects\ukcas\server\.env.local
+2025-05-20T09:27:19.164Z - Environment: development
+2025-05-20T09:31:20.557Z - Loading environment variables from: E:\Projects\ukcas\server\.env.local
+2025-05-20T09:31:20.908Z - Environment: development
+2025-05-20T09:31:20.983Z - Server running on port 5000
+2025-05-20T09:31:20.984Z - 
+Local: http://localhost:5000
+2025-05-20T09:31:20.984Z - Network: http://192.168.8.155:5000
+2025-05-20T09:31:21.856Z - ❌ Error syncing database: Can't create table `ukas_schema`.`certificates` (errno: 150 "Foreign key constraint is incorrectly formed")
+2025-05-20T09:32:05.714Z - Loading environment variables from: E:\Projects\ukcas\server\.env.local
+2025-05-20T09:32:06.076Z - Environment: development
+2025-05-20T09:32:06.158Z - Server running on port 5000
+2025-05-20T09:32:06.159Z - 
+Local: http://localhost:5000
+2025-05-20T09:32:06.159Z - Network: http://192.168.8.155:5000
+2025-05-20T09:32:07.061Z - ❌ Error syncing database: Can't create table `ukas_schema`.`certificates` (errno: 150 "Foreign key constraint is incorrectly formed")
+2025-05-20T09:33:20.578Z - Loading environment variables from: E:\Projects\ukcas\server\.env.local
+2025-05-20T09:33:20.938Z - Environment: development
+2025-05-20T09:33:21.015Z - Server running on port 5000
+2025-05-20T09:33:21.015Z - 
+Local: http://localhost:5000
+2025-05-20T09:33:21.016Z - Network: http://192.168.8.155:5000
+2025-05-20T09:33:21.932Z - 
+✅ Database synced successfully
+2025-05-20T09:39:47.912Z - Loading environment variables from: E:\Projects\ukcas\server\.env.local
+2025-05-20T09:39:48.261Z - Environment: development
+2025-05-20T09:39:48.340Z - Server running on port 5000
+2025-05-20T09:39:48.340Z - 
+Local: http://localhost:5000
+2025-05-20T09:39:48.341Z - Network: http://192.168.8.155:5000
+2025-05-20T09:39:49.542Z - 
+✅ Database synced successfully
+2025-05-20T09:42:23.509Z - Loading environment variables from: E:\Projects\ukcas\server\.env.local
+2025-05-20T09:42:23.865Z - Environment: development
+2025-05-20T09:42:23.945Z - Server running on port 5000
+2025-05-20T09:42:23.945Z - 
+Local: http://localhost:5000
+2025-05-20T09:42:23.945Z - Network: http://192.168.8.155:5000
+2025-05-20T09:42:25.273Z - 
+✅ Database synced successfully
+2025-05-20T09:48:36.024Z - Loading environment variables from: E:\Projects\ukcas\server\.env.local
+2025-05-20T09:48:36.382Z - Environment: development
+2025-05-20T09:48:36.457Z - Server running on port 5000
+2025-05-20T09:48:36.458Z - 
+Local: http://localhost:5000
+2025-05-20T09:48:36.458Z - Network: http://192.168.8.155:5000
+2025-05-20T09:48:37.603Z - 
+✅ Database synced successfully
+2025-05-20T10:05:29.526Z - Loading environment variables from: E:\Projects\ukcas\server\.env.local
+2025-05-20T10:05:29.979Z - Environment: development
+2025-05-20T10:05:30.065Z - Server running on port 5000
+2025-05-20T10:05:30.065Z - 
+Local: http://localhost:5000
+2025-05-20T10:05:30.065Z - Network: http://192.168.8.155:5000
+2025-05-20T10:05:31.180Z - 
+✅ Database synced successfully
+2025-05-21T06:31:17.111Z - Loading environment variables from: E:\Projects\ukcas\server\.env.local
+2025-05-21T06:31:20.371Z - Environment: development
+2025-05-21T06:31:20.924Z - Server running on port 5000
+2025-05-21T06:31:20.925Z - 
+Local: http://localhost:5000
+2025-05-21T06:31:20.925Z - Network: http://192.168.8.155:5000
+2025-05-21T06:31:21.717Z - 
+✅ Database synced successfully

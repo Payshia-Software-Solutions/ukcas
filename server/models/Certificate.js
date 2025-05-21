@@ -9,16 +9,40 @@ const Certificate = sequelize.define(
       autoIncrement: true,
       primaryKey: true,
     },
-    institute_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
     student_id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.INTEGER,  // Must match Student.id type
       allowNull: false,
     },
-    issue_date: {
+    certificate_id: {
+      type: DataTypes.STRING(255),
+      unique: true,
+      allowNull: false,
+    },
+    student_name_initial: {
+      type: DataTypes.STRING(100),
+      allowNull: false,
+    },
+    issued_date: {
       type: DataTypes.DATEONLY,
+      allowNull: false,
+    },
+    student_name_full: {
+      type: DataTypes.STRING(255),
+      allowNull: false,
+    },
+    email: {
+      type: DataTypes.STRING(255),
+      allowNull: false,
+      validate: {
+        isEmail: true,
+      },
+    },
+    student_grade: {
+      type: DataTypes.STRING(5),
+      allowNull: false,
+    },
+    organization: {
+      type: DataTypes.STRING(255),
       allowNull: false,
     },
     created_by: {
@@ -39,47 +63,37 @@ const Certificate = sequelize.define(
       allowNull: false,
       defaultValue: DataTypes.NOW,
     },
-    certificate_id: {
-      type: DataTypes.STRING(255),
-      unique: true,
-    },
   },
   {
-    tableName: "certificate",
+    tableName: "certificates",
     timestamps: true,
     createdAt: "created_at",
     updatedAt: "updated_at",
     hooks: {
       beforeCreate: async (certificate) => {
-     
         const year = new Date().getFullYear();
         const lastTwoDigitsOfYear = year.toString().slice(-2);
-        const month = new Date().getMonth() + 1; 
-        const monthStr = month.toString().padStart(2, "0"); 
+        const month = new Date().getMonth() + 1;
+        const monthStr = month.toString().padStart(2, "0");
 
-       
         const baseCertificateId = `C${lastTwoDigitsOfYear}${monthStr}`;
 
-    
         const lastCertificate = await Certificate.findOne({
           where: {
             certificate_id: {
-              [Op.like]: `${baseCertificateId}%`, 
+              [Op.like]: `${baseCertificateId}%`,
             },
           },
-          order: [["id", "DESC"]], 
+          order: [["id", "DESC"]],
           attributes: ["certificate_id"],
         });
 
-       
         let newNumber = 1;
         if (lastCertificate && lastCertificate.certificate_id) {
-        
-          const lastNum = lastCertificate.certificate_id.slice(-2); // Extract the last 2 digits
-          newNumber = parseInt(lastNum, 10) + 1; // Increment the last number
+          const lastNum = lastCertificate.certificate_id.slice(-2);
+          newNumber = parseInt(lastNum, 10) + 1;
         }
 
-        // Create the new certificate_id by padding the counter to 2 digits
         const newCertificateId = `${baseCertificateId}${newNumber.toString().padStart(2, "0")}`;
         certificate.certificate_id = newCertificateId;
       },

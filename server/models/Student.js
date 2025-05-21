@@ -21,6 +21,11 @@ const Student = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    student_id: {            // <-- Added student_id field here
+      type: DataTypes.STRING(50),
+      allowNull: true,
+      unique: true,          // Assuming student_id should be unique, adjust if not
+    },
     nic: {
       type: DataTypes.STRING(50),
       allowNull: true,
