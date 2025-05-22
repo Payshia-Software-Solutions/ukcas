@@ -48,9 +48,8 @@ const commentRoutes = require("./routes/commentRoutes");
 const accrediteFormRoutes = require("./routes/accrediteFormRoutes");  
 const instituteRoutes = require("./routes/instituteRoutes"); 
 const studentRoutes = require("./routes/studentRoutes");  
-//const certificateRoutes = require("./routes/certificateRoutes");  
+const certificateRoutes = require("./routes/certificateRoutes");  
 const serviceRoutes = require("./routes/serviceRoutes");
-const certificateRoutes = require("./routes/certificateRoutes");
 
 const app = express();
 
@@ -76,9 +75,9 @@ app.use(`/api/${apiVersion}/comment`, commentRoutes);
 app.use(`/api/${apiVersion}/accredite`, accrediteFormRoutes); 
 app.use(`/api/${apiVersion}/institute`, instituteRoutes); 
 app.use(`/api/${apiVersion}/student`, studentRoutes); 
-//app.use(`/api/${apiVersion}/certificate`, certificateRoutes); 
+app.use(`/api/${apiVersion}/certificates`, certificateRoutes); 
 app.use(`/api/${apiVersion}/service`, serviceRoutes);
-app.use(`/api/${apiVersion}/certificates`, certificateRoutes);
+
 
 // Root route (optional)
 app.get("/", (req, res) =>

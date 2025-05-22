@@ -21,10 +21,10 @@ const Student = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    student_id: {            // <-- Added student_id field here
+    student_id: { // <-- auto-generated student ID
       type: DataTypes.STRING(50),
       allowNull: true,
-      unique: true,          // Assuming student_id should be unique, adjust if not
+      unique: true,
     },
     nic: {
       type: DataTypes.STRING(50),
@@ -78,37 +78,41 @@ const Student = sequelize.define(
     },
   },
   {
-    tableName: "students", // Table name should be plural
+    tableName: "students",
     timestamps: true,
     createdAt: "created_at",
     updatedAt: "updated_at",
     hooks: {
       beforeCreate: async (student) => {
-        const year = new Date().getFullYear();
+        const now = new Date();
+        const year = now.getFullYear();
         const lastTwoDigitsOfYear = year.toString().slice(-2);
-        const month = new Date().getMonth() + 1;
+        const month = now.getMonth() + 1;
         const monthStr = month.toString().padStart(2, "0");
 
-        const baseUsername = `S${lastTwoDigitsOfYear}${monthStr}`;
+        const baseId = `S${lastTwoDigitsOfYear}${monthStr}`;
 
+        // Find last student with student_id starting with baseId
         const lastStudent = await Student.findOne({
           where: {
-            username: {
-              [Op.like]: `${baseUsername}%`,
+            student_id: {
+              [Op.like]: `${baseId}%`,
             },
           },
-          order: [["id", "DESC"]],
-          attributes: ["username"],
+          order: [["student_id", "DESC"]],
+          attributes: ["student_id"],
         });
 
-        let newNumber = 1;
-        if (lastStudent && lastStudent.username) {
-          const lastNum = lastStudent.username.slice(-2);
-          newNumber = parseInt(lastNum, 10) + 1;
+        let newSerial = 1;
+        if (lastStudent && lastStudent.student_id) {
+          const lastSerialStr = lastStudent.student_id.slice(-3);
+          const lastSerialNum = parseInt(lastSerialStr, 10);
+          newSerial = lastSerialNum + 1;
         }
 
-        const newUsername = `${baseUsername}${newNumber.toString().padStart(2, "0")}`;
-        student.username = newUsername;
+        const serialStr = newSerial.toString().padStart(3, "0");
+
+        student.student_id = `${baseId}${serialStr}`;
       },
     },
   }
