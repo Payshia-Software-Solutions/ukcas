@@ -6,13 +6,16 @@ import Image from "next/image";
 import { FaEye } from "react-icons/fa";
 import config from "@/config";
 
+interface Institute {
+  id: number;
+  name: string;
+}
+
 interface Student {
-  id: string;
+  id: number;
   first_name: string;
   last_name: string;
-  institute_id?: string;
-  institute?: { name: string };
-  country: string;
+  institute?: Institute;
   student_id?: string;
   nic?: string;
   birthday?: string;
@@ -22,7 +25,7 @@ interface Student {
   photo?: string;
 }
 
-const StudentList = ({ searchQuery }: { searchQuery: string }) => {
+const StudentList = ({ searchQuery = "" }: { searchQuery?: string }) => {
   const [students, setStudents] = useState<Student[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
@@ -36,7 +39,7 @@ const StudentList = ({ searchQuery }: { searchQuery: string }) => {
       .catch((err) => console.error("Error fetching students:", err));
   }, []);
 
-  // Filter students by searchQuery
+  // Filter students by search query
   const filteredStudents = students.filter((student) => {
     const fullName = `${student.first_name} ${student.last_name}`.toLowerCase();
     return fullName.includes(searchQuery.toLowerCase());
@@ -47,12 +50,10 @@ const StudentList = ({ searchQuery }: { searchQuery: string }) => {
   const currentStudents = filteredStudents.slice(startIndex, startIndex + studentsPerPage);
 
   const goToPage = (page: number) => {
-    if (page >= 1 && page <= totalPages) {
-      setCurrentPage(page);
-    }
+    if (page >= 1 && page <= totalPages) setCurrentPage(page);
   };
 
-  const handleCloseModal = () => setSelectedStudent(null);
+  const closeModal = () => setSelectedStudent(null);
 
   return (
     <div className="p-6">
@@ -69,7 +70,7 @@ const StudentList = ({ searchQuery }: { searchQuery: string }) => {
                 {student.photo ? (
                   <Image
                     src={student.photo}
-                    alt="Student Photo"
+                    alt={`${student.first_name} ${student.last_name} Photo`}
                     width={64}
                     height={64}
                     className="rounded-md object-cover"
@@ -88,9 +89,9 @@ const StudentList = ({ searchQuery }: { searchQuery: string }) => {
                   {student.first_name} {student.last_name}
                 </h3>
                 <p className="text-sm text-gray-600">
-                  <strong>Student Id:</strong> {student.student_id ? student.student_id : "N/A"} <br />
-                  <strong>Institute:</strong> {student.institute?.name || "XYZ Institute"} <br />
-                  <strong>Country:</strong> {student.country || "N/A"}
+                  <strong>Student Id:</strong> {student.student_id || "N/A"} <br />
+                  <strong>Institute:</strong> {student.institute?.name || "N/A"} <br />
+                  <strong>Country:</strong> {student.address || "N/A"}
                 </p>
               </div>
             </div>
@@ -107,7 +108,7 @@ const StudentList = ({ searchQuery }: { searchQuery: string }) => {
         ))}
       </div>
 
-      {/* Pagination Controls */}
+      {/* Pagination */}
       {totalPages > 1 && (
         <div className="flex justify-center items-center space-x-2 mt-6">
           <button
@@ -117,14 +118,12 @@ const StudentList = ({ searchQuery }: { searchQuery: string }) => {
           >
             Prev
           </button>
-          {Array.from({ length: totalPages }, (_, i) => (
+          {Array.from({ length: totalPages }).map((_, i) => (
             <button
-              key={i + 1}
+              key={i}
               onClick={() => goToPage(i + 1)}
               className={`px-3 py-1 rounded ${
-                currentPage === i + 1
-                  ? "bg-black text-white"
-                  : "bg-gray-200 text-black"
+                currentPage === i + 1 ? "bg-black text-white" : "bg-gray-200 text-black"
               }`}
             >
               {i + 1}
@@ -140,57 +139,48 @@ const StudentList = ({ searchQuery }: { searchQuery: string }) => {
         </div>
       )}
 
-      {/* Student View Modal */}
+      {/* Modal */}
       {selectedStudent && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
-          <div className="bg-white rounded-xl w-full max-w-md p-6 relative">
+          <div className="bg-white rounded-xl w-full max-w-md p-6 relative max-h-[90vh] overflow-y-auto">
             <button
-              onClick={handleCloseModal}
+              onClick={closeModal}
               className="absolute top-4 right-4 text-gray-600 hover:text-black"
+              aria-label="Close modal"
             >
               ✖
             </button>
+
             <div className="text-center">
               <div className="w-20 h-20 rounded-full bg-gray-100 mx-auto mb-4 overflow-hidden">
                 {selectedStudent.photo ? (
                   <Image
                     src={selectedStudent.photo}
-                    alt="Student Photo"
+                    alt={`${selectedStudent.first_name} ${selectedStudent.last_name} Photo`}
                     width={80}
                     height={80}
                     className="object-cover"
                   />
                 ) : (
-                  <Image
-                    src="/placeholder.png"
-                    alt="Placeholder"
-                    width={40}
-                    height={40}
-                  />
+                  <Image src="/placeholder.png" alt="Placeholder" width={40} height={40} />
                 )}
               </div>
               <h2 className="text-xl font-bold text-gray-800">
                 {selectedStudent.first_name} {selectedStudent.last_name}
               </h2>
               <p className="text-sm text-gray-600">
-                {selectedStudent.student_id ? selectedStudent.student_id : "N/A"} <br />
-                {selectedStudent.institute?.name || "XYZ Institute"}
+                {selectedStudent.student_id || "N/A"} <br />
+                {selectedStudent.institute?.name || "N/A"}
               </p>
             </div>
 
-            <div className="mt-6 space-y-2 text-sm text-gray-700">
+            <div className="mt-6 space-y-2 text-sm text-gray-700 text-left">
               <p><strong>NIC Number:</strong> {selectedStudent.nic || "-"}</p>
-              <p><strong>Birth Day:</strong> {selectedStudent.birthday || "-"}</p>
+              <p><strong>Birth Day:</strong> {selectedStudent.birthday?.slice(0, 10) || "-"}</p>
               <p><strong>Address:</strong> {selectedStudent.address || "-"}</p>
               <p><strong>Institute:</strong> {selectedStudent.institute?.name || "-"}</p>
               <p><strong>Phone:</strong> {selectedStudent.phone_number || "-"}</p>
               <p><strong>Email:</strong> {selectedStudent.email || "-"}</p>
-            </div>
-
-            <div className="mt-4 flex justify-center gap-2">
-              <button className="px-3 py-1 bg-gray-100 rounded text-sm">NIC Images</button>
-              <button className="px-3 py-1 bg-gray-100 rounded text-sm">A/L Certificate</button>
-              <button className="px-3 py-1 bg-gray-100 rounded text-sm">O/L Certificate</button>
             </div>
           </div>
         </div>

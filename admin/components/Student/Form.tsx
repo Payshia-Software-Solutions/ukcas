@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import config from "@/config";
@@ -9,6 +9,9 @@ import "react-toastify/dist/ReactToastify.css";
 
 export default function AddStudent() {
   const router = useRouter();
+
+  const [institutes, setInstitutes] = useState<{ id: number; name: string }[]>([]);
+
   const [formData, setFormData] = useState({
     first_name: "",
     last_name: "",
@@ -23,6 +26,19 @@ export default function AddStudent() {
   });
 
   const [documents, setDocuments] = useState({});
+
+  useEffect(() => {
+    async function fetchInstitutes() {
+      try {
+        const response = await axios.get(`${config.API_BASE_URL}/institute`);
+        setInstitutes(response.data);
+      } catch (error) {
+        console.error("Failed to fetch institutes", error);
+        toast.error("Failed to load institutes");
+      }
+    }
+    fetchInstitutes();
+  }, []);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -59,7 +75,7 @@ export default function AddStudent() {
       await axios.post(`${config.API_BASE_URL}/student`, formDataToSend);
 
       toast.success("Student registered successfully");
-      router.push("/student"); // ✅ Immediately go to /student
+      router.push("/student");
     } catch (error) {
       console.error("Error submitting form:", error);
       toast.error("Failed to register student");
@@ -90,6 +106,7 @@ export default function AddStudent() {
               Personal Information
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* First Name */}
               <label className="w-full">
                 <span className="text-sm font-semibold text-gray-700 mb-1 block">
                   First Name
@@ -104,6 +121,8 @@ export default function AddStudent() {
                   required
                 />
               </label>
+
+              {/* Last Name */}
               <label className="w-full">
                 <span className="text-sm font-semibold text-gray-700 mb-1 block">
                   Last Name
@@ -118,6 +137,8 @@ export default function AddStudent() {
                   required
                 />
               </label>
+
+              {/* Institute Dropdown */}
               <label className="w-full">
                 <span className="text-sm font-semibold text-gray-700 mb-1 block">
                   Institute
@@ -130,9 +151,15 @@ export default function AddStudent() {
                   required
                 >
                   <option value="">Select institute</option>
-                  <option value="1">Institute 1</option>
+                  {institutes.map((inst) => (
+                    <option key={inst.id} value={inst.id}>
+                      {inst.name}
+                    </option>
+                  ))}
                 </select>
               </label>
+
+              {/* NIC Number */}
               <label className="w-full">
                 <span className="text-sm font-semibold text-gray-700 mb-1 block">
                   NIC Number
@@ -146,6 +173,8 @@ export default function AddStudent() {
                   className={inputStyle}
                 />
               </label>
+
+              {/* Birthday */}
               <label className="w-full">
                 <span className="text-sm font-semibold text-gray-700 mb-1 block">
                   Birthday
@@ -158,6 +187,8 @@ export default function AddStudent() {
                   className={inputStyle}
                 />
               </label>
+
+              {/* Country */}
               <label className="w-full">
                 <span className="text-sm font-semibold text-gray-700 mb-1 block">
                   Country
@@ -172,6 +203,8 @@ export default function AddStudent() {
                   <option value="Sri Lanka">Sri Lanka</option>
                 </select>
               </label>
+
+              {/* Address */}
               <label className="w-full md:col-span-2">
                 <span className="text-sm font-semibold text-gray-700 mb-1 block">
                   Address
@@ -185,6 +218,8 @@ export default function AddStudent() {
                   className={inputStyle}
                 />
               </label>
+
+              {/* Phone Number */}
               <label className="w-full">
                 <span className="text-sm font-semibold text-gray-700 mb-1 block">
                   Phone Number
@@ -198,6 +233,8 @@ export default function AddStudent() {
                   className={inputStyle}
                 />
               </label>
+
+              {/* Email */}
               <label className="w-full">
                 <span className="text-sm font-semibold text-gray-700 mb-1 block">
                   Email
@@ -214,6 +251,7 @@ export default function AddStudent() {
             </div>
           </div>
 
+          {/* Document Upload Section */}
           <div>
             <h3 className="font-semibold text-gray-700 mb-2">Document Upload</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
