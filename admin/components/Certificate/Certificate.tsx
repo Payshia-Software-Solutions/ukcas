@@ -120,7 +120,7 @@ export default function Dashboard() {
               />
             </div>
             <div>
-              <p className="text-sm text-gray-500">Pending Institute</p>
+              <p className="text-sm text-gray-500">Pending Certificate</p>
               <p className="text-2xl font-bold">{pendingCount}</p>
             </div>
           </div>
@@ -136,7 +136,7 @@ export default function Dashboard() {
               />
             </div>
             <div>
-              <p className="text-sm text-gray-500">Active Institute</p>
+              <p className="text-sm text-gray-500">Issued Certificate</p>
               <p className="text-2xl font-bold">{activeCount}</p>
             </div>
           </div>

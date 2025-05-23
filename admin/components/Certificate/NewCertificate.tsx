@@ -58,8 +58,23 @@ export default function AddCertificate() {
 
         <form className="space-y-6" onSubmit={handleSubmit}>
           <div>
-            <h3 className="font-semibold text-gray-700 mb-2">Certificate Details</h3>
+            <h3 className="font-semibold text-gray-700 mb-2">Certificate Details</h3> <br />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* Organization / Institute */}
+              <label className="w-full md:col-span-1">
+                <span className="text-sm font-semibold text-gray-700 mb-1 block">
+                  Organization / Institute
+                </span>
+                <input
+                  type="text"
+                  name="organization"
+                  placeholder="Enter organization or institute"
+                  value={formData.organization}
+                  onChange={handleChange}
+                  className={inputStyle}
+                  required
+                />
+              </label>
               {/* Student ID */}
               <label className="w-full">
                 <span className="text-sm font-semibold text-gray-700 mb-1 block">
@@ -76,21 +91,7 @@ export default function AddCertificate() {
                 />
               </label>
 
-              {/* Certificate ID */}
-              <label className="w-full">
-                <span className="text-sm font-semibold text-gray-700 mb-1 block">
-                  Certificate ID
-                </span>
-                <input
-                  type="text"
-                  name="certificate_id"
-                  placeholder="Enter Certificate ID"
-                  value={formData.certificate_id}
-                  onChange={handleChange}
-                  className={inputStyle}
-                  required
-                />
-              </label>
+
 
               {/* Student Name (with Initial) */}
               <label className="w-full">
@@ -172,21 +173,7 @@ export default function AddCertificate() {
                 />
               </label>
 
-              {/* Organization / Institute */}
-              <label className="w-full md:col-span-1">
-                <span className="text-sm font-semibold text-gray-700 mb-1 block">
-                  Organization / Institute
-                </span>
-                <input
-                  type="text"
-                  name="organization"
-                  placeholder="Enter organization or institute"
-                  value={formData.organization}
-                  onChange={handleChange}
-                  className={inputStyle}
-                  required
-                />
-              </label>
+              
             </div>
           </div>
 
