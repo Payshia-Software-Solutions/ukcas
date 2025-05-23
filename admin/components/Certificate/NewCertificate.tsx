@@ -75,6 +75,23 @@ export default function AddCertificate() {
                   required
                 />
               </label>
+
+              {/* Certificate ID */}
+              <label className="w-full">
+                <span className="text-sm font-semibold text-gray-700 mb-1 block">
+                  Certificate ID
+                </span>
+                <input
+                  type="text"
+                  name="certificate_id"
+                  placeholder="Enter Certificate ID"
+                  value={formData.certificate_id}
+                  onChange={handleChange}
+                  className={inputStyle}
+                  required
+                />
+              </label>
+
               {/* Student Name (with Initial) */}
               <label className="w-full">
                 <span className="text-sm font-semibold text-gray-700 mb-1 block">

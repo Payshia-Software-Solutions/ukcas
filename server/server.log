@@ -1067,35 +1067,11 @@ Local: http://localhost:5000
 2025-05-22T10:06:23.994Z - Network: http://192.168.181.128:5000
 2025-05-22T10:06:25.285Z - 
 ✅ Database synced successfully
-2025-05-23T07:31:49.433Z - Loading environment variables from: E:\Projects\ukcas\server\.env.local
-2025-05-23T07:31:53.760Z - Environment: development
-2025-05-23T07:31:54.381Z - Server running on port 5000
-2025-05-23T07:31:54.381Z - 
+2025-05-23T09:30:33.584Z - Loading environment variables from: E:\Projects\ukcas\server\.env.local
+2025-05-23T09:30:33.943Z - Environment: development
+2025-05-23T09:30:34.019Z - Server running on port 5000
+2025-05-23T09:30:34.020Z - 
 Local: http://localhost:5000
-2025-05-23T07:31:54.382Z - Network: http://192.168.8.155:5000
-2025-05-23T07:31:55.172Z - 
-✅ Database synced successfully
-2025-05-23T08:26:40.383Z - Loading environment variables from: E:\Projects\ukcas\server\.env.local
-2025-05-23T08:26:40.759Z - Environment: development
-2025-05-23T08:26:40.842Z - Server running on port 5000
-2025-05-23T08:26:40.843Z - 
-Local: http://localhost:5000
-2025-05-23T08:26:40.843Z - Network: http://192.168.8.155:5000
-2025-05-23T08:26:41.551Z - 
-✅ Database synced successfully
-2025-05-23T08:45:20.252Z - Loading environment variables from: E:\Projects\ukcas\server\.env.local
-2025-05-23T08:45:20.668Z - Environment: development
-2025-05-23T08:45:20.769Z - Server running on port 5000
-2025-05-23T08:45:20.770Z - 
-Local: http://localhost:5000
-2025-05-23T08:45:20.770Z - Network: http://192.168.8.155:5000
-2025-05-23T08:45:21.589Z - 
-✅ Database synced successfully
-2025-05-23T08:45:35.572Z - Loading environment variables from: E:\Projects\ukcas\server\.env.local
-2025-05-23T08:45:35.981Z - Environment: development
-2025-05-23T08:45:36.071Z - Server running on port 5000
-2025-05-23T08:45:36.071Z - 
-Local: http://localhost:5000
-2025-05-23T08:45:36.071Z - Network: http://192.168.8.155:5000
-2025-05-23T08:45:37.305Z - 
+2025-05-23T09:30:34.020Z - Network: http://192.168.8.155:5000
+2025-05-23T09:30:35.195Z - 
 ✅ Database synced successfully

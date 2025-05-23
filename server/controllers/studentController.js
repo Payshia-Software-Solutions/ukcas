@@ -41,12 +41,7 @@ const studentController = {
   async getAllStudents(req, res) {
     try {
       const students = await Student.findAll({
-        include: [
-          {
-            model: Institute,
-            attributes: ["id", "name"], // only include id and name
-          },
-        ],
+        include: [{ model: Institute }],
       });
       res.json(students);
     } catch (error) {
@@ -55,16 +50,11 @@ const studentController = {
     }
   },
 
-  // Get a specific student by numeric ID with institute info
+  // Get a specific student by numeric ID
   async getStudent(req, res) {
     try {
       const student = await Student.findByPk(req.params.id, {
-        include: [
-          {
-            model: Institute,
-            attributes: ["id", "name"],
-          },
-        ],
+        include: [{ model: Institute }],
       });
       if (!student) {
         return res.status(404).json({ error: "Student not found" });
@@ -76,17 +66,12 @@ const studentController = {
     }
   },
 
-  // Get student by custom student_id with institute info
+  // Get student by custom student_id
   async getStudentByStudentId(req, res) {
     try {
       const student = await Student.findOne({
         where: { student_id: req.params.student_id },
-        include: [
-          {
-            model: Institute,
-            attributes: ["id", "name"],
-          },
-        ],
+        include: [{ model: Institute }],
       });
 
       if (!student) {
@@ -112,7 +97,7 @@ const studentController = {
         first_name: req.body.first_name || student.first_name,
         last_name: req.body.last_name || student.last_name,
         institute_id: req.body.institute_id || student.institute_id,
-        student_id: req.body.student_id || student.student_id,
+        student_id: req.body.student_id || student.student_id, // optionally allow manual update
         nic: req.body.nic || student.nic,
         birthday: req.body.birthday || student.birthday,
         country: req.body.country || student.country,
@@ -145,7 +130,7 @@ const studentController = {
     }
   },
 
-  // Get all institutes (for dropdown in frontend form)
+  // New: Get all institutes for dropdown
   async getAllInstitutes(req, res) {
     try {
       const institutes = await Institute.findAll({
