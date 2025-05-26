@@ -7,7 +7,8 @@ import config from "@/config";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-export default function AddCertificate() {
+// ✅ Accept onSuccess prop to trigger counter update
+export default function AddCertificate({ onSuccess }: { onSuccess?: () => void }) {
   const router = useRouter();
 
   const [formData, setFormData] = useState({
@@ -18,7 +19,7 @@ export default function AddCertificate() {
     student_name_full: "",
     email: "",
     student_grade: "",
-    organization: "", // will hold selected institute name
+    organization: "",
     created_by: "admin",
   });
 
@@ -27,7 +28,7 @@ export default function AddCertificate() {
   const [loadingInstitutes, setLoadingInstitutes] = useState(false);
   const [loadingStudents, setLoadingStudents] = useState(false);
 
-  // Fetch institutes on mount
+  // Fetch institutes
   useEffect(() => {
     const fetchInstitutes = async () => {
       setLoadingInstitutes(true);
@@ -41,16 +42,14 @@ export default function AddCertificate() {
         setLoadingInstitutes(false);
       }
     };
-
     fetchInstitutes();
   }, []);
 
-  // Fetch students whenever institute changes
+  // Fetch students by institute
   useEffect(() => {
     const fetchStudents = async (instituteId: number) => {
       setLoadingStudents(true);
       try {
-        // Fetch students for selected institute
         const response = await axios.get(
           `${config.API_BASE_URL}/student/institute/${instituteId}`
         );
@@ -65,7 +64,6 @@ export default function AddCertificate() {
     };
 
     if (formData.organization) {
-      // Find selected institute id by name
       const selectedInstitute = institutes.find(
         (inst) => inst.name === formData.organization
       );
@@ -74,7 +72,6 @@ export default function AddCertificate() {
       } else {
         setStudents([]);
       }
-      // Clear previously selected student_id when institute changes
       setFormData((prev) => ({ ...prev, student_id: "" }));
     }
   }, [formData.organization, institutes]);
@@ -93,7 +90,13 @@ export default function AddCertificate() {
       await axios.post(`${config.API_BASE_URL}/certificates`, formData);
 
       toast.success("Certificate created successfully");
-      router.push("/certificates");
+
+      // ✅ Trigger parent state update
+      if (onSuccess) onSuccess();
+
+      setTimeout(() => {
+        router.push("/certificate");
+      }, 2000);
     } catch (error) {
       console.error("Error submitting certificate form:", error);
       toast.error("Failed to create certificate");
@@ -116,10 +119,10 @@ export default function AddCertificate() {
           <div>
             <h3 className="font-semibold text-gray-700 mb-2">
               Certificate Details
-            </h3>{" "}
+            </h3>
             <br />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {/* Organization / Institute Dropdown */}
+              {/* Institute Dropdown */}
               <label className="w-full md:col-span-1">
                 <span className="text-sm font-semibold text-gray-700 mb-1 block">
                   Organization / Institute
@@ -132,9 +135,7 @@ export default function AddCertificate() {
                   required
                 >
                   <option value="">
-                    {loadingInstitutes
-                      ? "Loading institutes..."
-                      : "Select Institute"}
+                    {loadingInstitutes ? "Loading institutes..." : "Select Institute"}
                   </option>
                   {institutes.map((inst) => (
                     <option key={inst.id} value={inst.name}>
@@ -144,34 +145,35 @@ export default function AddCertificate() {
                 </select>
               </label>
 
-             {/* Student ID Dropdown */}
-<label className="w-full">
-  <span className="text-sm font-semibold text-gray-700 mb-1 block">
-    Student ID
-  </span>
-  <select
-    name="student_id"
-    value={formData.student_id}
-    onChange={handleChange}
-    className={inputStyle}
-    required
-    disabled={!formData.organization || loadingStudents}
-  >
-    <option value="">
-      {loadingStudents
-        ? "Loading students..."
-        : !formData.organization
-        ? "Select institute first"
-        : "Select Student ID"}
-    </option>
-    {students.map((student) => (
-      <option key={student.id} value={student.id}>
-        {student.student_id}
-      </option>
-    ))}
-  </select>
-</label>
-              {/* Student Name (with Initial) */}
+              {/* Student Dropdown */}
+              <label className="w-full">
+                <span className="text-sm font-semibold text-gray-700 mb-1 block">
+                  Student ID
+                </span>
+                <select
+                  name="student_id"
+                  value={formData.student_id}
+                  onChange={handleChange}
+                  className={inputStyle}
+                  required
+                  disabled={!formData.organization || loadingStudents}
+                >
+                  <option value="">
+                    {loadingStudents
+                      ? "Loading students..."
+                      : !formData.organization
+                      ? "Select institute first"
+                      : "Select Student ID"}
+                  </option>
+                  {students.map((student) => (
+                    <option key={student.id} value={student.id}>
+                      {student.student_id}
+                    </option>
+                  ))}
+                </select>
+              </label>
+
+              {/* Other Fields */}
               <label className="w-full">
                 <span className="text-sm font-semibold text-gray-700 mb-1 block">
                   Student Name (with Initial)
@@ -187,7 +189,6 @@ export default function AddCertificate() {
                 />
               </label>
 
-              {/* Issued Date */}
               <label className="w-full">
                 <span className="text-sm font-semibold text-gray-700 mb-1 block">
                   Issued Date
@@ -202,7 +203,6 @@ export default function AddCertificate() {
                 />
               </label>
 
-              {/* Student Name (Full) */}
               <label className="w-full md:col-span-2">
                 <span className="text-sm font-semibold text-gray-700 mb-1 block">
                   Student Name (Full)
@@ -218,7 +218,6 @@ export default function AddCertificate() {
                 />
               </label>
 
-              {/* Email */}
               <label className="w-full md:col-span-2">
                 <span className="text-sm font-semibold text-gray-700 mb-1 block">
                   Email
@@ -234,7 +233,6 @@ export default function AddCertificate() {
                 />
               </label>
 
-              {/* Student Grade */}
               <label className="w-full md:col-span-1">
                 <span className="text-sm font-semibold text-gray-700 mb-1 block">
                   Student Grade
