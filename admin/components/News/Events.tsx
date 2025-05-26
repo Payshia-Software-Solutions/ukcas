@@ -6,16 +6,20 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import LeftSide from "./LeftSide";
 import RightSide from "./RightSide";
+import { useLoader } from "@/app/context/LoaderContext"; // ✅ Import loader context
 
 const Services = () => {
   const router = useRouter();
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [newsCount, setNewsCount] = useState(0);
-  const [searchQuery, setSearchQuery] = useState(""); // search input
-  const [filterKeyword, setFilterKeyword] = useState(""); // applied filter
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filterKeyword, setFilterKeyword] = useState("");
 
-  // Fetch news count on load
+  const { setLoading } = useLoader(); // ✅ use loader context
+
   useEffect(() => {
+    setLoading(false); // ✅ Hide preloader after mount
+
     fetch("http://localhost:5000/api/v2/news")
       .then((res) => res.json())
       .then((data) => setNewsCount(data.length))
@@ -24,7 +28,7 @@ const Services = () => {
 
   const handleCreate = () => setShowCreateModal(true);
   const handleNewsCreated = () => setNewsCount((prev) => prev + 1);
-  const handleFilter = () => setFilterKeyword(searchQuery); // Apply filter
+  const handleFilter = () => setFilterKeyword(searchQuery);
 
   return (
     <div className="flex min-h-screen bg-gray-100">
@@ -55,7 +59,7 @@ const Services = () => {
         {/* Back Button */}
         <div className="flex justify-between items-center">
           <button
-            onClick={() => router.push("/dashborad")}
+            onClick={() => router.push("/dashboard")}
             className="text-gray-600 text-xl font-semibold flex items-center mt-6"
           >
             <svg
@@ -95,14 +99,13 @@ const Services = () => {
           </button>
         </div>
 
+        {/* Search Header */}
         <div className="flex items-center justify-center mt-6 mb-4">
           <p className="text-2xl font-bold text-gray-500">Search News</p>
         </div>
 
         {/* Search + Filter */}
-       
         <div className="relative w-full flex flex-col md:flex-row items-center justify-center gap-4 mt-6">
-          
           <input
             type="text"
             value={searchQuery}
@@ -118,9 +121,9 @@ const Services = () => {
           </button>
         </div>
 
-        {/* Show News List */}
+        {/* News List */}
         <div className="mt-8">
-          <RightSide filterKeyword={filterKeyword}/>
+          <RightSide filterKeyword={filterKeyword} />
         </div>
 
         {/* Create Modal */}

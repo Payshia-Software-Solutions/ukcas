@@ -1,4 +1,6 @@
-import React, { useState, ChangeEvent } from 'react';
+"use client";
+import React, { useState, ChangeEvent } from "react";
+import { Editor } from "@tinymce/tinymce-react";
 
 interface ServiceFormData {
   title: string;
@@ -20,18 +22,23 @@ interface LeftSideProps {
 
 const LeftSide: React.FC<LeftSideProps> = ({ onCreateSuccess }) => {
   const [formData, setFormData] = useState<ServiceFormData>({
-    title: '',
-    category: '',
-    description: '',
-    img_url: '',
-    created_by: 'admin_user',
-    updated_by: 'admin_user',
+    title: "",
+    category: "",
+    description: "",
+    img_url: "",
+    created_by: "admin_user",
+    updated_by: "admin_user",
   });
 
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-  const [submitStatus, setSubmitStatus] = useState<SubmitStatus>({ success: false, message: '' });
+  const [submitStatus, setSubmitStatus] = useState<SubmitStatus>({
+    success: false,
+    message: "",
+  });
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -40,7 +47,7 @@ const LeftSide: React.FC<LeftSideProps> = ({ onCreateSuccess }) => {
   };
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const fileName = e.target.files?.[0]?.name || '';
+    const fileName = e.target.files?.[0]?.name || "";
     if (fileName) {
       setFormData((prev) => ({
         ...prev,
@@ -49,36 +56,53 @@ const LeftSide: React.FC<LeftSideProps> = ({ onCreateSuccess }) => {
     }
   };
 
+  const handleEditorChange = (content: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      description: content,
+    }));
+  };
+
   const handleSubmit = () => {
     setIsSubmitting(true);
-    setSubmitStatus({ success: false, message: '' });
+    setSubmitStatus({ success: false, message: "" });
 
-    fetch('http://localhost:5000/api/v2/service', {  // <-- update API endpoint if needed
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+    fetch("http://localhost:5000/api/v2/service", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData),
     })
       .then((response) => {
-        if (!response.ok) throw new Error('Network response was not ok');
+        if (!response.ok) throw new Error("Network response was not ok");
         return response.json();
       })
       .then(() => {
-        setSubmitStatus({ success: true, message: 'Service created successfully!' });
+        setSubmitStatus({
+          success: true,
+          message: "Service created successfully!",
+        });
         onCreateSuccess();
       })
       .catch((error) => {
-        setSubmitStatus({ success: false, message: 'Failed to create service.' });
-        console.error('Error:', error);
+        setSubmitStatus({
+          success: false,
+          message: "Failed to create service.",
+        });
+        console.error("Error:", error);
       })
       .finally(() => setIsSubmitting(false));
   };
 
   return (
     <div className="p-6 rounded-2xl space-y-4">
-      <h2 className="text-2xl text-gray-600 font-bold mb-4">Create New Service</h2>
+      <h2 className="text-2xl text-gray-600 font-bold mb-4">
+        Create New Service
+      </h2>
 
       <div>
-        <label className="block font-semibold text-xl text-gray-500 mb-1">Service Title</label>
+        <label className="block font-semibold text-xl text-gray-500 mb-1">
+          Service Title
+        </label>
         <input
           type="text"
           name="title"
@@ -90,7 +114,9 @@ const LeftSide: React.FC<LeftSideProps> = ({ onCreateSuccess }) => {
       </div>
 
       <div>
-        <label className="block font-semibold text-xl text-gray-500 mb-1">Service Category</label>
+        <label className="block font-semibold text-xl text-gray-500 mb-1">
+          Service Category
+        </label>
         <select
           name="category"
           value={formData.category}
@@ -105,7 +131,9 @@ const LeftSide: React.FC<LeftSideProps> = ({ onCreateSuccess }) => {
       </div>
 
       <div>
-        <label className="block font-semibold text-xl text-gray-500 mb-1">Title Image</label>
+        <label className="block font-semibold text-xl text-gray-500 mb-1">
+          Title Image
+        </label>
         <div className="flex items-center space-x-4 bg-[#fff7e6] p-3 rounded-lg">
           <div className="w-16 h-16 bg-gray-200 rounded-md flex items-center justify-center border border-dashed shadow-sm">
             <svg
@@ -114,39 +142,61 @@ const LeftSide: React.FC<LeftSideProps> = ({ onCreateSuccess }) => {
               stroke="currentColor"
               viewBox="0 0 24 24"
             >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3v18h18" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M3 3v18h18"
+              />
             </svg>
           </div>
           <div className="flex-1">
-            <p className="text-md text-gray-500 mb-1">Please upload square image, size less than 100KB</p>
+            <p className="text-md text-gray-500 mb-1">
+              Please upload square image, size less than 100KB
+            </p>
             <input
               type="file"
               onChange={handleFileChange}
               className="border px-3 py-1 w-full rounded-lg text-sm bg-white"
             />
             <p className="text-xs text-gray-500 mt-1">
-              Current image: {formData.img_url ? formData.img_url.split('/').pop() : 'No file selected'}
+              Current image:{" "}
+              {formData.img_url ? formData.img_url.split("/").pop() : "No file selected"}
             </p>
           </div>
         </div>
       </div>
 
       <div>
-        <label className="block font-semibold text-xl text-gray-500 mb-1">Service Description</label>
-        <textarea
-          name="description"
-          rows={5}
-          placeholder="Type Description"
+        <label className="block font-semibold text-xl text-gray-500 mb-1">
+          Service Description
+        </label>
+        <Editor
+          apiKey="bcmoy3sawjsp7clc7s2dwfar6vmlq11b4mvsxok6bwh2q08b"
           value={formData.description}
-          onChange={handleChange}
-          className="w-full px-4 py-3 rounded-xl border border-gray-300 shadow-inner focus:outline-none focus:ring-2 focus:ring-gray-400 bg-white shadow-md"
-        ></textarea>
+          init={{
+            height: 200,
+            menubar: false,
+            plugins: [
+              "advlist autolink lists link image charmap preview anchor",
+              "searchreplace visualblocks code fullscreen",
+              "insertdatetime media table paste help wordcount",
+            ],
+            toolbar:
+              "undo redo | formatselect | bold italic underline | \
+              alignleft aligncenter alignright alignjustify | \
+              bullist numlist outdent indent | removeformat | help",
+          }}
+          onEditorChange={handleEditorChange}
+        />
       </div>
 
       {submitStatus.message && (
         <div
           className={`p-3 rounded-lg ${
-            submitStatus.success ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
+            submitStatus.success
+              ? "bg-green-100 text-green-700"
+              : "bg-red-100 text-red-700"
           }`}
         >
           {submitStatus.message}
@@ -157,10 +207,10 @@ const LeftSide: React.FC<LeftSideProps> = ({ onCreateSuccess }) => {
         onClick={handleSubmit}
         disabled={isSubmitting}
         className={`w-full ${
-          isSubmitting ? 'bg-gray-400 cursor-not-allowed' : 'bg-gray-900 hover:bg-black'
+          isSubmitting ? "bg-gray-400 cursor-not-allowed" : "bg-gray-900 hover:bg-black"
         } text-white text-xl font-semibold py-3 rounded-xl shadow-md`}
       >
-        {isSubmitting ? 'Submitting...' : 'Done !'}
+        {isSubmitting ? "Submitting..." : "Done !"}
       </button>
     </div>
   );

@@ -8,6 +8,7 @@ import Sidebar from "../Sidebar";
 import AddCertificate from "./NewCertificate";
 import DataTable, { TableColumn } from "react-data-table-component";
 import IssuedCertificateModal from "./ViewCertificate";
+import { useLoader } from "@/app/context/LoaderContext"; // ✅ Import Loader Context
 
 interface Certificate {
   id: number;
@@ -28,6 +29,11 @@ export default function Dashboard() {
   const [pendingCount, setPendingCount] = useState(0);
   const [certificates, setCertificates] = useState<Certificate[]>([]);
   const [selectedCertificate, setSelectedCertificate] = useState<Certificate | null>(null);
+
+  const { setLoading } = useLoader(); // ✅ useLoader hook
+  useEffect(() => {
+    setLoading(false); // ✅ Turn off preloader after page loads
+  }, []);
 
   useEffect(() => {
     const fetchCertificates = async () => {
@@ -205,11 +211,10 @@ export default function Dashboard() {
         <IssuedCertificateModal
           certificate={{
             ...selectedCertificate,
-            student_id: selectedCertificate.student_id.toString(), // ✅ Convert here
+            student_id: selectedCertificate.student_id.toString(),
           }}
           onClose={() => setSelectedCertificate(null)}
         />
-
       )}
     </div>
   );
