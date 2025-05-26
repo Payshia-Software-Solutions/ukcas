@@ -24,7 +24,7 @@ const Services = () => {
       .then((res) => res.json())
       .then((data) => setServiceCount(data.length))
       .catch((err) => console.error("Error fetching service count:", err));
-  }, []);
+  },  [setLoading]);
 
   const handleCreate = () => setShowCreateModal(true);
 

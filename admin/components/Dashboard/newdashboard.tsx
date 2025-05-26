@@ -7,9 +7,9 @@ export default function DashboardContent() {
   const { setLoading } = useLoader();
 
   useEffect(() => {
-    // ✅ Hide loader after page is mounted
-    setLoading(false);
-  }, []);
+  setLoading(false);
+}, [setLoading]);
+
 
   return (
     <div className="flex min-h-screen bg-gray-100">

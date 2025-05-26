@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import AddStudent from "../Student/Form";
 import ViewStudent from "../Student/ViewStudent";
+import { useLoader } from "@/app/context/LoaderContext"; // ✅ Import loader context
 
 const Services = () => {
   const router = useRouter();
@@ -13,12 +14,16 @@ const Services = () => {
   const [, setNewsCount] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
 
+  const { setLoading } = useLoader(); // ✅ Get setLoading from context
+
   useEffect(() => {
+    setLoading(false); // ✅ Turn off loader after page mounts
+
     fetch("http://localhost:5000/api/v2/student")
       .then((res) => res.json())
       .then((data) => setNewsCount(data.length))
-      .catch((err) => console.error("Error fetching news count:", err));
-  }, []);
+      .catch((err) => console.error("Error fetching student count:", err));
+  }, [setLoading]);
 
   const handleCreate = () => setShowCreateModal(true);
   const handleCloseModal = () => setShowCreateModal(false);
@@ -50,7 +55,7 @@ const Services = () => {
         {/* Back Link */}
         <div className="flex justify-between items-center">
           <button
-            onClick={() => router.push("/dashborad")}
+            onClick={() => router.push("/dashboard")}
             className="text-gray-600 text-xl font-semibold flex items-center mt-6"
           >
             <svg
@@ -101,7 +106,7 @@ const Services = () => {
 
         {/* Modal */}
         {showCreateModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-gray-900/50 backdrop-blur-sm z-50">
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/50 backdrop-blur-sm">
             <div className="relative w-full max-w-4xl bg-white rounded-xl shadow-lg overflow-y-auto max-h-[90vh] p-6">
               <button
                 onClick={handleCloseModal}

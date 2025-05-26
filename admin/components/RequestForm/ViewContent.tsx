@@ -56,7 +56,7 @@ export default function Dashboard() {
     };
 
     fetchInstitutes();
-  }, []);
+  }, [setLoading]);
 
   useEffect(() => {
     if (!isModalOpen) {

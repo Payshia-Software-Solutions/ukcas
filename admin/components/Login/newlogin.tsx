@@ -17,10 +17,9 @@ export default function LoginPage() {
 
   const { setLoading } = useLoader(); // ✅ Use loader context
 
-  // ✅ Turn off loader when this page loads
-  useEffect(() => {
-    setLoading(false);
-  }, []);
+ useEffect(() => {
+  setLoading(false);
+}, [setLoading]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

@@ -103,8 +103,8 @@ export default function ReportsPage() {
   const { setLoading } = useLoader(); // ✅ useLoader hook
 
   useEffect(() => {
-    setLoading(false); // ✅ Step 5: Hide preloader after mount
-  }, []);
+  setLoading(false);
+}, [setLoading]);
 
   const activeReports = reportsData[activeTab];
 
