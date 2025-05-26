@@ -24,7 +24,7 @@ const Services = () => {
       .then((res) => res.json())
       .then((data) => setNewsCount(data.length))
       .catch((err) => console.error("Error fetching news count:", err));
-  }, []);
+  }, [setLoading]);
 
   const handleCreate = () => setShowCreateModal(true);
   const handleNewsCreated = () => setNewsCount((prev) => prev + 1);

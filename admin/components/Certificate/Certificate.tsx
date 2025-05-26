@@ -32,8 +32,9 @@ export default function Dashboard() {
 
   const { setLoading } = useLoader(); // ✅ useLoader hook
   useEffect(() => {
-    setLoading(false); // ✅ Turn off preloader after page loads
-  }, []);
+  setLoading(false);
+  }, [setLoading]);
+
 
   useEffect(() => {
     const fetchCertificates = async () => {

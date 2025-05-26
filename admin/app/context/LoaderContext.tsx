@@ -1,9 +1,14 @@
 "use client";
 import { createContext, useContext, useState } from "react";
 
-const LoaderContext = createContext({
+type LoaderContextType = {
+  loading: boolean;
+  setLoading: (loading: boolean) => void;
+};
+
+const LoaderContext = createContext<LoaderContextType>({
   loading: false,
-  setLoading: (_: boolean) => {},
+  setLoading: () => {}, // Removed unused param to fix lint
 });
 
 export const LoaderProvider = ({ children }: { children: React.ReactNode }) => {
