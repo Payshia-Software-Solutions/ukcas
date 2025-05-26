@@ -144,34 +144,33 @@ export default function AddCertificate() {
                 </select>
               </label>
 
-              {/* Student ID Dropdown */}
-              <label className="w-full">
-                <span className="text-sm font-semibold text-gray-700 mb-1 block">
-                  Student ID
-                </span>
-                <select
-                  name="student_id"
-                  value={formData.student_id}
-                  onChange={handleChange}
-                  className={inputStyle}
-                  required
-                  disabled={!formData.organization || loadingStudents}
-                >
-                  <option value="">
-                    {loadingStudents
-                      ? "Loading students..."
-                      : !formData.organization
-                      ? "Select institute first"
-                      : "Select Student ID"}
-                  </option>
-                  {students.map((student) => (
-                    <option key={student.id} value={student.student_id}>
-                      {student.student_id}
-                    </option>
-                  ))}
-                </select>
-              </label>
-
+             {/* Student ID Dropdown */}
+<label className="w-full">
+  <span className="text-sm font-semibold text-gray-700 mb-1 block">
+    Student ID
+  </span>
+  <select
+    name="student_id"
+    value={formData.student_id}
+    onChange={handleChange}
+    className={inputStyle}
+    required
+    disabled={!formData.organization || loadingStudents}
+  >
+    <option value="">
+      {loadingStudents
+        ? "Loading students..."
+        : !formData.organization
+        ? "Select institute first"
+        : "Select Student ID"}
+    </option>
+    {students.map((student) => (
+      <option key={student.id} value={student.id}>
+        {student.student_id}
+      </option>
+    ))}
+  </select>
+</label>
               {/* Student Name (with Initial) */}
               <label className="w-full">
                 <span className="text-sm font-semibold text-gray-700 mb-1 block">
