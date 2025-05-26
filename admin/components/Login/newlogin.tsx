@@ -1,12 +1,12 @@
 "use client";
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
+import { useLoader } from '@/app/context/LoaderContext'; // ✅ Import loader context
 
-// Dummy credentials for demonstration
 const DUMMY_CREDENTIALS = {
   username: 'admin',
-  password: 'admin123'
+  password: 'admin123',
 };
 
 export default function LoginPage() {
@@ -15,18 +15,30 @@ export default function LoginPage() {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
+  const { setLoading } = useLoader(); // ✅ Use loader context
+
+  // ✅ Turn off loader when this page loads
+  useEffect(() => {
+    setLoading(false);
+  }, []);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
     setIsLoading(true);
+    setLoading(true); // ✅ Show global loader
 
     setTimeout(() => {
-      if (username === DUMMY_CREDENTIALS.username && password === DUMMY_CREDENTIALS.password) {
+      if (
+        username === DUMMY_CREDENTIALS.username &&
+        password === DUMMY_CREDENTIALS.password
+      ) {
         localStorage.setItem('isLoggedIn', 'true');
-        window.location.href = '/dashboard';
+        window.location.href = '/dashboard'; // loader will continue until redirected
       } else {
         setError('Invalid username or password');
         setIsLoading(false);
+        setLoading(false); // ✅ Hide loader on error
       }
     }, 1000);
   };
@@ -45,8 +57,18 @@ export default function LoginPage() {
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="bg-[#f3f0ff] rounded-lg">
                 <div className="flex items-center px-4 py-3">
-                  <svg className="w-5 h-5 text-gray-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  <svg
+                    className="w-5 h-5 text-gray-500 mr-2"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                    />
                   </svg>
                   <input
                     type="text"
@@ -61,8 +83,18 @@ export default function LoginPage() {
 
               <div className="bg-[#f3f0ff] rounded-lg">
                 <div className="flex items-center px-4 py-3">
-                  <svg className="w-5 h-5 text-gray-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                  <svg
+                    className="w-5 h-5 text-gray-500 mr-2"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                    />
                   </svg>
                   <input
                     type="password"
@@ -104,7 +136,9 @@ export default function LoginPage() {
             </div>
 
             <p className="text-sm text-gray-300 max-w-sm">
-              &quot;Transform your life through knowledge and skills. Raise your standards by acquiring internationally verifiable credentials from the UK.&quot;
+              &quot;Transform your life through knowledge and skills. Raise your
+              standards by acquiring internationally verifiable credentials from
+              the UK.&quot;
             </p>
           </div>
         </div>

@@ -1,7 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import { useLoader } from "@/app/context/LoaderContext";
 import { useRouter, usePathname } from "next/navigation";
+
 import {
   FiGrid,
   FiHome,
@@ -41,6 +43,19 @@ const Sidebar: React.FC = () => {
     setIsRecordOpen(!isRecordOpen);
     setIsTransactionOpen(false);
   };
+      const { setLoading } = useLoader();
+
+  const pathname = usePathname(); // 👈 current path
+
+const navigateWithLoader = (path: string) => {
+  if (pathname !== path) {
+    setLoading(true); // ✅ only show loader if navigating to a new page
+    router.push(path);
+  }
+};
+
+
+
 
   return (
     <div className="w-full md:w-64 flex flex-col justify-between bg-gray-900 text-white p-6">
@@ -53,7 +68,7 @@ const Sidebar: React.FC = () => {
           {/* Dashboard Menu */}
           <div>
             <button
-              onClick={() => router.push("/dashboard")}
+              onClick={() => navigateWithLoader("/dashboard")}
               className={`flex items-center justify-start w-full p-2 rounded-md cursor-pointer hover:bg-gray-700 ${
                 currentPath === "/dashboard" ? "bg-gray-700" : ""
               }`}
@@ -85,7 +100,7 @@ const Sidebar: React.FC = () => {
             {isDashboardOpen && (
               <div className="space-y-4 pl-4">
                 <button
-                  onClick={() => router.push("/view-content")}
+                  onClick={() => navigateWithLoader("/view-content")}
                   className={`block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md text-left mt-5 flex cursor-pointer items-center ${
                     currentPath === "/view-content" ? "bg-gray-700" : ""
                   }`}
@@ -94,7 +109,7 @@ const Sidebar: React.FC = () => {
                   Institutes
                 </button>
                 <button
-                  onClick={() => router.push("/news")}
+                  onClick={() => navigateWithLoader("/news")}
                   className={`block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md text-left flex cursor-pointer items-center ${
                     currentPath === "/news" ? "bg-gray-700" : ""
                   }`}
@@ -103,7 +118,7 @@ const Sidebar: React.FC = () => {
                   Manage News
                 </button>
                 <button
-                  onClick={() => router.push("/student")}
+                  onClick={() => navigateWithLoader("/student")}
                   className={`block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md text-left flex cursor-pointer items-center ${
                     currentPath === "/student" ? "bg-gray-700" : ""
                   }`}
@@ -112,7 +127,7 @@ const Sidebar: React.FC = () => {
                   Student
                 </button>
                 <button
-                  onClick={() => router.push("/manage-services")}
+                  onClick={() => navigateWithLoader("/manage-services")}
                   className={`block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md text-left flex cursor-pointer items-center ${
                     currentPath === "/manage-services" ? "bg-gray-700" : ""
                   }`}
@@ -155,7 +170,7 @@ const Sidebar: React.FC = () => {
                   Payments
                 </button>
                 <button
-                  onClick={() => router.push("/certificate")}
+                  onClick={() => navigateWithLoader("/certificate")}
                   className={`block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md text-left flex cursor-pointer items-center ${
                     currentPath === "/issued-certificate" ? "bg-gray-700" : ""
                   }`}
@@ -190,7 +205,7 @@ const Sidebar: React.FC = () => {
               <div className="space-y-4 pl-4">
                 <button
                   onClick={() => {
-                    router.push("/reports");
+                    navigateWithLoader("/reports");
                     setIsRecordOpen(false);
                   }}
                   className={`block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md text-left mt-5 flex  cursor-pointer items-center ${

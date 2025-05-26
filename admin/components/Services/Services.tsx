@@ -6,16 +6,20 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import LeftSide from "./LeftSide";
 import RightSide from "./RightSide";
+import { useLoader } from "@/app/context/LoaderContext"; // ✅ Import loader context
 
 const Services = () => {
   const router = useRouter();
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [serviceCount, setServiceCount] = useState(0);
-  const [searchQuery, setSearchQuery] = useState(""); // search input
-  const [filterKeyword, setFilterKeyword] = useState(""); // applied filter
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filterKeyword, setFilterKeyword] = useState("");
 
-  // Fetch service count on load
+  const { setLoading } = useLoader(); // ✅ useLoader
+
   useEffect(() => {
+    setLoading(false); // ✅ Turn off preloader
+
     fetch("http://localhost:5000/api/v2/service")
       .then((res) => res.json())
       .then((data) => setServiceCount(data.length))
@@ -24,13 +28,12 @@ const Services = () => {
 
   const handleCreate = () => setShowCreateModal(true);
 
-  // Called after successfully creating a service in LeftSide
   const handleServiceCreated = () => {
     setServiceCount((prev) => prev + 1);
     setShowCreateModal(false);
   };
 
-  const handleFilter = () => setFilterKeyword(searchQuery); // Apply filter
+  const handleFilter = () => setFilterKeyword(searchQuery);
 
   return (
     <div className="flex min-h-screen bg-gray-100">
@@ -101,6 +104,7 @@ const Services = () => {
           </button>
         </div>
 
+        {/* Search Header */}
         <div className="flex items-center justify-center mt-6 mb-4">
           <p className="text-2xl font-bold text-gray-500">Search Service</p>
         </div>
@@ -122,7 +126,7 @@ const Services = () => {
           </button>
         </div>
 
-        {/* Show Service List */}
+        {/* Service List */}
         <div className="mt-8">
           <RightSide filterKeyword={filterKeyword} />
         </div>

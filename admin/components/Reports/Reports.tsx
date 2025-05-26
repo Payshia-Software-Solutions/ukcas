@@ -2,8 +2,9 @@
 
 import Image from "next/image";
 import Sidebar from "../Sidebar";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
+import { useLoader } from "@/app/context/LoaderContext"; // ✅ Import loader context
 
 import "datatables.net-dt/css/dataTables.dataTables.css";
 
@@ -44,10 +45,9 @@ interface PaymentReport {
   description: string;
 }
 
-// Union type for reports
 type Report = InstituteReport | StudentReport | PaymentReport;
 
-const reportsData: Record<Tab, InstituteReport[] | StudentReport[] | PaymentReport[]> = {
+const reportsData: Record<Tab, Report[]> = {
   "Institute Reports": [
     {
       id: "IN-2175-200",
@@ -99,6 +99,12 @@ const reportsData: Record<Tab, InstituteReport[] | StudentReport[] | PaymentRepo
 export default function ReportsPage() {
   const [activeTab, setActiveTab] = useState<Tab>("Institute Reports");
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
+
+  const { setLoading } = useLoader(); // ✅ useLoader hook
+
+  useEffect(() => {
+    setLoading(false); // ✅ Step 5: Hide preloader after mount
+  }, []);
 
   const activeReports = reportsData[activeTab];
 
@@ -192,9 +198,9 @@ export default function ReportsPage() {
           ))}
         </div>
 
-        {/* Main content: Left list + Right DataTable */}
+        {/* Content */}
         <div className="flex flex-1 gap-6">
-          {/* Left side: report list */}
+          {/* Left list */}
           <div className="w-1/3 bg-white rounded-lg shadow-md overflow-y-auto max-h-[70vh] border border-gray-200">
             <table className="min-w-full text-left text-gray-700">
               <thead className="bg-gray-400 sticky top-0">
@@ -220,47 +226,45 @@ export default function ReportsPage() {
                 </tr>
               </thead>
               <tbody>
-                {(activeReports as Report[]).map(
-                  (report, index: number) => (
-                    <tr
-                      key={index}
-                      className={`cursor-pointer hover:bg-gray-100 ${
-                        selectedIndex === index ? "bg-gray-200 font-semibold" : ""
-                      }`}
-                      onClick={() => setSelectedIndex(index)}
-                    >
-                      {activeTab === "Institute Reports" && (
-                        <>
-                          <td className="px-4 py-2">{(report as InstituteReport).id}</td>
-                          <td className="px-4 py-2">{(report as InstituteReport).name}</td>
-                        </>
-                      )}
-                      {activeTab === "Student Reports" && (
-                        <>
-                          <td className="px-4 py-2">{(report as StudentReport).id}</td>
-                          <td className="px-4 py-2">{(report as StudentReport).name}</td>
-                        </>
-                      )}
-                      {activeTab === "Payment Reports" && (
-                        <>
-                          <td className="px-4 py-2">{(report as PaymentReport).id}</td>
-                          <td className="px-4 py-2">{(report as PaymentReport).title}</td>
-                        </>
-                      )}
-                    </tr>
-                  )
-                )}
+                {(activeReports as Report[]).map((report, index) => (
+                  <tr
+                    key={index}
+                    className={`cursor-pointer hover:bg-gray-100 ${
+                      selectedIndex === index ? "bg-gray-200 font-semibold" : ""
+                    }`}
+                    onClick={() => setSelectedIndex(index)}
+                  >
+                    {activeTab === "Institute Reports" && (
+                      <>
+                        <td className="px-4 py-2">{(report as InstituteReport).id}</td>
+                        <td className="px-4 py-2">{(report as InstituteReport).name}</td>
+                      </>
+                    )}
+                    {activeTab === "Student Reports" && (
+                      <>
+                        <td className="px-4 py-2">{(report as StudentReport).id}</td>
+                        <td className="px-4 py-2">{(report as StudentReport).name}</td>
+                      </>
+                    )}
+                    {activeTab === "Payment Reports" && (
+                      <>
+                        <td className="px-4 py-2">{(report as PaymentReport).id}</td>
+                        <td className="px-4 py-2">{(report as PaymentReport).title}</td>
+                      </>
+                    )}
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
 
-          {/* Right side: DataTable for details */}
+          {/* Right details */}
           <div className="flex-1 bg-white rounded-lg shadow-md p-6 overflow-auto max-h-[70vh] border border-gray-200">
             {detailTableData.length === 0 ? (
               <p className="text-center text-gray-400 mt-20">No reports available.</p>
             ) : (
               <DataTable
-                key={activeTab + selectedIndex} // Force remount on tab or row change
+                key={activeTab + selectedIndex}
                 className="display"
                 data={detailTableData}
                 options={{

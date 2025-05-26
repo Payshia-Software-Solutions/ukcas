@@ -7,6 +7,7 @@ import dynamic from "next/dynamic";
 import FullForm from "./FullForm";
 import config from "@/config";
 import Sidebar from "../Sidebar";
+import { useLoader } from "@/app/context/LoaderContext"; // ✅ Step 5: Import useLoader
 
 import "datatables.net-dt/css/dataTables.dataTables.css";
 
@@ -34,22 +35,27 @@ export default function Dashboard() {
   const [selectedInstitute, setSelectedInstitute] = useState<Institute | null>(null);
   const [showFullForm, setShowFullForm] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-
   const [pendingCount, setPendingCount] = useState(0);
   const [activeCount, setActiveCount] = useState(0);
 
+  const { setLoading } = useLoader(); // ✅ Step 5: Get setLoading from context
+
   useEffect(() => {
-    axios
-      .get(`${config.API_BASE_URL}/accredite`)
-      .then((response) => {
+    const fetchInstitutes = async () => {
+      try {
+        const response = await axios.get(`${config.API_BASE_URL}/accredite`);
         const allData = response.data;
         setInstitutes(allData);
         setPendingCount(allData.filter((i: Institute) => i.accredite_status === "pending").length);
         setActiveCount(allData.filter((i: Institute) => i.accredite_status === "active").length);
-      })
-      .catch((error) => {
+        setLoading(false); // ✅ Step 5: Hide preloader after data is fetched
+      } catch (error) {
         console.error("Error fetching accreditation data:", error);
-      });
+        setLoading(false); // ✅ ensure loader hides on error too
+      }
+    };
+
+    fetchInstitutes();
   }, []);
 
   useEffect(() => {
@@ -62,7 +68,6 @@ export default function Dashboard() {
     return ["pending", "active", "Rejected"].includes(status);
   };
 
-  // Filter institutes by search term
   const filteredInstitutes = institutes.filter((inst) =>
     inst.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -85,11 +90,7 @@ export default function Dashboard() {
                 className="border border-gray-300 w-full rounded-full pl-10 pr-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
               <div className="absolute left-3 top-2.5">
-                <svg
-                  className="w-4 h-4 text-gray-400"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
+                <svg className="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
                   <path d="M12.9 14.32a8 8 0 111.414-1.414l5.387 5.387-1.414 1.414-5.387-5.387zM8 14a6 6 0 100-12 6 6 0 000 12z" />
                 </svg>
               </div>
@@ -119,15 +120,13 @@ export default function Dashboard() {
         {/* Counter Section */}
         <div className="flex justify-start gap-10 mt-6">
           <div className="bg-white p-6 rounded-2xl shadow flex items-center space-x-4 w-130 h-28">
-            <div className="text-4xl">
-              <Image
-                src="/assets/images/pending.png"
-                alt="Pending"
-                width={50}
-                height={20}
-                className="mr-3"
-              />
-            </div>
+            <Image
+              src="/assets/images/pending.png"
+              alt="Pending"
+              width={50}
+              height={20}
+              className="mr-3"
+            />
             <div>
               <p className="text-sm text-gray-500">Pending Institute</p>
               <p className="text-2xl font-bold">{pendingCount}</p>
@@ -135,15 +134,13 @@ export default function Dashboard() {
           </div>
 
           <div className="bg-white p-6 rounded-2xl shadow flex items-center space-x-4 w-130 h-28">
-            <div className="text-4xl">
-              <Image
-                src="/assets/images/checklist.png"
-                alt="Active"
-                width={50}
-                height={20}
-                className="mr-3"
-              />
-            </div>
+            <Image
+              src="/assets/images/checklist.png"
+              alt="Active"
+              width={50}
+              height={20}
+              className="mr-3"
+            />
             <div>
               <p className="text-sm text-gray-500">Active Institute</p>
               <p className="text-2xl font-bold">{activeCount}</p>
@@ -151,7 +148,7 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* DataTable Section */}
+        {/* DataTable */}
         <div className="bg-white rounded-lg shadow p-6 mt-6">
           <DataTable
             className="display"
