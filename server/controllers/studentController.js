@@ -143,6 +143,26 @@ const studentController = {
       res.status(500).json({ error: error.message });
     }
   },
+  async getStudentsByInstituteId(req, res) {
+  try {
+    const { institute_id } = req.params; // or req.query if you want
+
+    if (!institute_id) {
+      return res.status(400).json({ error: "Institute ID is required" });
+    }
+
+    const students = await Student.findAll({
+      where: { institute_id },
+      include: [{ model: Institute }],
+      order: [["last_name", "ASC"], ["first_name", "ASC"]],
+    });
+
+    res.json(students);
+  } catch (error) {
+    console.error("Error fetching students by institute ID:", error);
+    res.status(500).json({ error: error.message });
+  }
+}
 };
 
 module.exports = studentController;

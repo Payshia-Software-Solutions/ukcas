@@ -1,13 +1,14 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import config from "@/config";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-export default function AddCertificate() {
+// ✅ Accept onSuccess prop to trigger counter update
+export default function AddCertificate({ onSuccess }: { onSuccess?: () => void }) {
   const router = useRouter();
 
   const [formData, setFormData] = useState({
@@ -19,8 +20,61 @@ export default function AddCertificate() {
     email: "",
     student_grade: "",
     organization: "",
-    created_by: "admin"
+    created_by: "admin",
   });
+
+  const [institutes, setInstitutes] = useState<{ id: number; name: string }[]>([]);
+  const [students, setStudents] = useState<{ id: number; student_id: string }[]>([]);
+  const [loadingInstitutes, setLoadingInstitutes] = useState(false);
+  const [loadingStudents, setLoadingStudents] = useState(false);
+
+  // Fetch institutes
+  useEffect(() => {
+    const fetchInstitutes = async () => {
+      setLoadingInstitutes(true);
+      try {
+        const response = await axios.get(`${config.API_BASE_URL}/institute`);
+        setInstitutes(response.data);
+      } catch (error) {
+        console.error("Failed to fetch institutes:", error);
+        toast.error("Failed to load institutes");
+      } finally {
+        setLoadingInstitutes(false);
+      }
+    };
+    fetchInstitutes();
+  }, []);
+
+  // Fetch students by institute
+  useEffect(() => {
+    const fetchStudents = async (instituteId: number) => {
+      setLoadingStudents(true);
+      try {
+        const response = await axios.get(
+          `${config.API_BASE_URL}/student/institute/${instituteId}`
+        );
+        setStudents(response.data);
+      } catch (error) {
+        console.error("Failed to fetch students:", error);
+        toast.error("Failed to load students");
+        setStudents([]);
+      } finally {
+        setLoadingStudents(false);
+      }
+    };
+
+    if (formData.organization) {
+      const selectedInstitute = institutes.find(
+        (inst) => inst.name === formData.organization
+      );
+      if (selectedInstitute) {
+        fetchStudents(selectedInstitute.id);
+      } else {
+        setStudents([]);
+      }
+      setFormData((prev) => ({ ...prev, student_id: "" }));
+    }
+  }, [formData.organization, institutes]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -33,11 +87,16 @@ export default function AddCertificate() {
     e.preventDefault();
 
     try {
-      // If your API expects JSON, use JSON.stringify, else use FormData if file upload needed
       await axios.post(`${config.API_BASE_URL}/certificates`, formData);
 
       toast.success("Certificate created successfully");
-      router.push("/certificates");
+
+      // ✅ Trigger parent state update
+      if (onSuccess) onSuccess();
+
+      setTimeout(() => {
+        router.push("/certificate");
+      }, 2000);
     } catch (error) {
       console.error("Error submitting certificate form:", error);
       toast.error("Failed to create certificate");
@@ -58,42 +117,63 @@ export default function AddCertificate() {
 
         <form className="space-y-6" onSubmit={handleSubmit}>
           <div>
-            <h3 className="font-semibold text-gray-700 mb-2">Certificate Details</h3> <br />
+            <h3 className="font-semibold text-gray-700 mb-2">
+              Certificate Details
+            </h3>
+            <br />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {/* Organization / Institute */}
+              {/* Institute Dropdown */}
               <label className="w-full md:col-span-1">
                 <span className="text-sm font-semibold text-gray-700 mb-1 block">
                   Organization / Institute
                 </span>
-                <input
-                  type="text"
+                <select
                   name="organization"
-                  placeholder="Enter organization or institute"
                   value={formData.organization}
                   onChange={handleChange}
                   className={inputStyle}
                   required
-                />
+                >
+                  <option value="">
+                    {loadingInstitutes ? "Loading institutes..." : "Select Institute"}
+                  </option>
+                  {institutes.map((inst) => (
+                    <option key={inst.id} value={inst.name}>
+                      {inst.name}
+                    </option>
+                  ))}
+                </select>
               </label>
-              {/* Student ID */}
+
+              {/* Student Dropdown */}
               <label className="w-full">
                 <span className="text-sm font-semibold text-gray-700 mb-1 block">
                   Student ID
                 </span>
-                <input
-                  type="text"
+                <select
                   name="student_id"
-                  placeholder="Enter Student ID"
                   value={formData.student_id}
                   onChange={handleChange}
                   className={inputStyle}
                   required
-                />
+                  disabled={!formData.organization || loadingStudents}
+                >
+                  <option value="">
+                    {loadingStudents
+                      ? "Loading students..."
+                      : !formData.organization
+                      ? "Select institute first"
+                      : "Select Student ID"}
+                  </option>
+                  {students.map((student) => (
+                    <option key={student.id} value={student.id}>
+                      {student.student_id}
+                    </option>
+                  ))}
+                </select>
               </label>
 
-
-
-              {/* Student Name (with Initial) */}
+              {/* Other Fields */}
               <label className="w-full">
                 <span className="text-sm font-semibold text-gray-700 mb-1 block">
                   Student Name (with Initial)
@@ -109,7 +189,6 @@ export default function AddCertificate() {
                 />
               </label>
 
-              {/* Issued Date */}
               <label className="w-full">
                 <span className="text-sm font-semibold text-gray-700 mb-1 block">
                   Issued Date
@@ -124,7 +203,6 @@ export default function AddCertificate() {
                 />
               </label>
 
-              {/* Student Name (Full) */}
               <label className="w-full md:col-span-2">
                 <span className="text-sm font-semibold text-gray-700 mb-1 block">
                   Student Name (Full)
@@ -132,7 +210,7 @@ export default function AddCertificate() {
                 <input
                   type="text"
                   name="student_name_full"
-                  placeholder="e.g. Jhon Perera"
+                  placeholder="e.g. John Perera"
                   value={formData.student_name_full}
                   onChange={handleChange}
                   className={inputStyle}
@@ -140,7 +218,6 @@ export default function AddCertificate() {
                 />
               </label>
 
-              {/* Email */}
               <label className="w-full md:col-span-2">
                 <span className="text-sm font-semibold text-gray-700 mb-1 block">
                   Email
@@ -156,7 +233,6 @@ export default function AddCertificate() {
                 />
               </label>
 
-              {/* Student Grade */}
               <label className="w-full md:col-span-1">
                 <span className="text-sm font-semibold text-gray-700 mb-1 block">
                   Student Grade
@@ -172,8 +248,6 @@ export default function AddCertificate() {
                   required
                 />
               </label>
-
-              
             </div>
           </div>
 

@@ -26,4 +26,7 @@ router.delete("/:id", studentController.deleteStudent);
 // NEW: Get all institutes (for dropdown in frontend form)
 router.get("/institutes", studentController.getAllInstitutes);
 
+router.get("/institute/:institute_id", studentController.getStudentsByInstituteId);
+
+
 module.exports = router;
