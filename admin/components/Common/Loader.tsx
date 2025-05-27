@@ -14,7 +14,7 @@ const Loader = () => {
     } else {
       timeout = setTimeout(() => {
         setShouldRender(false);
-      }, 500); 
+      }, 500);
     }
 
     return () => clearTimeout(timeout);
@@ -23,8 +23,8 @@ const Loader = () => {
   if (!shouldRender) return null;
 
   return (
-    <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-60 z-50 flex justify-center items-center">
-      <div className="w-12 h-12 border-4 border-white border-t-transparent rounded-full animate-spin" />
+    <div className="fixed top-0 left-0 w-full h-full bg-white bg-opacity-30 backdrop-blur-sm z-50 flex justify-center items-center">
+      <div className="w-14 h-14 border-[6px] border-gray-500 border-t-transparent rounded-full animate-spin shadow-md" />
     </div>
   );
 };
