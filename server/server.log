@@ -1129,3 +1129,56 @@ Local: http://localhost:5000
 2025-05-27T05:31:48.006Z - Network: http://192.168.8.155:5000
 2025-05-27T05:31:49.929Z - 
 ✅ Database synced successfully
+2025-05-27T08:56:12.754Z - Loading environment variables from: E:\Projects\ukcas\server\.env.local
+2025-05-27T08:56:13.110Z - Environment: development
+2025-05-27T08:56:39.819Z - Loading environment variables from: E:\Projects\ukcas\server\.env.local
+2025-05-27T08:56:40.163Z - Environment: development
+2025-05-27T08:57:22.824Z - Loading environment variables from: E:\Projects\ukcas\server\.env.local
+2025-05-27T08:57:23.168Z - Environment: development
+2025-05-27T08:58:58.617Z - Loading environment variables from: E:\Projects\ukcas\server\.env.local
+2025-05-27T08:58:58.958Z - Environment: development
+2025-05-27T08:59:19.300Z - Loading environment variables from: E:\Projects\ukcas\server\.env.local
+2025-05-27T08:59:19.646Z - Environment: development
+2025-05-27T08:59:19.717Z - Server running on port 5000
+2025-05-27T08:59:19.717Z - 
+Local: http://localhost:5000
+2025-05-27T08:59:19.718Z - Network: http://192.168.8.155:5000
+2025-05-27T08:59:20.757Z - 
+✅ Database synced successfully
+2025-05-27T09:30:10.574Z - Loading environment variables from: E:\Projects\ukcas\server\.env.local
+2025-05-27T09:30:10.945Z - Environment: development
+2025-05-27T09:30:11.022Z - Server running on port 5000
+2025-05-27T09:30:11.022Z - 
+Local: http://localhost:5000
+2025-05-27T09:30:11.022Z - Network: http://192.168.8.155:5000
+2025-05-27T09:30:12.062Z - 
+✅ Database synced successfully
+2025-05-27T09:38:39.386Z - Loading environment variables from: E:\Projects\ukcas\server\.env.local
+2025-05-27T09:38:39.733Z - Environment: development
+2025-05-27T09:38:39.807Z - Server running on port 5000
+2025-05-27T09:38:39.808Z - 
+Local: http://localhost:5000
+2025-05-27T09:38:39.808Z - Network: http://192.168.8.155:5000
+2025-05-27T09:38:40.879Z - 
+✅ Database synced successfully
+2025-05-27T09:40:08.646Z - Loading environment variables from: E:\Projects\ukcas\server\.env.local
+2025-05-27T09:40:09.007Z - Environment: development
+2025-05-27T09:40:09.084Z - Server running on port 5000
+2025-05-27T09:40:09.084Z - 
+Local: http://localhost:5000
+2025-05-27T09:40:09.085Z - Network: http://192.168.8.155:5000
+2025-05-27T09:40:09.229Z - ❌ Error syncing database: Too many keys specified; max 64 keys allowed
+2025-05-27T09:40:23.019Z - Loading environment variables from: E:\Projects\ukcas\server\.env.local
+2025-05-27T09:40:23.369Z - Environment: development
+2025-05-27T09:40:23.438Z - Server running on port 5000
+2025-05-27T09:40:23.439Z - 
+Local: http://localhost:5000
+2025-05-27T09:40:23.439Z - Network: http://192.168.8.155:5000
+2025-05-27T09:40:23.507Z - ❌ Error syncing database: Too many keys specified; max 64 keys allowed
+2025-05-27T09:44:22.479Z - Loading environment variables from: E:\Projects\ukcas\server\.env.local
+2025-05-27T09:44:23.079Z - Environment: development
+2025-05-27T09:44:23.221Z - Server running on port 5000
+2025-05-27T09:44:23.221Z - 
+Local: http://localhost:5000
+2025-05-27T09:44:23.222Z - Network: http://192.168.8.155:5000
+2025-05-27T09:44:23.369Z - ❌ Error syncing database: Too many keys specified; max 64 keys allowed

@@ -161,7 +161,7 @@ const navigateWithLoader = (path: string) => {
             {isTransactionOpen && (
               <div className="space-y-4 pl-4">
                 <button
-                  onClick={() => router.push("")}
+                  onClick={() => navigateWithLoader("/payment")}
                   className={`block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md text-left mt-5 flex cursor-pointer items-center ${
                     currentPath === "/pending-certificate" ? "bg-gray-700" : ""
                   }`}

@@ -1,8 +1,8 @@
-const { Certificate, Student } = require("../models");
+const { Certificate, Student, Payment } = require("../models");
 const { Op } = require("sequelize");
 
 const certificateController = {
-  // Create a new certificate
+  // Create a new certificate and deduct payment
   async createCertificate(req, res) {
     try {
       const {
@@ -17,6 +17,13 @@ const certificateController = {
         created_by,
       } = req.body;
 
+      // Get student to determine institute_id
+      const student = await Student.findByPk(student_id);
+      if (!student) {
+        return res.status(404).json({ error: "Student not found" });
+      }
+
+      // Create the certificate
       const certificate = await Certificate.create({
         student_id,
         certificate_id,
@@ -29,20 +36,39 @@ const certificateController = {
         created_by,
       });
 
-      res.status(201).json(certificate);
+      // Deduct 10 from unpaid payment for the same institute
+      const unpaidPayment = await Payment.findOne({
+        where: {
+          institute_id: student.institute_id,
+          status: "Unpaid",
+        },
+      });
+
+      if (unpaidPayment) {
+        unpaidPayment.amount = parseFloat(unpaidPayment.amount) - 10;
+
+        if (unpaidPayment.amount < 0) {
+          unpaidPayment.amount = 0;
+        }
+
+        await unpaidPayment.save();
+      }
+
+      res.status(201).json({
+        message: "Certificate issued and payment updated",
+        certificate,
+      });
     } catch (error) {
       console.error("Error creating certificate:", error);
       res.status(400).json({ error: error.message });
     }
   },
 
-  // Get all certificates with related Student data (no Institute)
+  // Get all certificates with related Student data
   async getAllCertificates(req, res) {
     try {
       const certificates = await Certificate.findAll({
-        include: [
-          { model: Student }
-        ],
+        include: [{ model: Student }],
       });
       res.json(certificates);
     } catch (error) {
@@ -51,13 +77,11 @@ const certificateController = {
     }
   },
 
-  // Get a specific certificate by ID with related Student data (no Institute)
+  // Get a specific certificate by ID
   async getCertificate(req, res) {
     try {
       const certificate = await Certificate.findByPk(req.params.id, {
-        include: [
-          { model: Student }
-        ],
+        include: [{ model: Student }],
       });
       if (!certificate) {
         return res.status(404).json({ error: "Certificate not found" });
@@ -69,7 +93,7 @@ const certificateController = {
     }
   },
 
-  // Update certificate information
+  // Update certificate
   async updateCertificate(req, res) {
     try {
       const certificate = await Certificate.findByPk(req.params.id);
@@ -97,7 +121,7 @@ const certificateController = {
     }
   },
 
-  // Delete a certificate by ID
+  // Delete a certificate
   async deleteCertificate(req, res) {
     try {
       const certificate = await Certificate.findByPk(req.params.id);
@@ -112,7 +136,7 @@ const certificateController = {
     }
   },
 
-  // Search certificates by certificate_id (partial match)
+  // Search certificates by ID
   async getCertificatesByCertificateId(req, res) {
     try {
       const { value } = req.query;
@@ -125,9 +149,7 @@ const certificateController = {
         where: {
           certificate_id: { [Op.like]: `%${value}%` },
         },
-        include: [
-          { model: Student }
-        ],
+        include: [{ model: Student }],
         limit: 5,
       });
 
