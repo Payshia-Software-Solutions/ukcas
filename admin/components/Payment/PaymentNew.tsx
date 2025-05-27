@@ -5,11 +5,25 @@ import axios from "axios";
 import Image from "next/image";
 import config from "@/config";
 import Sidebar from "../Sidebar";
-import AddPayment from "./PaymentForm"; // ✅ Import your form
+import AddPayment from "./PaymentForm";
 import { useLoader } from "@/app/context/LoaderContext";
 import { useRouter } from "next/navigation";
-import { FaRegCreditCard, FaDollarSign } from "react-icons/fa"; // ✅ Import icons
+import { FaRegCreditCard, FaDollarSign } from "react-icons/fa";
 
+// ✅ Payment type definition
+interface Payment {
+  id: number;
+  institute_id: number;
+  description: string;
+  amount: number;
+  status: "Paid" | "Unpaid";
+  reference_id: string;
+  type: "credit" | "debit";
+  created_by: string;
+  updated_by?: string;
+  created_at: string;
+  updated_at: string;
+}
 
 export default function PaymentDashboard() {
   const router = useRouter();
@@ -25,11 +39,12 @@ export default function PaymentDashboard() {
     const fetchPayments = async () => {
       try {
         const response = await axios.get(`${config.API_BASE_URL}/payment`);
-        const payments = response.data;
+        const payments: Payment[] = response.data;
 
         setTotalPayments(payments.length);
+
         const total = payments.reduce(
-          (sum: number, p: any) => sum + parseFloat(p.amount || 0),
+          (sum: number, p: Payment) => sum + parseFloat(p.amount.toString() || "0"),
           0
         );
         setTotalAmount(total);
@@ -47,46 +62,47 @@ export default function PaymentDashboard() {
       <div className="flex-1 p-6 space-y-6">
         {/* Header */}
         <div className="flex justify-between items-center bg-white p-4 rounded-md shadow">
-                  <div>
-                    <h1 className="text-2xl font-bold">Good Morning !</h1>
-                    <p className="text-sm text-gray-500">04 April 2025</p>
-                  </div>
-                  <div className="flex items-center space-x-4">
-                    <div className="w-10 h-10 rounded-full overflow-hidden">
-                      <Image
-                        width={40}
-                        height={40}
-                        src="/assets/images/profile.png"
-                        alt="Profile"
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                  </div>
-                </div>
-        
-                {/* Back Link */}
-                <div className="flex justify-between items-center">
-                  <button
-                    onClick={() => router.push("/dashboard")}
-                    className="text-gray-600 text-xl font-semibold flex items-center mt-6 cursor-pointer"
-                  >
-                    <svg
-                      className="w-4 h-4 mr-1"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M15 19l-7-7 7-7"
-                      />
-                    </svg>
-                    Payment
-                  </button>
-                </div>
-        
+          <div>
+            <h1 className="text-2xl font-bold">Good Morning !</h1>
+            <p className="text-sm text-gray-500">04 April 2025</p>
+          </div>
+          <div className="flex items-center space-x-4">
+            <div className="w-10 h-10 rounded-full overflow-hidden">
+              <Image
+                width={40}
+                height={40}
+                src="/assets/images/profile.png"
+                alt="Profile"
+                className="w-full h-full object-cover"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Back Link */}
+        <div className="flex justify-between items-center">
+          <button
+            onClick={() => router.push("/dashboard")}
+            className="text-gray-600 text-xl font-semibold flex items-center mt-6 cursor-pointer"
+          >
+            <svg
+              className="w-4 h-4 mr-1"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M15 19l-7-7 7-7"
+              />
+            </svg>
+            Payment
+          </button>
+        </div>
+
+        {/* Title & Button */}
         <div className="flex justify-between items-center bg-white p-4 rounded-md shadow-md">
           <h1 className="text-xl font-bold">Payment Dashboard</h1>
           <button
@@ -98,28 +114,27 @@ export default function PaymentDashboard() {
         </div>
 
         {/* Counters */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
-            <div className="bg-white p-6 rounded-xl shadow flex items-center space-x-4">
-                <div className="text-4xl text-blue-600">
-                <FaRegCreditCard />
-                </div>
-                <div>
-                <p className="text-sm text-gray-500">Total Payments</p>
-                <p className="text-2xl font-bold">{totalPayments}</p>
-                </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+          <div className="bg-white p-6 rounded-xl shadow flex items-center space-x-4">
+            <div className="text-4xl text-blue-600">
+              <FaRegCreditCard />
             </div>
+            <div>
+              <p className="text-sm text-gray-500">Total Payments</p>
+              <p className="text-2xl font-bold">{totalPayments}</p>
+            </div>
+          </div>
 
-            <div className="bg-white p-6 rounded-xl shadow flex items-center space-x-4">
-                <div className="text-4xl text-green-600">
-                <FaDollarSign />
-                </div>
-                <div>
-                <p className="text-sm text-gray-500">Total Payment Amount</p>
-                <p className="text-2xl font-bold">${totalAmount.toFixed(2)}</p>
-                </div>
+          <div className="bg-white p-6 rounded-xl shadow flex items-center space-x-4">
+            <div className="text-4xl text-green-600">
+              <FaDollarSign />
             </div>
+            <div>
+              <p className="text-sm text-gray-500">Total Payment Amount</p>
+              <p className="text-2xl font-bold">${totalAmount.toFixed(2)}</p>
             </div>
-
+          </div>
+        </div>
 
         {/* Modal for Add Payment */}
         {isModalOpen && (
