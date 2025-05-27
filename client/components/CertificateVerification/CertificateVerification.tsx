@@ -6,51 +6,20 @@ import { useRouter, useSearchParams } from "next/navigation";
 import axios from "axios";
 import config from "@/config";
 
-interface Student {
-  id: number;
-  name: string;
-  institute_id: number;
-  age: number;
-  address: string;
-  mobile_number: string;
-  postal_code: string;
-  country: string;
-  created_by: string;
-  updated_by: string;
-  created_at: string;
-  updated_at: string;
-  username: string;
-}
-
-interface Institute {
-  id: number;
-  name: string;
-  slug: string;
-  address: string;
-  mobile_number: string;
-  img_url: string;
-  description: string;
-  mini_description: string;
-  terms_and_conditions: string;
-  created_by: string;
-  updated_by: string | null;
-  created_at: string;
-  updated_at: string;
-  username: string;
-}
-
 interface Certificate {
   id: number;
-  institute_id: number;
-  student_id: number;
-  issue_date: string;
+  student_id: string;
+  certificate_id: string;
+  student_name_initial: string;
+  student_name_full: string;
+  issued_date: string;
+  email: string;
+  student_grade: string;
+  organization: string;
   created_by: string;
   updated_by: string;
   created_at: string;
   updated_at: string;
-  certificate_id: string;
-  Student: Student;
-  Institute: Institute;
 }
 
 const CertificateVerificationClient = () => {
@@ -73,10 +42,9 @@ const CertificateVerificationClient = () => {
     if (!id.trim()) return;
     try {
       setLoading(true);
-      const response = await axios.get(`${config.API_BASE_URL}/certificate/search?value=${id}`);
+      const response = await axios.get(`${config.API_BASE_URL}/certificates/search?value=${id}`);
       const certificates = response.data;
       const exactMatch = certificates.find((cert: Certificate) => cert.certificate_id === id);
-
       if (exactMatch) {
         setCertificate(exactMatch);
         setCertificateIdInput(id);
@@ -99,7 +67,7 @@ const CertificateVerificationClient = () => {
 
     try {
       setLoading(true);
-      const response = await axios.get(`${config.API_BASE_URL}/certificate/search?value=${value}`);
+      const response = await axios.get(`${config.API_BASE_URL}/certificates/search?value=${value}`);
       setSuggestions(response.data);
     } catch (error) {
       console.error("Error fetching suggestions:", error);
@@ -117,7 +85,6 @@ const CertificateVerificationClient = () => {
     clearTimeout(debounceTimeout);
     debounceTimeout = setTimeout(() => {
       fetchSuggestions(value);
-
       if (value.trim()) {
         router.push(`/certificate-verification?certificateId=${value.trim()}`);
       }
@@ -139,24 +106,6 @@ const CertificateVerificationClient = () => {
       month: "short",
       year: "numeric",
     });
-  };
-
-  const getSkillsFromInstitute = (institute: Institute | undefined) => {
-    if (!institute) return ["Certificate Skills"];
-
-    const defaultSkills = ["Professional Development", "Industry Knowledge", "Technical Competence"];
-
-    if (institute.description) {
-      const desc = institute.description.toLowerCase();
-      if (desc.includes("tech")) {
-        return ["Technical Skills", "Technology Education", "Digital Competence"];
-      }
-      if (desc.includes("education")) {
-        return ["Educational Competence", "Academic Excellence", "Learning Development"];
-      }
-    }
-
-    return defaultSkills;
   };
 
   const handleBackButton = () => {
@@ -209,10 +158,10 @@ const CertificateVerificationClient = () => {
                 />
                 <div className="text-center sm:text-left">
                   <p className="text-2xl font-bold text-[#74323B]">
-                    {certificate.Student?.name}
+                    {certificate.student_name_full}
                   </p>
                   <p className="text-md text-gray-700">
-                    Issued on: {formatDate(certificate.issue_date)}
+                    Issued on: {formatDate(certificate.issued_date)}
                   </p>
                   <p className="text-md text-gray-700">
                     Certificate ID: {certificate.certificate_id}
@@ -223,59 +172,37 @@ const CertificateVerificationClient = () => {
 
             <div className="text-left mb-6">
               <h3 className="text-2xl font-semibold text-[#74323B] mb-2">
-                Certificate from {certificate.Institute?.name}
+                Certificate from {certificate.organization}
               </h3>
               <p className="text-gray-800 leading-relaxed mb-4">
-                {certificate.Institute?.description ||
-                  "This certificate verifies that the student has successfully completed all required coursework and assessments according to the standards set by the issuing institution."}
+                This certificate verifies that the student has successfully completed all required coursework and assessments according to the standards set by the issuing institution.
               </p>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
                 <div className="bg-gray-50 p-4 rounded-lg">
-                  <h4 className="font-semibold text-[#74323B] mb-2">
-                    Student Information
-                  </h4>
-                  <p><span className="font-medium">Name:</span> {certificate.Student?.name}</p>
-                  <p><span className="font-medium">Student ID:</span> {certificate.Student?.username}</p>
-                  <p><span className="font-medium">Country:</span> {certificate.Student?.country}</p>
+                  <h4 className="font-semibold text-[#74323B] mb-2">Student Information</h4>
+                  <p><span className="font-medium">Name:</span> {certificate.student_name_full}</p>
+                  <p><span className="font-medium">Student ID:</span> {certificate.student_id}</p>
+                  <p><span className="font-medium">Email:</span> {certificate.email}</p>
+                  <p><span className="font-medium">Grade:</span> {certificate.student_grade}</p>
                 </div>
 
                 <div className="bg-gray-50 p-4 rounded-lg">
-                  <h4 className="font-semibold text-[#74323B] mb-2">
-                    Institute Information
-                  </h4>
-                  <p><span className="font-medium">Name:</span> {certificate.Institute?.name}</p>
-                  <p><span className="font-medium">Institute ID:</span> {certificate.Institute?.username}</p>
-                  <p><span className="font-medium">Description:</span> {certificate.Institute?.mini_description}</p>
+                  <h4 className="font-semibold text-[#74323B] mb-2">Organization</h4>
+                  <p><span className="font-medium">Name:</span> {certificate.organization}</p>
+                  <p><span className="font-medium">Created By:</span> {certificate.created_by}</p>
+                  <p><span className="font-medium">Issued Date:</span> {formatDate(certificate.issued_date)}</p>
                 </div>
               </div>
             </div>
 
-            <div className="flex flex-col md:flex-row md:justify-between items-start mt-6">
-              <div className="text-left">
-                <h4 className="text-lg font-semibold mb-2 text-[#74323B]">
-                  Qualification Areas
-                </h4>
-                <div className="flex flex-wrap gap-3">
-                  {getSkillsFromInstitute(certificate.Institute).map((skill, idx) => (
-                    <span
-                      key={idx}
-                      className="bg-white border border-[#74323B] text-[#74323B] px-4 py-1 rounded-full text-sm font-medium"
-                    >
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              <div className="mt-6 md:mt-0 md:ml-4">
-                <button
-                  onClick={handleBackButton}
-                  className="bg-[#7C2B33] hover:bg-[#74323B] text-white font-semibold py-3 px-8 rounded-lg transition cursor-pointer w-full md:w-auto"
-                >
-                  Back to Search
-                </button>
-              </div>
+            <div className="flex justify-end mt-6">
+              <button
+                onClick={handleBackButton}
+                className="bg-[#7C2B33] hover:bg-[#74323B] text-white font-semibold py-3 px-8 rounded-lg transition"
+              >
+                Back to Search
+              </button>
             </div>
           </div>
         ) : (
@@ -285,22 +212,22 @@ const CertificateVerificationClient = () => {
             </p>
 
             <div className="relative w-full mb-8">
-            <span className="absolute inset-y-0 right-4 flex items-center pointer-events-none">
-              <Image
-              src="/assets/images/search.png"
-              alt="Search Icon"
-              width={24}
-              height={24}
-              className="object-contain"
-              />
+              <span className="absolute inset-y-0 right-4 flex items-center pointer-events-none">
+                <Image
+                  src="/assets/images/search.png"
+                  alt="Search Icon"
+                  width={24}
+                  height={24}
+                />
               </span>
               <input
-              type="text"
-              placeholder="Enter Certificate Number"
-              value={certificateIdInput}
-              onChange={handleInputChange}
-              onKeyDown={handleInputKeyDown}
-              className="w-full text-lg md:text-xl pl-12 pr-4 py-4 rounded-full shadow-md bg-white text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#74323B]"/>
+                type="text"
+                placeholder="Enter Certificate Number"
+                value={certificateIdInput}
+                onChange={handleInputChange}
+                onKeyDown={handleInputKeyDown}
+                className="w-full text-lg md:text-xl pl-12 pr-4 py-4 rounded-full shadow-md bg-white text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#74323B]"
+              />
 
               {suggestions.length > 0 && (
                 <div className="absolute z-20 bg-white rounded-lg shadow-lg mt-2 w-full text-left">
@@ -311,28 +238,16 @@ const CertificateVerificationClient = () => {
                         onClick={() => selectCertificate(cert)}
                         onKeyDown={(e) => handleKeyDown(e, cert)}
                         tabIndex={0}
-                        className="cursor-pointer hover:bg-gray-100 p-3 rounded-md mb-2 focus:outline-none focus:ring-2 focus:ring-[#74323B]"
+                        className="cursor-pointer hover:bg-gray-100 p-3 rounded-md mb-2"
                         role="option"
                         aria-selected={false}
                       >
-                        <div className="flex items-center">
-                          <div className="flex-shrink-0">
-                            <Image
-                              src="/assets/images/user.jpg"
-                              alt="User"
-                              width={40}
-                              height={40}
-                              className="rounded-full"
-                            />
-                          </div>
-                          <div className="ml-3">
-                            <p className="font-medium text-gray-900">{cert.Student?.name || "Unknown"}</p>
-                            <p className="text-sm text-gray-500">
-                              <span className="font-semibold">ID:</span> {cert.certificate_id} |{" "}
-                              <span className="font-semibold">Institute:</span> {cert.Institute?.name || "N/A"}
-                            </p>
-                          </div>
-                        </div>
+                        <p className="font-semibold text-[#74323B] text-md">
+                          {cert.certificate_id}
+                        </p>
+                        <p className="text-sm text-gray-700">
+                          {cert.student_name_full} ({cert.organization})
+                        </p>
                       </div>
                     ))}
                   </div>
