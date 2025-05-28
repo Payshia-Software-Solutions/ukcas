@@ -1,57 +1,27 @@
-const Course = require("./course");
-const News = require("./News");
-const ContactUs = require("./ContactUs");
-const Curriculum = require("./Curriculum");  //Certificate
-const Comment = require("./Comment");
-const AccrediteForm = require("./AccrediteForm");     
-const Institute = require("./Institute");     
+const Sequelize = require("sequelize");
+const sequelize = require("../config/database");
+
+// Import models
 const Student = require("./Student");
+const Institute = require("./Institute");
 const Certificate = require("./Certificate");
-const Service = require("./Service");
+const Payment = require("./Payment"); // ✅ Make sure this line is added
 
+// Define associations
+Student.belongsTo(Institute, { foreignKey: "institute_id" });
+Institute.hasMany(Student, { foreignKey: "institute_id" });
 
+Certificate.belongsTo(Student, { foreignKey: "student_id" });
+Certificate.belongsTo(Institute, { foreignKey: "institute_id" }); // if you have this
+Payment.belongsTo(Institute, { foreignKey: "institute_id" }); // ✅ Now this will work
+Institute.hasMany(Payment, { foreignKey: "institute_id" });    // ✅ Optional but helpful
 
-
-// Relations
-Student.belongsTo(Institute, {
-  foreignKey: "institute_id",
-  onDelete: "CASCADE",
-  onUpdate: "CASCADE",
-});
-Institute.hasMany(Student, {
-  foreignKey: "institute_id",
-});
-
-Certificate.belongsTo(Institute, {
-  foreignKey: "institute_id",
-  onDelete: "CASCADE",
-  onUpdate: "CASCADE",
-});
-
-Certificate.belongsTo(Student, {
-  foreignKey: "student_id",
-  onDelete: "CASCADE",
-  onUpdate: "CASCADE",
-});
-
-Institute.hasMany(Certificate, {
-  foreignKey: "institute_id",
-});
-
-Student.hasMany(Certificate, {
-  foreignKey: "student_id",
-});
-
-
+// Export all models
 module.exports = {
-  Course,
-  News,
-  ContactUs,
-  Curriculum,
-  Comment,
-  AccrediteForm,
-  Institute,
+  sequelize,
+  Sequelize,
   Student,
+  Institute,
   Certificate,
-  Service
+  Payment, // ✅ Don't forget to export it
 };

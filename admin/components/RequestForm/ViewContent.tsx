@@ -3,10 +3,24 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Image from "next/image";
-import ContentRow from "./ContentRow";
+import dynamic from "next/dynamic";
 import FullForm from "./FullForm";
 import config from "@/config";
 import Sidebar from "../Sidebar";
+import { useLoader } from "@/app/context/LoaderContext"; // ✅ Step 5: Import useLoader
+
+import "datatables.net-dt/css/dataTables.dataTables.css";
+
+const DataTable = dynamic(
+  async () => {
+    const dtReact = await import("datatables.net-react");
+    const dtNet = await import("datatables.net-dt");
+
+    dtReact.default.use(dtNet.default);
+    return dtReact.default;
+  },
+  { ssr: false }
+);
 
 type Institute = {
   id: number;
@@ -20,17 +34,29 @@ export default function Dashboard() {
   const [institutes, setInstitutes] = useState<Institute[]>([]);
   const [selectedInstitute, setSelectedInstitute] = useState<Institute | null>(null);
   const [showFullForm, setShowFullForm] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [pendingCount, setPendingCount] = useState(0);
+  const [activeCount, setActiveCount] = useState(0);
+
+  const { setLoading } = useLoader(); // ✅ Step 5: Get setLoading from context
 
   useEffect(() => {
-    axios
-      .get(`${config.API_BASE_URL}/accredite`)
-      .then((response) => {
-        setInstitutes(response.data);
-      })
-      .catch((error) => {
+    const fetchInstitutes = async () => {
+      try {
+        const response = await axios.get(`${config.API_BASE_URL}/accredite`);
+        const allData = response.data;
+        setInstitutes(allData);
+        setPendingCount(allData.filter((i: Institute) => i.accredite_status === "pending").length);
+        setActiveCount(allData.filter((i: Institute) => i.accredite_status === "active").length);
+        setLoading(false); // ✅ Step 5: Hide preloader after data is fetched
+      } catch (error) {
         console.error("Error fetching accreditation data:", error);
-      });
-  }, []);
+        setLoading(false); // ✅ ensure loader hides on error too
+      }
+    };
+
+    fetchInstitutes();
+  }, [setLoading]);
 
   useEffect(() => {
     if (!isModalOpen) {
@@ -42,12 +68,14 @@ export default function Dashboard() {
     return ["pending", "active", "Rejected"].includes(status);
   };
 
+  const filteredInstitutes = institutes.filter((inst) =>
+    inst.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="flex min-h-screen bg-gray-100">
-      {/* Sidebar */}
       <Sidebar />
 
-      {/* Main Content */}
       <div className="flex-1 p-4 md:p-6 space-y-6">
         {/* Top Navbar */}
         <div className="flex flex-col md:flex-row items-center justify-between bg-white p-4 rounded-md shadow space-y-4 md:space-y-0">
@@ -57,6 +85,8 @@ export default function Dashboard() {
               <input
                 type="text"
                 placeholder="Search..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
                 className="border border-gray-300 w-full rounded-full pl-10 pr-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
               <div className="absolute left-3 top-2.5">
@@ -65,32 +95,18 @@ export default function Dashboard() {
                 </svg>
               </div>
             </div>
-
-            <button className="relative">
-              <svg className="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M15 17h5l-1.405-1.405M18 14.158V11c0-3.866-2.239-7-5-7S8 7.134 8 11v3.159"
-                />
-              </svg>
-              <span className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
-            </button>
-
             <div className="w-10 h-10 rounded-full overflow-hidden">
               <Image
                 src="/assets/images/profile.png"
                 alt="Profile"
                 width={40}
                 height={40}
-                className="w-full h-full object-cover"
               />
             </div>
           </div>
         </div>
 
-        {/* Greeting Section */}
+        {/* Greeting */}
         <div className="bg-yellow-50 p-4 rounded-md flex flex-col md:flex-row md:items-center md:justify-between space-y-2 md:space-y-0">
           <h2 className="text-lg font-bold">Hi, Good morning!</h2>
           <div className="flex items-center space-x-2 text-green-600 text-sm">
@@ -101,61 +117,95 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Request Forms Table */}
-        <div className="bg-white rounded-lg shadow p-6">
-          <div className="flex flex-col md:flex-row justify-between mb-6 space-y-4 md:space-y-0">
-            <h1 className="text-2xl font-bold">Request Forms</h1>
-            <div className="flex flex-wrap gap-2">
-              <input
-                type="text"
-                placeholder="Search..."
-                className="border rounded-md px-3 py-2 text-sm focus:outline-none"
-              />
-              <button className="border px-3 py-2 rounded-md text-sm hover:bg-gray-100">Filters</button>
-              <button className="border px-3 py-2 rounded-md text-sm hover:bg-gray-100">Date Range</button>
+        {/* Counter Section */}
+        <div className="flex justify-start gap-10 mt-6">
+          <div className="bg-white p-6 rounded-2xl shadow flex items-center space-x-4 w-130 h-28">
+            <Image
+              src="/assets/images/pending.png"
+              alt="Pending"
+              width={50}
+              height={20}
+              className="mr-3"
+            />
+            <div>
+              <p className="text-sm text-gray-500">Pending Institute</p>
+              <p className="text-2xl font-bold">{pendingCount}</p>
             </div>
           </div>
 
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm text-left text-gray-700">
-              <thead className="text-xs uppercase bg-gray-100 text-gray-700">
-                <tr>
-                  <th className="px-6 py-3">Date</th>
-                  <th className="px-6 py-3">Organization/Institute</th>
-                  <th className="px-6 py-3">Status</th>
-                  <th className="px-6 py-3">View</th>
-                </tr>
-              </thead>
-              <tbody>
-                {institutes.map((item) => (
-                  <ContentRow
-                    key={item.id}
-                    date={new Date(item.created_at).toLocaleDateString()}
-                    instituteName={item.name}
-                    status={isValidStatus(item.accredite_status) ? item.accredite_status : "pending"}
-                    onView={() => {
-                      setSelectedInstitute(item);
-                      setIsModalOpen(true);
-                      setShowFullForm(false);
-                    }}
-                  />
-                ))}
-              </tbody>
-            </table>
+          <div className="bg-white p-6 rounded-2xl shadow flex items-center space-x-4 w-130 h-28">
+            <Image
+              src="/assets/images/checklist.png"
+              alt="Active"
+              width={50}
+              height={20}
+              className="mr-3"
+            />
+            <div>
+              <p className="text-sm text-gray-500">Active Institute</p>
+              <p className="text-2xl font-bold">{activeCount}</p>
+            </div>
           </div>
+        </div>
 
-          <div className="flex justify-center items-center mt-6 flex-wrap gap-2">
-            {[1, 2, "...", 9, 10].map((num, idx) => (
-              <button
-                key={idx}
-                className={`px-3 py-1 border rounded ${
-                  num === 1 ? "bg-blue-500 text-white" : "hover:bg-gray-100"
-                }`}
-              >
-                {num}
-              </button>
-            ))}
-          </div>
+        {/* DataTable */}
+        <div className="bg-white rounded-lg shadow p-6 mt-6">
+          <DataTable
+            className="display"
+            options={{
+              paging: true,
+              searching: false,
+              info: false,
+              lengthChange: false,
+              pageLength: 10,
+              ordering: true,
+              order: [[0, "asc"]],
+            }}
+          >
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Organization/Institute</th>
+                <th>Status</th>
+                <th>View</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredInstitutes.map((item) => (
+                <tr key={item.id}>
+                  <td>{new Date(item.created_at).toLocaleDateString()}</td>
+                  <td>{item.name}</td>
+                  <td>
+                    <span
+                      className={`px-2 py-1 rounded text-white ${
+                        item.accredite_status === "active"
+                          ? "bg-green-400"
+                          : item.accredite_status === "pending"
+                          ? "bg-yellow-400"
+                          : "bg-red-400"
+                      }`}
+                    >
+                      {isValidStatus(item.accredite_status)
+                        ? item.accredite_status
+                        : "pending"}
+                    </span>
+                  </td>
+                  <td>
+                    <button
+                      className="text-blue-600 underline"
+                      onClick={() => {
+                        setSelectedInstitute(item);
+                        setIsModalOpen(true);
+                        setShowFullForm(false);
+                      }}
+                    >
+                      View
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </DataTable>
         </div>
       </div>
 
@@ -169,30 +219,15 @@ export default function Dashboard() {
             >
               ✖
             </button>
-
             <h2 className="text-2xl font-bold mb-6">Request Form</h2>
-
-            <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 space-y-4 md:space-y-0">
-              <div className="text-base font-semibold text-gray-700">
-                Request ID:{" "}
-                <span className="font-normal text-gray-500">#{selectedInstitute.id}</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <span className="text-base font-semibold text-gray-700">Status:</span>
-                <div className="flex items-center text-blue-600">
-                  <span className="w-2 h-2 bg-blue-600 rounded-full mr-1"></span>
-                  <span className="text-sm font-semibold">{selectedInstitute.accredite_status}</span>
-                </div>
-              </div>
-            </div>
-
             <div className="mb-6">
               <p className="text-base font-semibold text-gray-700">
                 Organization/Institute:{" "}
-                <span className="font-normal text-gray-500">{selectedInstitute.name}</span>
+                <span className="font-normal text-gray-500">
+                  {selectedInstitute.name}
+                </span>
               </p>
             </div>
-
             {showFullForm ? (
               <FullForm id={selectedInstitute.id.toString()} />
             ) : (

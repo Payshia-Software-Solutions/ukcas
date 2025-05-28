@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Image from "next/image";
+import { Editor } from '@tinymce/tinymce-react';
 
 interface UpdateFormProps {
   id: string | number;
@@ -155,6 +156,13 @@ const UpdateForm: React.FC<UpdateFormProps> = ({ id, onClose }) => {
     });
   };
 
+  const handleEditorChange = (content: string) => {
+    setFormData({
+      ...formData,
+      description: content,
+    });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -301,7 +309,7 @@ const UpdateForm: React.FC<UpdateFormProps> = ({ id, onClose }) => {
         <div className="text-red-500 font-semibold">{error}</div>
         <button
           onClick={onClose}
-          className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600"
+          className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 cursor-pointer transition duration-300"
         >
           Close
         </button>
@@ -312,7 +320,7 @@ const UpdateForm: React.FC<UpdateFormProps> = ({ id, onClose }) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-yellow-50 p-6 rounded-2xl space-y-4 shadow-md"
+      className=" p-6 rounded-2xl space-y-4"
     >
       <h2 className="text-2xl text-gray-600 font-bold mb-4">
         Update News Article
@@ -456,19 +464,27 @@ const UpdateForm: React.FC<UpdateFormProps> = ({ id, onClose }) => {
           </div>
         </div>
 
-        {/* News Description */}
+        {/* News Description with TinyMCE Editor */}
         <div>
-          <label className="block font-semibold text-xl text-gray-500 mb-1">
-            News Description
-          </label>
-          <textarea
-            name="description"
+          <label className="block font-semibold text-xl text-gray-500 mb-1">News Description</label>
+          <Editor
+            apiKey="bcmoy3sawjsp7clc7s2dwfar6vmlq11b4mvsxok6bwh2q08b" 
             value={formData.description}
-            onChange={handleInputChange}
-            rows={5}
-            placeholder="Update full description"
-            className="w-full px-4 py-3 rounded-xl border border-gray-300 shadow-inner focus:outline-none focus:ring-2 focus:ring-gray-400 bg-white shadow-md"
-          ></textarea>
+            init={{
+              height: 200,
+              menubar: false,
+              plugins: [
+                'advlist autolink lists link image charmap preview anchor',
+                'searchreplace visualblocks code fullscreen',
+                'insertdatetime media table paste help wordcount'
+              ],
+              toolbar:
+                'undo redo | formatselect | bold italic underline | \
+                alignleft aligncenter alignright alignjustify | \
+                bullist numlist outdent indent | removeformat | help'
+            }}
+            onEditorChange={handleEditorChange}
+          />
         </div>
 
         {/* Mini Description */}

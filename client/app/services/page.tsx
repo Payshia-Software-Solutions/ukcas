@@ -24,7 +24,7 @@ export default function ServicesPage() {
     const fetchServices = async () => {
       try {
         // Fetch services from the backend API
-        const res = await axios.get(`${config.API_BASE_URL}/services`);
+        const res = await axios.get(`${config.API_BASE_URL}/service`);
         console.log("Fetched services:", res.data); // 🔍 Log to see the data
         setServices(res.data);
       } catch (err) {
