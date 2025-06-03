@@ -1,17 +1,48 @@
-const { AccrediteForm } = require("../models/index");
+const { AccrediteForm, Institute } = require("../models/index");
 
 const accrediteFormController = {
-  // Create a new accredite form
+  // ✅ Create a new accredite form AND add it to institute table
   async createAccrediteForm(req, res) {
     try {
+      // Step 1: Save form entry
       const accrediteForm = await AccrediteForm.create(req.body);
-      res.status(201).json(accrediteForm);
+
+      // Step 2: Extract values from request body
+      const {
+        name,
+        address_line_1,
+        address_line_2,
+        phone_number,
+        mini_description_of_instit
+      } = req.body;
+
+      const combinedAddress = `${address_line_1}, ${address_line_2}`;
+      const slug = name.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
+
+      // Step 3: Save to institute table
+      await Institute.create({
+        name,
+        slug,
+        address: combinedAddress,
+        mobile_number: phone_number,
+        img_url: "", // default or optional
+        description: "", // optional
+        mini_description: mini_description_of_instit || "",
+        terms_and_conditions: "Auto-generated from accreditation form",
+        created_by: "system",
+        updated_by: "system"
+      });
+
+      res.status(201).json({
+        message: "Accreditation form and Institute saved successfully",
+        data: accrediteForm
+      });
     } catch (error) {
       res.status(400).json({ error: error.message });
     }
   },
 
-  // Get all accredite forms
+  // 🔁 Get all accredite forms
   async getAllAccrediteForms(req, res) {
     try {
       const accrediteForms = await AccrediteForm.findAll();
@@ -21,7 +52,7 @@ const accrediteFormController = {
     }
   },
 
-  // Get a single accredite form by ID
+  // 🔁 Get a single accredite form by ID
   async getAccrediteForm(req, res) {
     try {
       const accrediteForm = await AccrediteForm.findByPk(req.params.id);
@@ -32,7 +63,7 @@ const accrediteFormController = {
     }
   },
 
-  // Update an entire accredite form by ID
+  // 🔁 Update entire accredite form
   async updateAccrediteForm(req, res) {
     try {
       const accrediteForm = await AccrediteForm.findByPk(req.params.id);
@@ -45,7 +76,7 @@ const accrediteFormController = {
     }
   },
 
-  // Delete an accredite form by ID
+  // 🔁 Delete accredite form
   async deleteAccrediteForm(req, res) {
     try {
       const accrediteForm = await AccrediteForm.findByPk(req.params.id);
@@ -58,7 +89,7 @@ const accrediteFormController = {
     }
   },
 
-  // ✅ NEW: Update only the status of an accredite form
+  // 🔁 Update status of accredite form
   async updateAccrediteStatus(req, res) {
     const { id, status } = req.body;
 
@@ -68,8 +99,8 @@ const accrediteFormController = {
         return res.status(404).json({ error: "AccrediteForm not found" });
       }
 
-      accrediteForm.accredite_status = status || "active"; // Default to 'active' if no status sent
-      accrediteForm.updated_by = req.body.updated_by || null; // Optional: Track who updated it
+      accrediteForm.accredite_status = status || "active";
+      accrediteForm.updated_by = req.body.updated_by || null;
       await accrediteForm.save();
 
       res.json({

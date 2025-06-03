@@ -15,10 +15,9 @@ export default function AddPayment() {
     institute_id: "",
     description: "",
     amount: "",
-    status: "Unpaid",
     reference_id: "",
-    type: "debit",
     created_by: "admin",
+    category: "topup", // used instead of type/status
   });
 
   useEffect(() => {
@@ -46,6 +45,8 @@ export default function AddPayment() {
     try {
       const payload = {
         ...formData,
+        type: formData.category === "topup" ? "topup" : "certificate_fee",
+        status: "Unpaid", // You can change to fixed or remove from backend
         institute_id: parseInt(formData.institute_id),
         amount: parseFloat(formData.amount),
       };
@@ -107,33 +108,18 @@ export default function AddPayment() {
               />
             </label>
 
-            {/* Type */}
+            {/* Type Category (UI only) */}
             <label className="w-full">
-              <span className="text-sm font-semibold text-gray-700 mb-1 block">Type</span>
+              <span className="text-sm font-semibold text-gray-700 mb-1 block">Category</span>
               <select
-                name="type"
-                value={formData.type}
+                name="category"
+                value={formData.category}
                 onChange={handleChange}
                 className={inputStyle}
                 required
               >
-                <option value="debit">Debit</option>
-                <option value="credit">Credit</option>
-              </select>
-            </label>
-
-            {/* Status */}
-            <label className="w-full">
-              <span className="text-sm font-semibold text-gray-700 mb-1 block">Status</span>
-              <select
-                name="status"
-                value={formData.status}
-                onChange={handleChange}
-                className={inputStyle}
-                required
-              >
-                <option value="Unpaid">Unpaid</option>
-                <option value="Paid">Paid</option>
+                <option value="topup">Topup</option>
+                <option value="certificate_fee">Certificate Fee</option>
               </select>
             </label>
 

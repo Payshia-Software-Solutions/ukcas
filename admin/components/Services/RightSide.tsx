@@ -32,6 +32,13 @@ const RightSide: React.FC<Props> = ({ filterKeyword = "" }) => {
     service.title.toLowerCase().includes(filterKeyword.toLowerCase())
   );
 
+  // ✅ Function to remove HTML tags from description
+  const stripHtmlTags = (html: string): string => {
+    const tmp = document.createElement("DIV");
+    tmp.innerHTML = html;
+    return tmp.textContent || tmp.innerText || "";
+  };
+
   return (
     <div className="p-6 rounded-lg space-y-4 relative">
       <h2 className="text-2xl font-bold mb-4 text-gray-600">Current Services</h2>
@@ -64,7 +71,9 @@ const RightSide: React.FC<Props> = ({ filterKeyword = "" }) => {
             </div>
             <div>
               <h3 className="font-bold text-gray-700">{service.title}</h3>
-              <p className="text-sm text-gray-600 line-clamp-3">{service.description}</p>
+              <p className="text-sm text-gray-600 line-clamp-3">
+                {stripHtmlTags(service.description)}
+              </p>
             </div>
           </div>
         ))}

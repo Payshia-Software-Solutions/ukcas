@@ -10,7 +10,7 @@ import { useLoader } from "@/app/context/LoaderContext";
 import { useRouter } from "next/navigation";
 import { FaRegCreditCard, FaDollarSign } from "react-icons/fa";
 
-// ✅ Payment type definition
+// Payment type definition
 interface Payment {
   id: number;
   institute_id: number;
@@ -23,7 +23,136 @@ interface Payment {
   updated_by?: string;
   created_at: string;
   updated_at: string;
+  Institute?: { id: number; name: string };
 }
+
+// PaymentList component with enhanced UI
+const PaymentList = () => {
+  const [payments, setPayments] = useState<Payment[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const paymentsPerPage = 10;
+
+  useEffect(() => {
+    axios
+      .get(`${config.API_BASE_URL}/payment`)
+      .then((res) => setPayments(res.data))
+      .catch((err) => console.error("Error fetching payments:", err));
+  }, []);
+
+  const filteredPayments = payments.filter((payment) => {
+    const instituteName = payment.Institute?.name.toLowerCase() || "";
+    return (
+      instituteName.includes(searchQuery.toLowerCase()) ||
+      (payment.reference_id?.toLowerCase().includes(searchQuery.toLowerCase()) ?? false) ||
+      payment.type.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  });
+
+  const totalPages = Math.ceil(filteredPayments.length / paymentsPerPage);
+  const startIndex = (currentPage - 1) * paymentsPerPage;
+  const currentPayments = filteredPayments.slice(startIndex, startIndex + paymentsPerPage);
+
+  const goToPage = (page: number) => {
+    if (page >= 1 && page <= totalPages) setCurrentPage(page);
+  };
+
+  return (
+    <section className="bg-white rounded-lg shadow p-6 mt-6">
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-lg font-semibold text-gray-700">Payments</h2>
+        <input
+          type="text"
+          placeholder="Search payments..."
+          className="border border-gray-300 rounded-md px-3 py-2 text-sm w-64 focus:outline-none focus:ring-1 focus:ring-blue-600"
+          value={searchQuery}
+          onChange={(e) => {
+            setSearchQuery(e.target.value);
+            setCurrentPage(1);
+          }}
+        />
+      </div>
+
+      <div className="overflow-x-auto">
+        <table className="min-w-full divide-y divide-gray-200 text-sm text-gray-700">
+          <thead className="bg-gray-50">
+            <tr>
+              <th className="px-4 py-3 text-left font-semibold uppercase tracking-wider cursor-pointer select-none">
+                Date
+              </th>
+              <th className="px-4 py-3 text-left font-semibold uppercase tracking-wider cursor-pointer select-none">
+                Institute
+              </th>
+              <th className="px-4 py-3 text-left font-semibold uppercase tracking-wider cursor-pointer select-none">
+                Type
+              </th>
+              <th className="px-4 py-3 text-right font-semibold uppercase tracking-wider cursor-pointer select-none">
+                Amount (₨)
+              </th>
+              <th className="px-4 py-3 text-left font-semibold uppercase tracking-wider cursor-pointer select-none">
+                Reference ID
+              </th>
+            </tr>
+          </thead>
+
+          <tbody className="divide-y divide-gray-100">
+            {currentPayments.length === 0 ? (
+              <tr>
+                <td colSpan={5} className="py-6 text-center text-gray-400">
+                  No payments found.
+                </td>
+              </tr>
+            ) : (
+              currentPayments.map((payment) => (
+                <tr
+                  key={payment.id}
+                  className="hover:bg-gray-50 transition-colors duration-150"
+                >
+                  <td className="px-4 py-3">
+                    {new Date(payment.created_at).toISOString().split("T")[0]}
+                  </td>
+                  <td className="px-4 py-3">{payment.Institute?.name || "N/A"}</td>
+                  <td className="px-4 py-3 capitalize">{payment.type.replace("_", " ")}</td>
+                  <td className="px-4 py-3 text-right">{payment.amount.toFixed(2)}</td>
+                  <td className="px-4 py-3">{payment.reference_id || "-"}</td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <nav
+          className="mt-6 flex items-center justify-end space-x-4 text-gray-700 text-sm select-none"
+          aria-label="Pagination"
+        >
+          <button
+            onClick={() => goToPage(currentPage - 1)}
+            disabled={currentPage === 1}
+            className="px-3 py-1 rounded border border-gray-300 hover:bg-gray-100 disabled:opacity-40 disabled:cursor-not-allowed"
+          >
+            Previous
+          </button>
+
+          <span className="font-semibold">
+            {currentPage} - {Math.min(currentPage * paymentsPerPage, filteredPayments.length)} of{" "}
+            {filteredPayments.length}
+          </span>
+
+          <button
+            onClick={() => goToPage(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            className="px-3 py-1 rounded border border-gray-300 hover:bg-gray-100 disabled:opacity-40 disabled:cursor-not-allowed"
+          >
+            Next
+          </button>
+        </nav>
+      )}
+    </section>
+  );
+};
 
 export default function PaymentDashboard() {
   const router = useRouter();
@@ -135,6 +264,9 @@ export default function PaymentDashboard() {
             </div>
           </div>
         </div>
+
+        {/* Payment list below counters */}
+        <PaymentList />
 
         {/* Modal for Add Payment */}
         {isModalOpen && (

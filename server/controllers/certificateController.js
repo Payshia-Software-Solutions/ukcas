@@ -23,6 +23,22 @@ const certificateController = {
         return res.status(404).json({ error: "Student not found" });
       }
 
+      // Check topup balance for the student's institute
+      const topupPayment = await Payment.findOne({
+        where: {
+          institute_id: student.institute_id,
+          type: "topup",
+        },
+      });
+
+      if (!topupPayment || parseFloat(topupPayment.amount) < 10) {
+        return res.status(400).json({ error: "Insufficient topup balance to issue certificate" });
+      }
+
+      // Deduct 10 from topup balance
+      topupPayment.amount -= 10;
+      await topupPayment.save();
+
       // Create the certificate
       const certificate = await Certificate.create({
         student_id,
@@ -36,26 +52,8 @@ const certificateController = {
         created_by,
       });
 
-      // Deduct 10 from unpaid payment for the same institute
-      const unpaidPayment = await Payment.findOne({
-        where: {
-          institute_id: student.institute_id,
-          status: "Unpaid",
-        },
-      });
-
-      if (unpaidPayment) {
-        unpaidPayment.amount = parseFloat(unpaidPayment.amount) - 10;
-
-        if (unpaidPayment.amount < 0) {
-          unpaidPayment.amount = 0;
-        }
-
-        await unpaidPayment.save();
-      }
-
       res.status(201).json({
-        message: "Certificate issued and payment updated",
+        message: "Certificate issued and ₨10 deducted from topup balance.",
         certificate,
       });
     } catch (error) {

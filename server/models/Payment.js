@@ -10,7 +10,7 @@ const Payment = sequelize.define(
       primaryKey: true,
     },
     institute_id: {
-      type: DataTypes.INTEGER, // Must match Institute.id type
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
     description: {
@@ -21,16 +21,12 @@ const Payment = sequelize.define(
       type: DataTypes.FLOAT,
       allowNull: false,
     },
-    status: {
-      type: DataTypes.ENUM("Paid", "Unpaid"),
-      allowNull: false,
-    },
     reference_id: {
       type: DataTypes.STRING(255),
       allowNull: true,
     },
     type: {
-      type: DataTypes.ENUM("credit", "debit"),
+      type: DataTypes.ENUM("topup", "certificate_fee"),
       allowNull: false,
     },
     created_by: {
