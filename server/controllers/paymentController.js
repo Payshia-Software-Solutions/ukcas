@@ -1,34 +1,40 @@
 const { Payment, Institute } = require("../models/index");
 
 const paymentController = {
-  // Create or update a payment for same institute
+  // Create or merge a payment for the same institute and type
   async createPayment(req, res) {
     try {
       const {
         institute_id,
         description,
         amount,
-        status,        // "Paid" or "Unpaid"
         reference_id,
-        type,          // "credit" or "debit"
+        type, // should be "topup" or "certificate_fee"
         created_by,
       } = req.body;
 
-      const numericAmount = parseFloat(amount);
+      if (!["topup", "certificate_fee"].includes(type)) {
+        return res.status(400).json({ error: "Invalid payment type" });
+      }
 
-      // ✅ Check if an existing unpaid payment of same type exists
+      const numericAmount = parseFloat(amount);
+      if (isNaN(numericAmount)) {
+        return res.status(400).json({ error: "Invalid amount" });
+      }
+
+      // Check if a similar existing payment exists (logic now excludes 'status')
       const existingPayment = await Payment.findOne({
         where: {
           institute_id,
           type,
-          status: "Unpaid", // Optional: only aggregate unpaid payments
         },
       });
 
       if (existingPayment) {
-        // ✅ Add to existing payment
         existingPayment.amount += numericAmount;
-        existingPayment.description += `; ${description}`;
+        existingPayment.description = existingPayment.description
+          ? `${existingPayment.description}; ${description}`
+          : description;
         existingPayment.updated_by = created_by;
         await existingPayment.save();
 
@@ -38,12 +44,11 @@ const paymentController = {
         });
       }
 
-      // ✅ Otherwise, create a new payment
+      // Create a new payment
       const payment = await Payment.create({
         institute_id,
         description,
         amount: numericAmount,
-        status,
         reference_id,
         type,
         created_by,
@@ -59,7 +64,7 @@ const paymentController = {
     }
   },
 
-  // Get all payments with related institute data
+  // Get all payments
   async getAllPayments(req, res) {
     try {
       const payments = await Payment.findAll({
@@ -73,7 +78,7 @@ const paymentController = {
     }
   },
 
-  // Get payment by ID
+  // Get one payment
   async getPaymentById(req, res) {
     try {
       const payment = await Payment.findByPk(req.params.id, {
@@ -91,7 +96,7 @@ const paymentController = {
     }
   },
 
-  // Update payment
+  // Update payment (admin/system)
   async updatePayment(req, res) {
     try {
       const payment = await Payment.findByPk(req.params.id);
@@ -102,7 +107,6 @@ const paymentController = {
       const {
         description,
         amount,
-        status,
         reference_id,
         type,
         updated_by,
@@ -111,7 +115,6 @@ const paymentController = {
       await payment.update({
         description: description || payment.description,
         amount: amount || payment.amount,
-        status: status || payment.status,
         reference_id: reference_id || payment.reference_id,
         type: type || payment.type,
         updated_by,
