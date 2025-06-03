@@ -1,27 +1,69 @@
 const Sequelize = require("sequelize");
 const sequelize = require("../config/database");
 
-// Import models
-const Student = require("./Student");
+const Course = require("./course");
+const News = require("./News");
+const ContactUs = require("./ContactUs");
+const Curriculum = require("./Curriculum");
+const Comment = require("./Comment");
+const AccrediteForm = require("./AccrediteForm");
 const Institute = require("./Institute");
+const Student = require("./Student");
 const Certificate = require("./Certificate");
-const Payment = require("./Payment"); // ✅ Make sure this line is added
+const Service = require("./Service");
+const Payment = require("./Payment");
 
 // Define associations
-Student.belongsTo(Institute, { foreignKey: "institute_id" });
-Institute.hasMany(Student, { foreignKey: "institute_id" });
 
-Certificate.belongsTo(Student, { foreignKey: "student_id" });
-Certificate.belongsTo(Institute, { foreignKey: "institute_id" }); // if you have this
-Payment.belongsTo(Institute, { foreignKey: "institute_id" }); // ✅ Now this will work
-Institute.hasMany(Payment, { foreignKey: "institute_id" });    // ✅ Optional but helpful
+// Student <-> Institute
+Student.belongsTo(Institute, {
+  foreignKey: "institute_id",
+  onDelete: "CASCADE",
+});
+Institute.hasMany(Student, {
+  foreignKey: "institute_id",
+});
+
+// Certificate <-> Institute
+Certificate.belongsTo(Institute, {
+  foreignKey: "institute_id",
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
+});
+Institute.hasMany(Certificate, {
+  foreignKey: "institute_id",
+});
+
+// Certificate <-> Student
+Certificate.belongsTo(Student, {
+  foreignKey: "student_id",
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
+});
+Student.hasMany(Certificate, {
+  foreignKey: "student_id",
+});
+
+// Payment <-> Institute
+Payment.belongsTo(Institute, {
+  foreignKey: "institute_id",
+  onDelete: "CASCADE",
+});
+Institute.hasMany(Payment, {
+  foreignKey: "institute_id",
+});
 
 // Export all models
 module.exports = {
-  sequelize,
-  Sequelize,
-  Student,
+  Course,
+  News,
+  ContactUs,
+  Curriculum,
+  Comment,
+  AccrediteForm,
   Institute,
+  Student,
   Certificate,
-  Payment, // ✅ Don't forget to export it
+  Service,
+  Payment,
 };
