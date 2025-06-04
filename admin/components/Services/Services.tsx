@@ -30,7 +30,6 @@ const Services = () => {
 
   const handleServiceCreated = () => {
     setServiceCount((prev) => prev + 1);
-    setShowCreateModal(false);
   };
 
   const handleFilter = () => setFilterKeyword(searchQuery);

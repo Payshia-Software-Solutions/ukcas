@@ -1,6 +1,9 @@
-"use client";
+'use client';
+
 import React, { useState, ChangeEvent } from "react";
 import { Editor } from "@tinymce/tinymce-react";
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 interface ServiceFormData {
   title: string;
@@ -9,11 +12,6 @@ interface ServiceFormData {
   img_url: string;
   created_by: string;
   updated_by: string;
-}
-
-interface SubmitStatus {
-  success: boolean;
-  message: string;
 }
 
 interface LeftSideProps {
@@ -31,10 +29,6 @@ const LeftSide: React.FC<LeftSideProps> = ({ onCreateSuccess }) => {
   });
 
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-  const [submitStatus, setSubmitStatus] = useState<SubmitStatus>({
-    success: false,
-    message: "",
-  });
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -63,42 +57,37 @@ const LeftSide: React.FC<LeftSideProps> = ({ onCreateSuccess }) => {
     }));
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     setIsSubmitting(true);
-    setSubmitStatus({ success: false, message: "" });
 
-    fetch("http://localhost:5000/api/v2/service", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData),
-    })
-      .then((response) => {
-        if (!response.ok) throw new Error("Network response was not ok");
-        return response.json();
-      })
-      .then(() => {
-        setSubmitStatus({
-          success: true,
-          message: "Service created successfully!",
-        });
-        onCreateSuccess();
-      })
-      .catch((error) => {
-        setSubmitStatus({
-          success: false,
-          message: "Failed to create service.",
-        });
-        console.error("Error:", error);
-      })
-      .finally(() => setIsSubmitting(false));
+    try {
+      const response = await fetch("http://localhost:5000/api/v2/service", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) throw new Error("Network response was not ok");
+
+      toast.success("Service created successfully!");
+      onCreateSuccess(); // Keep if you need to update the list or counter
+    } catch (error) {
+      console.error("Error:", error);
+      toast.error("Failed to create service.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
     <div className="p-6 rounded-2xl space-y-4">
+      <ToastContainer position="top-right" autoClose={3000} />
+
       <h2 className="text-2xl text-gray-600 font-bold mb-4">
         Create New Service
       </h2>
 
+      {/* Title */}
       <div>
         <label className="block font-semibold text-xl text-gray-500 mb-1">
           Service Title
@@ -113,6 +102,7 @@ const LeftSide: React.FC<LeftSideProps> = ({ onCreateSuccess }) => {
         />
       </div>
 
+      {/* Category */}
       <div>
         <label className="block font-semibold text-xl text-gray-500 mb-1">
           Service Category
@@ -130,6 +120,7 @@ const LeftSide: React.FC<LeftSideProps> = ({ onCreateSuccess }) => {
         </select>
       </div>
 
+      {/* Image Upload */}
       <div>
         <label className="block font-semibold text-xl text-gray-500 mb-1">
           Title Image
@@ -142,12 +133,7 @@ const LeftSide: React.FC<LeftSideProps> = ({ onCreateSuccess }) => {
               stroke="currentColor"
               viewBox="0 0 24 24"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M3 3v18h18"
-              />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3v18h18" />
             </svg>
           </div>
           <div className="flex-1">
@@ -167,6 +153,7 @@ const LeftSide: React.FC<LeftSideProps> = ({ onCreateSuccess }) => {
         </div>
       </div>
 
+      {/* Description */}
       <div>
         <label className="block font-semibold text-xl text-gray-500 mb-1">
           Service Description
@@ -183,26 +170,15 @@ const LeftSide: React.FC<LeftSideProps> = ({ onCreateSuccess }) => {
               "insertdatetime media table paste help wordcount",
             ],
             toolbar:
-              "undo redo | formatselect | bold italic underline | \
-              alignleft aligncenter alignright alignjustify | \
-              bullist numlist outdent indent | removeformat | help",
+              "undo redo | formatselect | bold italic underline | " +
+              "alignleft aligncenter alignright alignjustify | " +
+              "bullist numlist outdent indent | removeformat | help",
           }}
           onEditorChange={handleEditorChange}
         />
       </div>
 
-      {submitStatus.message && (
-        <div
-          className={`p-3 rounded-lg ${
-            submitStatus.success
-              ? "bg-green-100 text-green-700"
-              : "bg-red-100 text-red-700"
-          }`}
-        >
-          {submitStatus.message}
-        </div>
-      )}
-
+      {/* Submit Button */}
       <button
         onClick={handleSubmit}
         disabled={isSubmitting}

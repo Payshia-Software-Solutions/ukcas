@@ -1,7 +1,10 @@
+'use client';
+
 import React, { useState, ChangeEvent } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-// Interface for the form data
 interface NewsFormData {
   title: string;
   description: string;
@@ -14,117 +17,85 @@ interface NewsFormData {
   updated_by: string;
 }
 
-// Interface for submission status
-interface SubmitStatus {
-  success: boolean;
-  message: string;
-}
-
-// Interface for time components
 interface TimeComponents {
   hours: string;
   minutes: string;
   period: string;
 }
 
-// ✅ Add this prop type
 interface LeftSideProps {
   onCreateSuccess: () => void;
 }
 
 const LeftSide: React.FC<LeftSideProps> = ({ onCreateSuccess }) => {
   const [formData, setFormData] = useState<NewsFormData>({
-    title: "Breaking News: AI Revolution",
-    description: "A detailed article about how AI is transforming industries worldwide.",
-    mini_description: "AI is revolutionizing industries globally.",
-    date: "2025-05-03",
-    time: "14:30:00",
-    img_url: "https://example.com/images/ai-revolution.jpg",
-    category: "Technology",
-    created_by: "admin_user",
-    updated_by: "admin_user"
+    title: '',
+    description: '',
+    mini_description: '',
+    date: '',
+    time: '',
+    img_url: '',
+    category: '',
+    created_by: 'admin_user',
+    updated_by: 'admin_user',
   });
 
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-  const [submitStatus, setSubmitStatus] = useState<SubmitStatus>({ success: false, message: "" });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const fileName = e.target.files?.[0]?.name || "";
+    const fileName = e.target.files?.[0]?.name || '';
     if (fileName) {
-      setFormData({
-        ...formData,
-        img_url: `${fileName}`,
-      });
+      setFormData((prev) => ({ ...prev, img_url: fileName }));
     }
   };
-   const handleEditorChange = (content: string) => {
-    setFormData({
-      ...formData,
-      description: content,
-    });
+
+  const handleEditorChange = (content: string) => {
+    setFormData((prev) => ({ ...prev, description: content }));
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     setIsSubmitting(true);
-    setSubmitStatus({ success: false, message: "" });
 
-    fetch('http://localhost:5000/api/v2/news', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formData)
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
-      .then( () => {
-        setSubmitStatus({
-          success: true,
-          message: "News created successfully!"
-        });
-
-        // ✅ Call the prop to increment the counter
-        onCreateSuccess();
-      })
-      .catch(error => {
-        setSubmitStatus({
-          success: false,
-          message: "Failed to create news."
-        });
-        console.error("Error:", error);
-      })
-      .finally(() => {
-        setIsSubmitting(false);
+    try {
+      const response = await fetch('http://localhost:5000/api/v2/news', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
       });
+
+      if (!response.ok) throw new Error('Failed to create news');
+
+      toast.success('News created successfully!');
+      onCreateSuccess();
+    } catch (error) {
+      console.error(error);
+      toast.error('Failed to create news.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const formatDateForInput = (dateString: string): string => {
+    if (!dateString) return '';
     const date = new Date(dateString);
+    if (isNaN(date.getTime())) return '';
     return date.toISOString().split('T')[0];
   };
 
   const getTimeComponents = (): TimeComponents => {
-    if (!formData.time) return { hours: "12", minutes: "00", period: "AM" };
-
+    if (!formData.time) return { hours: '12', minutes: '00', period: 'AM' };
     const [hours, minutes] = formData.time.split(':');
     const hoursNum = parseInt(hours, 10);
-
     return {
       hours: hoursNum > 12 ? (hoursNum - 12).toString() : hoursNum.toString(),
-      minutes: minutes.split(':')[0] || "00",
-      period: hoursNum >= 12 ? "PM" : "AM"
+      minutes: minutes || '00',
+      period: hoursNum >= 12 ? 'PM' : 'AM',
     };
   };
 
@@ -135,34 +106,25 @@ const LeftSide: React.FC<LeftSideProps> = ({ onCreateSuccess }) => {
     let newMinutes = minutes;
     let newPeriod = period;
 
-    if (component === 'hours') {
-      newHours = parseInt(value);
-    } else if (component === 'minutes') {
-      newMinutes = value;
-    } else if (component === 'period') {
-      newPeriod = value;
-    }
+    if (component === 'hours') newHours = parseInt(value);
+    if (component === 'minutes') newMinutes = value;
+    if (component === 'period') newPeriod = value;
 
-    if (newPeriod === "PM" && newHours < 12) {
-      newHours += 12;
-    } else if (newPeriod === "AM" && newHours === 12) {
-      newHours = 0;
-    }
+    if (newPeriod === 'PM' && newHours < 12) newHours += 12;
+    if (newPeriod === 'AM' && newHours === 12) newHours = 0;
 
     const formattedTime = `${newHours.toString().padStart(2, '0')}:${newMinutes}:00`;
-
-    setFormData({
-      ...formData,
-      time: formattedTime,
-    });
+    setFormData((prev) => ({ ...prev, time: formattedTime }));
   };
 
   return (
     <div className="p-6 rounded-2xl space-y-4">
+      <ToastContainer position="top-right" autoClose={3000} />
+
       <h2 className="text-2xl text-gray-600 font-bold mb-4">Create News Article</h2>
 
-      <div className="space-y-4">
-        {/* Date/Time Scheduler */}
+      <form className="space-y-4" onSubmit={handleSubmit}>
+        {/* Date/Time */}
         <div>
           <label className="block font-semibold text-xl text-gray-500 mb-2">Schedule Date / Time</label>
           <div className="flex flex-wrap md:flex-nowrap items-center gap-3">
@@ -171,7 +133,7 @@ const LeftSide: React.FC<LeftSideProps> = ({ onCreateSuccess }) => {
               name="date"
               value={formatDateForInput(formData.date)}
               onChange={handleChange}
-              className="flex-1 border border-gray-300 px-4 py-2 rounded-xl bg-white shadow-inner focus:outline-none focus:ring-2 focus:ring-gray-400 text-sm"
+              className="flex-1 border border-gray-300 px-4 py-2 rounded-xl bg-white shadow-inner text-sm"
             />
             <select value={hours} onChange={(e) => handleTimeChange('hours', e.target.value)} className="border px-3 py-2 rounded-xl text-sm">
               {Array.from({ length: 12 }, (_, i) => <option key={i + 1}>{i + 1}</option>)}
@@ -196,17 +158,19 @@ const LeftSide: React.FC<LeftSideProps> = ({ onCreateSuccess }) => {
             value={formData.title}
             onChange={handleChange}
             className="w-full px-4 py-3 rounded-xl border border-gray-300 shadow-inner"
+            required
           />
         </div>
 
-        {/* News Category */}
+        {/* Category */}
         <div>
           <label className="block font-semibold text-xl text-gray-500 mb-1">News Category</label>
           <select
             name="category"
             value={formData.category}
             onChange={handleChange}
-            className="w-full px-4 py-3 rounded-xl border border-gray-300 shadow-inner bg-white text-gray-700 shadow-md focus:outline-none focus:ring-2 focus:ring-gray-400"
+            className="w-full px-4 py-3 rounded-xl border bg-white text-gray-700 shadow-inner"
+            required
           >
             <option value="">Choose Category</option>
             <option value="Technology">Technology</option>
@@ -227,24 +191,21 @@ const LeftSide: React.FC<LeftSideProps> = ({ onCreateSuccess }) => {
               </svg>
             </div>
             <div className="flex-1">
-              <p className="text-md text-gray-500 mb-1">Please upload square image, size less than 100KB</p>
               <input
                 type="file"
                 onChange={handleFileChange}
                 className="border px-3 py-1 w-full rounded-lg text-sm bg-white"
               />
-              <p className="text-xs text-gray-500 mt-1">
-                Current image: {formData.img_url.split('/').pop()}
-              </p>
+              <p className="text-xs text-gray-500 mt-1">Current image: {formData.img_url?.split('/').pop()}</p>
             </div>
           </div>
         </div>
 
-        {/* News Description with TinyMCE Editor */}
+        {/* News Description */}
         <div>
           <label className="block font-semibold text-xl text-gray-500 mb-1">News Description</label>
           <Editor
-            apiKey="bcmoy3sawjsp7clc7s2dwfar6vmlq11b4mvsxok6bwh2q08b" 
+            apiKey="bcmoy3sawjsp7clc7s2dwfar6vmlq11b4mvsxok6bwh2q08b"
             value={formData.description}
             init={{
               height: 200,
@@ -255,9 +216,7 @@ const LeftSide: React.FC<LeftSideProps> = ({ onCreateSuccess }) => {
                 'insertdatetime media table paste help wordcount'
               ],
               toolbar:
-                'undo redo | formatselect | bold italic underline | \
-                alignleft aligncenter alignright alignjustify | \
-                bullist numlist outdent indent | removeformat | help'
+                'undo redo | formatselect | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help'
             }}
             onEditorChange={handleEditorChange}
           />
@@ -272,25 +231,19 @@ const LeftSide: React.FC<LeftSideProps> = ({ onCreateSuccess }) => {
             value={formData.mini_description}
             onChange={handleChange}
             className="w-full px-4 py-3 rounded-xl border shadow-inner"
+            required
           />
         </div>
 
-        {/* Status Message */}
-        {submitStatus.message && (
-          <div className={`p-3 rounded-lg ${submitStatus.success ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
-            {submitStatus.message}
-          </div>
-        )}
-
-        {/* Submit Button */}
+        {/* Submit */}
         <button
-          onClick={handleSubmit}
+          type="submit"
           disabled={isSubmitting}
           className={`w-full ${isSubmitting ? 'bg-gray-400' : 'bg-gray-900 hover:bg-black'} text-white text-xl font-semibold py-3 rounded-xl shadow-md`}
         >
           {isSubmitting ? 'Submitting...' : 'Done !'}
         </button>
-      </div>
+      </form>
     </div>
   );
 };
