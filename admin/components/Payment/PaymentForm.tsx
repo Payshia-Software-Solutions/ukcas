@@ -85,19 +85,25 @@ export default function AddPayment() {
         router.push("/payment");
       }, 1500);
       
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Error submitting form:", error);
-      
-      if (error.response?.data?.error) {
-        toast.error(error.response.data.error);
-      } else if (error.response?.data?.details) {
-        // Handle validation errors
-        const errorMessages = error.response.data.details.map((detail: any) => 
-          `${detail.field}: ${detail.message}`
-        ).join(", ");
-        toast.error(errorMessages);
+
+      // Type guard for handling error object properly
+      if (axios.isAxiosError(error)) {
+        if (error.response?.data?.error) {
+          toast.error(error.response.data.error);
+        } else if (error.response?.data?.details) {
+          // Handle validation errors
+          const errorMessages = error.response.data.details.map(
+            (detail: { field: string; message: string }) => 
+              `${detail.field}: ${detail.message}`
+          ).join(", ");
+          toast.error(errorMessages);
+        } else {
+          toast.error("Failed to record payment. Please try again.");
+        }
       } else {
-        toast.error("Failed to record payment. Please try again.");
+        toast.error("An unexpected error occurred. Please try again.");
       }
     } finally {
       setIsSubmitting(false);
@@ -175,23 +181,6 @@ export default function AddPayment() {
                 <option value="topup">Topup</option>
                 <option value="certificate_fee">Certificate Fee</option>
               </select>
-            </label>
-
-            {/* Created By */}
-            <label className="w-full">
-              <span className="text-sm font-semibold text-gray-700 mb-1 block">
-                Created By <span className="text-red-500">*</span>
-              </span>
-              <input
-                type="text"
-                name="created_by"
-                placeholder="Enter creator name"
-                value={formData.created_by}
-                onChange={handleChange}
-                className={inputStyle}
-                required
-                disabled={isSubmitting}
-              />
             </label>
 
             {/* Description */}
