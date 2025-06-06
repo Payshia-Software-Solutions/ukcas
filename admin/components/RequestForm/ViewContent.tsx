@@ -8,6 +8,7 @@ import FullForm from "./FullForm";
 import config from "@/config";
 import Sidebar from "../Sidebar";
 import { useLoader } from "@/app/context/LoaderContext"; // ✅ Step 5: Import useLoader
+import NewForm from "./NewForm";  // Import the NewForm component
 
 import "datatables.net-dt/css/dataTables.dataTables.css";
 
@@ -30,10 +31,10 @@ type Institute = {
 };
 
 export default function Dashboard() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isAddInstituteModalOpen, setIsAddInstituteModalOpen] = useState(false);  // Modal state for Add New Institute
+  const [isViewInstituteModalOpen, setIsViewInstituteModalOpen] = useState(false); // Modal state for View Institute
   const [institutes, setInstitutes] = useState<Institute[]>([]);
   const [selectedInstitute, setSelectedInstitute] = useState<Institute | null>(null);
-  const [showFullForm, setShowFullForm] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [pendingCount, setPendingCount] = useState(0);
   const [activeCount, setActiveCount] = useState(0);
@@ -57,12 +58,6 @@ export default function Dashboard() {
 
     fetchInstitutes();
   }, [setLoading]);
-
-  useEffect(() => {
-    if (!isModalOpen) {
-      setShowFullForm(false);
-    }
-  }, [isModalOpen]);
 
   const isValidStatus = (status: string): status is "pending" | "active" | "Rejected" => {
     return ["pending", "active", "Rejected"].includes(status);
@@ -115,6 +110,17 @@ export default function Dashboard() {
             </svg>
             <span>Dashboard / Request Forms</span>
           </div>
+        </div>
+
+        {/* Add New Institute Button */}
+        <div className="flex justify-between items-center w-full space-x-4 w-1/3">
+          <div></div>
+          <button
+            className="bg-black text-white px-4 py-3 text-sm shadow hover:bg-gray-800 transition duration-300 rounded-2xl mr-10 cursor-pointer"
+            onClick={() => setIsAddInstituteModalOpen(true)} // Open the Add New Institute Modal
+          >
+            + Add New Institute
+          </button>
         </div>
 
         {/* Counter Section */}
@@ -195,8 +201,7 @@ export default function Dashboard() {
                       className="text-blue-600 underline"
                       onClick={() => {
                         setSelectedInstitute(item);
-                        setIsModalOpen(true);
-                        setShowFullForm(false);
+                        setIsViewInstituteModalOpen(true); // Open the View Institute Modal
                       }}
                     >
                       View
@@ -209,40 +214,36 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* Modal */}
-      {isModalOpen && selectedInstitute && (
+      {/* Modal for Add New Institute Form */}
+      {isAddInstituteModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-900/50 backdrop-blur-sm z-50">
           <div className="bg-white rounded-2xl shadow-lg p-6 w-[90%] max-w-3xl relative max-h-[90vh] overflow-y-auto">
             <button
-              onClick={() => setIsModalOpen(false)}
+              onClick={() => setIsAddInstituteModalOpen(false)}
               className="absolute top-4 right-4 text-gray-500 hover:text-black"
             >
               ✖
             </button>
-            <h2 className="text-2xl font-bold mb-6">Request Form</h2>
-            <div className="mb-6">
-              <p className="text-base font-semibold text-gray-700">
-                Organization/Institute:{" "}
-                <span className="font-normal text-gray-500">
-                  {selectedInstitute.name}
-                </span>
-              </p>
-            </div>
-            {showFullForm ? (
-              <FullForm id={selectedInstitute.id.toString()} />
-            ) : (
-              <div className="flex justify-center">
-                <button
-                  className="px-6 py-2 rounded-md border border-blue-500 text-blue-700 font-semibold shadow-sm hover:bg-blue-50"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setShowFullForm(true);
-                  }}
-                >
-                  View Details
-                </button>
-              </div>
-            )}
+            <h2 className="text-2xl font-bold mb-6">Add New Institute</h2>
+            {/* NewForm Component for adding new institute */}
+            <NewForm />
+          </div>
+        </div>
+      )}
+
+      {/* Modal for View Institute Form */}
+      {isViewInstituteModalOpen && selectedInstitute && (
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-900/50 backdrop-blur-sm z-50">
+          <div className="bg-white rounded-2xl shadow-lg p-6 w-[90%] max-w-3xl relative max-h-[90vh] overflow-y-auto">
+            <button
+              onClick={() => setIsViewInstituteModalOpen(false)}
+              className="absolute top-4 right-4 text-gray-500 hover:text-black"
+            >
+              ✖
+            </button>
+            <h2 className="text-2xl font-bold mb-6">Institute Details</h2>
+            {/* FullForm Component for viewing selected institute */}
+            <FullForm id={selectedInstitute.id.toString()} />
           </div>
         </div>
       )}
