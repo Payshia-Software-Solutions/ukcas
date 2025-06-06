@@ -32,9 +32,8 @@ export default function Dashboard() {
 
   const { setLoading } = useLoader(); // ✅ useLoader hook
   useEffect(() => {
-  setLoading(false);
+    setLoading(false);
   }, [setLoading]);
-
 
   useEffect(() => {
     const fetchCertificates = async () => {
@@ -61,7 +60,8 @@ export default function Dashboard() {
   const handleCertificateCreated = () => {
     setIssuedCount((prev) => prev + 1);
     setPendingCount((prev) => (prev > 0 ? prev - 1 : 0));
-    setIsModalOpen(false);
+    // Do not close the modal after certificate is created
+    // setIsModalOpen(false); // Removed this line to keep the modal open
   };
 
   const columns: TableColumn<Certificate>[] = [
@@ -154,7 +154,7 @@ export default function Dashboard() {
 
         <div className="flex justify-end">
           <button
-            className="bg-black text-white px-4 py-3 text-sm shadow hover:bg-gray-800 transition duration-300 rounded-2xl"
+            className="bg-black text-white px-4 py-3 text-sm shadow hover:bg-gray-800 transition duration-300 rounded-2xl cursor-pointer"
             onClick={() => setIsModalOpen(true)}
           >
             + Create New Certificate

@@ -1320,3 +1320,106 @@ Local: http://localhost:5000
 2025-06-04T06:34:02.837Z - Network: http://192.168.8.155:5000
 2025-06-04T06:34:04.909Z - 
 ✅ Database synced successfully
+2025-06-06T05:06:47.284Z - Loading environment variables from: E:\Projects\ukcas\server\.env.local
+2025-06-06T05:06:47.669Z - Environment: development
+2025-06-06T05:06:47.778Z - Server running on port 5000
+2025-06-06T05:06:47.778Z - 
+Local: http://localhost:5000
+2025-06-06T05:06:47.779Z - Network: http://192.168.8.155:5000
+2025-06-06T05:06:49.597Z - 
+✅ Database synced successfully
+2025-06-06T05:10:41.472Z - Loading environment variables from: E:\Projects\ukcas\server\.env.local
+2025-06-06T05:10:41.830Z - Environment: development
+2025-06-06T05:10:41.914Z - Server running on port 5000
+2025-06-06T05:10:41.915Z - 
+Local: http://localhost:5000
+2025-06-06T05:10:41.915Z - Network: http://192.168.8.155:5000
+2025-06-06T05:10:43.677Z - 
+✅ Database synced successfully
+2025-06-06T05:15:10.852Z - Loading environment variables from: E:\Projects\ukcas\server\.env.local
+2025-06-06T05:15:11.199Z - Environment: development
+2025-06-06T05:15:11.281Z - Server running on port 5000
+2025-06-06T05:15:11.281Z - 
+Local: http://localhost:5000
+2025-06-06T05:15:11.281Z - Network: http://192.168.8.155:5000
+2025-06-06T05:15:12.779Z - ❌ Error syncing database: Validation error
+2025-06-06T05:18:36.552Z - Loading environment variables from: E:\Projects\ukcas\server\.env.local
+2025-06-06T05:18:36.901Z - Environment: development
+2025-06-06T05:18:36.981Z - Server running on port 5000
+2025-06-06T05:18:36.981Z - 
+Local: http://localhost:5000
+2025-06-06T05:18:36.982Z - Network: http://192.168.8.155:5000
+2025-06-06T05:18:37.175Z - ❌ Error syncing database: Table 'ukas_schema.courses' doesn't exist
+2025-06-06T05:19:11.147Z - Loading environment variables from: E:\Projects\ukcas\server\.env.local
+2025-06-06T05:19:11.505Z - Environment: development
+2025-06-06T05:19:42.213Z - Loading environment variables from: E:\Projects\ukcas\server\.env.local
+2025-06-06T05:19:42.559Z - Environment: development
+2025-06-06T05:19:42.643Z - Server running on port 5000
+2025-06-06T05:19:42.643Z - 
+Local: http://localhost:5000
+2025-06-06T05:19:42.644Z - Network: http://192.168.8.155:5000
+2025-06-06T05:19:42.837Z - ❌ Error syncing database: Table 'ukas_schema.courses' doesn't exist
+2025-06-06T05:20:16.130Z - Loading environment variables from: E:\Projects\ukcas\server\.env.local
+2025-06-06T05:20:16.486Z - Environment: development
+2025-06-06T05:20:16.567Z - Server running on port 5000
+2025-06-06T05:20:16.568Z - 
+Local: http://localhost:5000
+2025-06-06T05:20:16.568Z - Network: http://192.168.8.155:5000
+2025-06-06T05:20:17.835Z - 
+✅ Database synced successfully
+2025-06-06T05:28:59.037Z - Loading environment variables from: E:\Projects\ukcas\server\.env.local
+2025-06-06T05:28:59.394Z - Environment: development
+2025-06-06T05:28:59.474Z - Server running on port 5000
+2025-06-06T05:28:59.475Z - 
+Local: http://localhost:5000
+2025-06-06T05:28:59.475Z - Network: http://192.168.8.155:5000
+2025-06-06T05:29:00.708Z - 
+✅ Database synced successfully
+2025-06-06T05:31:44.640Z - Loading environment variables from: E:\Projects\ukcas\server\.env.local
+2025-06-06T05:31:45.014Z - Environment: development
+2025-06-06T05:31:45.099Z - Server running on port 5000
+2025-06-06T05:31:45.099Z - 
+Local: http://localhost:5000
+2025-06-06T05:31:45.099Z - Network: http://192.168.8.155:5000
+2025-06-06T05:31:46.395Z - 
+✅ Database synced successfully
+2025-06-06T05:34:31.164Z - Loading environment variables from: E:\Projects\ukcas\server\.env.local
+2025-06-06T05:34:31.518Z - Environment: development
+2025-06-06T05:34:31.606Z - Server running on port 5000
+2025-06-06T05:34:31.606Z - 
+Local: http://localhost:5000
+2025-06-06T05:34:31.607Z - Network: http://192.168.8.155:5000
+2025-06-06T05:34:32.923Z - 
+✅ Database synced successfully
+2025-06-06T05:42:40.861Z - Loading environment variables from: E:\Projects\ukcas\server\.env.local
+2025-06-06T05:42:41.242Z - Environment: development
+2025-06-06T05:42:41.328Z - Server running on port 5000
+2025-06-06T05:42:41.329Z - 
+Local: http://localhost:5000
+2025-06-06T05:42:41.329Z - Network: http://192.168.8.155:5000
+2025-06-06T05:42:42.660Z - 
+✅ Database synced successfully
+2025-06-06T05:47:52.787Z - Loading environment variables from: E:\Projects\ukcas\server\.env.local
+2025-06-06T05:47:53.142Z - Environment: development
+2025-06-06T05:47:53.225Z - Server running on port 5000
+2025-06-06T05:47:53.225Z - 
+Local: http://localhost:5000
+2025-06-06T05:47:53.225Z - Network: http://192.168.8.155:5000
+2025-06-06T05:47:54.577Z - 
+✅ Database synced successfully
+2025-06-06T05:49:09.634Z - Loading environment variables from: E:\Projects\ukcas\server\.env.local
+2025-06-06T05:49:09.986Z - Environment: development
+2025-06-06T05:49:10.115Z - Server running on port 5000
+2025-06-06T05:49:10.116Z - 
+Local: http://localhost:5000
+2025-06-06T05:49:10.116Z - Network: http://192.168.8.155:5000
+2025-06-06T05:49:11.398Z - 
+✅ Database synced successfully
+2025-06-06T05:52:02.910Z - Loading environment variables from: E:\Projects\ukcas\server\.env.local
+2025-06-06T05:52:03.317Z - Environment: development
+2025-06-06T05:52:03.407Z - Server running on port 5000
+2025-06-06T05:52:03.407Z - 
+Local: http://localhost:5000
+2025-06-06T05:52:03.407Z - Network: http://192.168.8.155:5000
+2025-06-06T05:52:04.977Z - 
+✅ Database synced successfully

@@ -89,7 +89,15 @@ export default function AddCertificate({ onSuccess }: { onSuccess?: () => void }
     try {
       await axios.post(`${config.API_BASE_URL}/certificates`, formData);
 
-      toast.success("Certificate created successfully");
+      toast.success("Certificate created successfully", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
 
       // ✅ Trigger parent state update
       if (onSuccess) onSuccess();
@@ -99,7 +107,9 @@ export default function AddCertificate({ onSuccess }: { onSuccess?: () => void }
       }, 2000);
     } catch (error) {
       console.error("Error submitting certificate form:", error);
-      toast.error("Failed to create certificate");
+      toast.error("Failed to create certificate", {
+        position: "top-right",
+      });
     }
   };
 
