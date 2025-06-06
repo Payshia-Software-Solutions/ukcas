@@ -152,7 +152,7 @@ const GetAccredited = () => {
       });
     } catch (error) {
       toast.error("Failed to send accreditation request. Please try again.");
-      if (axios.isAxiosError(error)) {
+            if (axios.isAxiosError(error)) {
         if (error.response) {
           console.error("Error response:", error.response);
         } else if (error.request) {
