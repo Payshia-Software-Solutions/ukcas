@@ -1,4 +1,4 @@
-const { DataTypes } = require("sequelize");
+const { DataTypes, Op } = require("sequelize");
 const sequelize = require("../config/database");
 
 const Payment = sequelize.define(
@@ -23,7 +23,8 @@ const Payment = sequelize.define(
     },
     reference_id: {
       type: DataTypes.STRING(255),
-      allowNull: true,
+      allowNull: false,
+      unique: true,
     },
     type: {
       type: DataTypes.ENUM("topup", "certificate_fee"),
@@ -55,5 +56,35 @@ const Payment = sequelize.define(
     updatedAt: "updated_at",
   }
 );
+
+// Static method to generate reference ID
+Payment.generateReferenceId = async function() {
+  const year = new Date().getFullYear();
+  const baseRefId = `R${year}`;
+
+  try {
+    // Use raw query to avoid any potential circular reference issues
+    const [results] = await sequelize.query(
+      "SELECT reference_id FROM payments WHERE reference_id LIKE ? ORDER BY id DESC LIMIT 1",
+      {
+        replacements: [`${baseRefId}%`],
+        type: sequelize.QueryTypes.SELECT
+      }
+    );
+
+    let newNumber = 1;
+    if (results && results.reference_id) {
+      const lastNum = parseInt(results.reference_id.slice(-3), 10);
+      newNumber = lastNum + 1;
+    }
+
+    return `${baseRefId}${newNumber.toString().padStart(3, "0")}`;
+  } catch (error) {
+    console.error("Error generating reference_id:", error);
+    // Fallback to timestamp-based reference
+    const timestamp = Date.now().toString().slice(-6);
+    return `R${year}${timestamp}`;
+  }
+};
 
 module.exports = Payment;

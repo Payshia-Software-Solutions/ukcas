@@ -15,10 +15,10 @@ export default function AddPayment() {
     institute_id: "",
     description: "",
     amount: "",
-    reference_id: "",
     created_by: "admin",
-    category: "topup", // used instead of type/status
+    type: "topup", // Changed from 'category' to 'type' to match backend
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     async function fetchInstitutes() {
@@ -42,21 +42,71 @@ export default function AddPayment() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Validate form data
+    if (!formData.institute_id || !formData.description || !formData.amount || !formData.type) {
+      toast.error("Please fill in all required fields");
+      return;
+    }
+
+    if (parseFloat(formData.amount) <= 0) {
+      toast.error("Amount must be greater than 0");
+      return;
+    }
+
+    setIsSubmitting(true);
+    
     try {
       const payload = {
-        ...formData,
-        type: formData.category === "topup" ? "topup" : "certificate_fee",
-        status: "Unpaid", // You can change to fixed or remove from backend
         institute_id: parseInt(formData.institute_id),
+        description: formData.description.trim(),
         amount: parseFloat(formData.amount),
+        type: formData.type,
+        created_by: formData.created_by,
       };
 
-      await axios.post(`${config.API_BASE_URL}/payment`, payload);
-      toast.success("Payment recorded successfully");
-      router.push("/payment");
-    } catch (error) {
+      console.log("Submitting payload:", payload); // For debugging
+
+      const response = await axios.post(`${config.API_BASE_URL}/payment`, payload);
+      
+      toast.success(response.data.message || "Payment recorded successfully");
+      
+      // Reset form
+      setFormData({
+        institute_id: "",
+        description: "",
+        amount: "",
+        created_by: "admin",
+        type: "topup",
+      });
+      
+      // Navigate back after a short delay to show the success message
+      setTimeout(() => {
+        router.push("/payment");
+      }, 1500);
+      
+    } catch (error: unknown) {
       console.error("Error submitting form:", error);
-      toast.error("Failed to record payment");
+
+      // Type guard for handling error object properly
+      if (axios.isAxiosError(error)) {
+        if (error.response?.data?.error) {
+          toast.error(error.response.data.error);
+        } else if (error.response?.data?.details) {
+          // Handle validation errors
+          const errorMessages = error.response.data.details.map(
+            (detail: { field: string; message: string }) => 
+              `${detail.field}: ${detail.message}`
+          ).join(", ");
+          toast.error(errorMessages);
+        } else {
+          toast.error("Failed to record payment. Please try again.");
+        }
+      } else {
+        toast.error("An unexpected error occurred. Please try again.");
+      }
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -76,13 +126,16 @@ export default function AddPayment() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* Institute */}
             <label className="w-full">
-              <span className="text-sm font-semibold text-gray-700 mb-1 block">Institute</span>
+              <span className="text-sm font-semibold text-gray-700 mb-1 block">
+                Institute <span className="text-red-500">*</span>
+              </span>
               <select
                 name="institute_id"
                 value={formData.institute_id}
                 onChange={handleChange}
                 className={inputStyle}
                 required
+                disabled={isSubmitting}
               >
                 <option value="">Select institute</option>
                 {institutes.map((inst) => (
@@ -95,76 +148,75 @@ export default function AddPayment() {
 
             {/* Amount */}
             <label className="w-full">
-              <span className="text-sm font-semibold text-gray-700 mb-1 block">Amount</span>
+              <span className="text-sm font-semibold text-gray-700 mb-1 block">
+                Amount <span className="text-red-500">*</span>
+              </span>
               <input
                 type="number"
                 step="0.01"
+                min="0.01"
                 name="amount"
                 placeholder="Enter amount"
                 value={formData.amount}
                 onChange={handleChange}
                 className={inputStyle}
                 required
+                disabled={isSubmitting}
               />
             </label>
 
-            {/* Type Category (UI only) */}
+            {/* Payment Type */}
             <label className="w-full">
-              <span className="text-sm font-semibold text-gray-700 mb-1 block">Category</span>
+              <span className="text-sm font-semibold text-gray-700 mb-1 block">
+                Payment Type <span className="text-red-500">*</span>
+              </span>
               <select
-                name="category"
-                value={formData.category}
+                name="type"
+                value={formData.type}
                 onChange={handleChange}
                 className={inputStyle}
                 required
+                disabled={isSubmitting}
               >
                 <option value="topup">Topup</option>
                 <option value="certificate_fee">Certificate Fee</option>
               </select>
             </label>
 
-            {/* Reference ID */}
-            <label className="w-full md:col-span-2">
-              <span className="text-sm font-semibold text-gray-700 mb-1 block">Reference ID</span>
-              <input
-                type="text"
-                name="reference_id"
-                placeholder="Enter reference ID"
-                value={formData.reference_id}
-                onChange={handleChange}
-                className={inputStyle}
-              />
-            </label>
-
             {/* Description */}
             <label className="w-full md:col-span-2">
-              <span className="text-sm font-semibold text-gray-700 mb-1 block">Description</span>
+              <span className="text-sm font-semibold text-gray-700 mb-1 block">
+                Description <span className="text-red-500">*</span>
+              </span>
               <input
                 type="text"
                 name="description"
-                placeholder="Enter description"
+                placeholder="Enter payment description"
                 value={formData.description}
                 onChange={handleChange}
                 className={inputStyle}
                 required
+                disabled={isSubmitting}
               />
             </label>
           </div>
 
-          {/* Submit buttons */}
+          {/* Buttons */}
           <div className="flex justify-end gap-4">
             <button
               type="button"
               onClick={() => router.back()}
-              className="px-6 py-2 bg-gray-200 rounded-md text-sm cursor-pointer hover:bg-gray-300 transition duration-200"
+              className="px-6 py-2 bg-gray-200 rounded-md text-sm cursor-pointer hover:bg-gray-300 transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              disabled={isSubmitting}
             >
               Cancel
             </button>
             <button
               type="submit"
               className="px-6 py-2 bg-black text-white rounded-md text-sm cursor-pointer hover:bg-gray-800 transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              disabled={isSubmitting}
             >
-              Submit Payment
+              {isSubmitting ? "Submitting..." : "Submit Payment"}
             </button>
           </div>
         </form>
