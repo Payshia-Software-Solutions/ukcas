@@ -270,16 +270,20 @@ export default function PaymentDashboard() {
 
         {/* Modal for Add Payment */}
         {isModalOpen && (
-          <div className="fixed inset-0 flex items-center justify-center bg-gray-900/50 z-50">
-            <div className="bg-white rounded-xl shadow-lg p-6 w-[90%] max-w-2xl relative max-h-[90vh] overflow-y-auto">
+          <div className="fixed inset-0 flex items-center justify-center bg-gray-900/50 backdrop-blur-sm z-50">
+            {/* Modal with fixed size and overflow handling */}
+            <div className="bg-white rounded-2xl shadow-lg p-6 w-[90%] max-w-3xl relative max-h-[65vh] overflow-hidden">
               <button
                 onClick={() => setIsModalOpen(false)}
-                className="absolute top-4 right-4 text-gray-500 hover:text-black cursor-pointer"
+                className="absolute top-4 right-4 text-gray-500 hover:text-black cursor-pointer text-xl"
               >
                 ✖
               </button>
-              <h2 className="text-2xl font-bold mb-4">Make New Payment</h2>
-              <AddPayment />
+
+              {/* Content of the modal */}
+              <div className="overflow-y-auto max-h-full">
+                <AddPayment />
+              </div>
             </div>
           </div>
         )}

@@ -12,6 +12,8 @@ const Student = require("./Student");
 const Certificate = require("./Certificate");
 const Service = require("./Service");
 const Payment = require("./Payment");
+const UserMaintenance = require("./User");
+
 
 // Define associations
 
@@ -66,6 +68,7 @@ module.exports = {
   Certificate,
   Service,
   Payment,
+  UserMaintenance,
 };
 
 

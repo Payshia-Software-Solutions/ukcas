@@ -220,12 +220,10 @@ export default function Dashboard() {
           <div className="bg-white rounded-2xl shadow-lg p-6 w-[90%] max-w-3xl relative max-h-[90vh] overflow-y-auto">
             <button
               onClick={() => setIsAddInstituteModalOpen(false)}
-              className="absolute top-4 right-4 text-gray-500 hover:text-black"
+              className="absolute top-4 right-4 text-gray-500 hover:text-black cursor-pointer text-xl"
             >
               ✖
             </button>
-            <h2 className="text-2xl font-bold mb-6">Add New Institute</h2>
-            {/* NewForm Component for adding new institute */}
             <NewForm />
           </div>
         </div>

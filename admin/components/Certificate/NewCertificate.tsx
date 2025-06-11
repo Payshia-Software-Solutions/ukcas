@@ -119,7 +119,7 @@ export default function AddCertificate({ onSuccess }: { onSuccess?: () => void }
   return (
     <div className="w-full min-h-screen p-8">
       <ToastContainer position="top-right" autoClose={3000} />
-      <div className="max-w-3xl mx-auto bg-white p-8 rounded-xl">
+      <div className="max-w-3xl mx-auto bg-white p-8 rounded-xl overflow-hidden">
         <h2 className="text-2xl font-bold mb-2">Certificate Creation</h2>
         <p className="text-sm text-gray-500 mb-6">
           Please fill in all the required information
@@ -265,13 +265,13 @@ export default function AddCertificate({ onSuccess }: { onSuccess?: () => void }
             <button
               type="button"
               onClick={() => router.back()}
-              className="px-6 py-2 bg-gray-200 rounded-md text-sm"
+              className="px-6 py-2 bg-gray-200 rounded-md text-sm cursor-pointer hover:bg-gray-300 transition duration-200"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-6 py-2 bg-black text-white rounded-md text-sm"
+              className="px-6 py-2 bg-black text-white rounded-md text-sm cursor-pointer hover:bg-gray-800 transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Submit Certificate
             </button>

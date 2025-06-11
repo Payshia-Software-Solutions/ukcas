@@ -11,11 +11,13 @@
   "dependencies": {
     "@tinymce/tinymce-react": "^6.1.0",
     "axios": "^1.9.0",
+    "bcrypt": "^6.0.0",
     "datatables.net": "^2.3.1",
     "datatables.net-dt": "^2.3.1",
     "datatables.net-react": "^1.0.1",
     "datatables.net-responsive-dt": "^3.0.4",
     "jquery": "^3.7.1",
+    "jsonwebtoken": "^9.0.2",
     "multer": "^1.4.5-lts.2",
     "next": "15.3.1",
     "quill": "^2.0.3",
