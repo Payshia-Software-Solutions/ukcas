@@ -10,6 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import config from "@/config";
 import UserForm from "./UserForm"; 
 import { useLoader } from "@/app/context/LoaderContext"
+import { toast } from "react-toastify";
 
 // User type definition
 interface User {

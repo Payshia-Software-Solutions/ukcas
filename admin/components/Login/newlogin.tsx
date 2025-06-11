@@ -5,6 +5,10 @@ import Image from "next/image";
 import axios, { AxiosError } from "axios";
 import config from "@/config";
 import { useLoader } from "@/app/context/LoaderContext";
+import { ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -44,7 +48,9 @@ export default function LoginPage() {
     } catch (err: unknown) {
       const error = err as AxiosError<{ message?: string }>;
       console.error("Login failed:", error);
-      setError(error.response?.data?.message || "Login failed. Please try again.");
+      const message = error.response?.data?.message || "Login failed. Please try again.";
+      setError(message);
+      toast.error(message); // ✅ Show toast error
     } finally {
       setIsLoading(false);
       setLoading(false);
@@ -124,6 +130,8 @@ export default function LoginPage() {
           </div>
         </div>
       </div>
+      {/* Toast container */}
+      <ToastContainer />
     </div>
   );
 }
