@@ -18,7 +18,8 @@ import {
   FiFileText,
   FiLogOut,
   FiChevronDown,
-  FiChevronUp,
+  FiChevronUp, 
+  FiUserCheck
 } from "react-icons/fi";
 
 const Sidebar: React.FC = () => {
@@ -26,6 +27,8 @@ const Sidebar: React.FC = () => {
   const [isDashboardOpen, setIsDashboardOpen] = useState<boolean>(false);
   const [isTransactionOpen, setIsTransactionOpen] = useState<boolean>(false);
   const [isRecordOpen, setIsRecordOpen] = useState<boolean>(false);
+  const [isUserOpen, setIsUserOpen] = useState<boolean>(false);
+
 
   const currentPath = usePathname();
 
@@ -74,7 +77,7 @@ const navigateWithLoader = (path: string) => {
               }`}
             >
               <FiGrid className="mr-3" size={20} />
-              <span className="text-lg">Dashboard</span>
+              <span className="text-md">Dashboard</span>
             </button>
           </div>
 
@@ -92,7 +95,7 @@ const navigateWithLoader = (path: string) => {
               }`}
             >
               <FiHome className="mr-3" size={20} />
-              <span className="text-lg">Master</span>
+              <span className="text-md">Master</span>
               <span className="ml-auto">
                 {isDashboardOpen ? <FiChevronUp /> : <FiChevronDown />}
               </span>
@@ -153,7 +156,7 @@ const navigateWithLoader = (path: string) => {
               }`}
             >
               <FiDollarSign className="mr-3" size={20} />
-              <span className="text-lg">Transaction</span>
+              <span className="text-md">Transaction</span>
               <span className="ml-auto">
                 {isTransactionOpen ? <FiChevronUp /> : <FiChevronDown />}
               </span>
@@ -196,7 +199,7 @@ const navigateWithLoader = (path: string) => {
               }`}
             >
               <FiBarChart2 className="mr-3" size={20} />
-              <span className="text-lg">Records</span>
+              <span className="text-md">Records</span>
               <span className="ml-auto">
                 {isRecordOpen ? <FiChevronUp /> : <FiChevronDown />}
               </span>
@@ -218,6 +221,46 @@ const navigateWithLoader = (path: string) => {
               </div>
             )}
           </div>
+          {/* User Maintenance Menu */}
+          <div>
+            <button
+              onClick={() => setIsUserOpen(!isUserOpen)}
+              className={`flex items-center justify-start w-full p-2 rounded-md cursor-pointer hover:bg-gray-700 ${
+                currentPath.includes("user-management") ? "bg-gray-700" : ""
+              }`}
+            >
+              <FiUser className="mr-3" size={20} />
+              <span className="text-md">User Maintenance</span>
+              <span className="ml-auto">
+                {isUserOpen ? <FiChevronUp /> : <FiChevronDown />}
+              </span>
+            </button>
+
+            {isUserOpen && (
+              <div className="space-y-4 pl-4">
+                <button
+                  onClick={() => navigateWithLoader("/user")}
+                  className={`block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md text-left flex items-center ${
+                    currentPath === "/user-management/users" ? "bg-gray-700" : ""
+                  }`}
+                >
+                  <FiUsers className="mr-3" size={20} />
+                  Users
+                </button>
+
+                <button
+                  onClick={() => navigateWithLoader("/userprivileges")}
+                  className={`block w-full p-2 text-gray-300 hover:bg-gray-700 rounded-md text-left flex items-center ${
+                    currentPath === "/user-management/change-privileges" ? "bg-gray-700" : ""
+                  }`}
+                >
+                  <FiUserCheck className="mr-3" size={20} />
+                  Change Privileges
+                </button>
+              </div>
+            )}
+          </div>
+
         </div>
       </div>
 

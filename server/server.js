@@ -51,6 +51,11 @@ const studentRoutes = require("./routes/studentRoutes");
 const certificateRoutes = require("./routes/certificateRoutes");  
 const serviceRoutes = require("./routes/serviceRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
+const userMaintenanceRoutes = require("./routes/userRoutes");
+
+
+
+ 
 
 const app = express();
 
@@ -79,6 +84,8 @@ app.use(`/api/${apiVersion}/student`, studentRoutes);
 app.use(`/api/${apiVersion}/certificates`, certificateRoutes); 
 app.use(`/api/${apiVersion}/service`, serviceRoutes);
 app.use(`/api/${apiVersion}/payment`, paymentRoutes);
+app.use(`/api/${apiVersion}/user`, userMaintenanceRoutes);
+
 
 
 // Root route (optional)
