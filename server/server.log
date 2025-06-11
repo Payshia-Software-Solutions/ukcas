@@ -1570,3 +1570,89 @@ Local: http://localhost:5000
 2025-06-11T05:06:38.936Z - Network: http://192.168.8.155:5000
 2025-06-11T05:06:40.608Z - 
 ✅ Database synced successfully
+2025-06-11T05:31:07.036Z - Loading environment variables from: E:\Projects\ukcas\server\.env.local
+2025-06-11T05:31:07.382Z - Environment: development 
+2025-06-11T05:31:07.559Z - Server running on port 5000
+2025-06-11T05:31:07.560Z - 
+Local: http://localhost:5000
+2025-06-11T05:31:07.560Z - Network: http://192.168.8.155:5000
+2025-06-11T05:31:09.354Z - 
+✅ Database synced successfully
+2025-06-11T05:41:19.537Z - Loading environment variables from: E:\Projects\ukcas\server\.env.local
+2025-06-11T05:41:19.883Z - Environment: development 
+2025-06-11T05:41:19.975Z - Server running on port 5000
+2025-06-11T05:41:19.976Z - 
+Local: http://localhost:5000
+2025-06-11T05:41:19.976Z - Network: http://192.168.8.155:5000
+2025-06-11T05:41:21.731Z - 
+✅ Database synced successfully
+2025-06-11T05:51:26.381Z - Loading environment variables from: E:\Projects\ukcas\server\.env.local
+2025-06-11T05:51:26.741Z - Environment: development 
+2025-06-11T05:51:26.839Z - Server running on port 5000
+2025-06-11T05:51:26.839Z - 
+Local: http://localhost:5000
+2025-06-11T05:51:26.839Z - Network: http://192.168.8.155:5000
+2025-06-11T05:51:28.669Z - 
+✅ Database synced successfully
+2025-06-11T05:56:29.963Z - Loading environment variables from: E:\Projects\ukcas\server\.env.local
+2025-06-11T05:56:30.309Z - Environment: development 
+2025-06-11T05:56:30.437Z - Server running on port 5000
+2025-06-11T05:56:30.437Z - 
+Local: http://localhost:5000
+2025-06-11T05:56:30.438Z - Network: http://192.168.8.155:5000
+2025-06-11T05:56:31.038Z - ❌ Error syncing database: Too many keys specified; max 64 keys allowed
+2025-06-11T05:57:46.556Z - Loading environment variables from: E:\Projects\ukcas\server\.env.local
+2025-06-11T05:57:46.900Z - Environment: development
+2025-06-11T05:57:46.987Z - Server running on port 5000
+2025-06-11T05:57:46.988Z - 
+Local: http://localhost:5000
+2025-06-11T05:57:46.988Z - Network: http://192.168.8.155:5000
+2025-06-11T05:57:47.023Z - ❌ Error syncing database: Unknown database 'ukas_schema'
+2025-06-11T05:58:05.135Z - Loading environment variables from: E:\Projects\ukcas\server\.env.local
+2025-06-11T05:58:05.479Z - Environment: development
+2025-06-11T05:58:05.567Z - Server running on port 5000
+2025-06-11T05:58:05.567Z - 
+Local: http://localhost:5000
+2025-06-11T05:58:05.568Z - Network: http://192.168.8.155:5000
+2025-06-11T05:58:06.010Z - 
+✅ Database synced successfully
+2025-06-11T06:02:16.978Z - Loading environment variables from: E:\Projects\ukcas\server\.env.local
+2025-06-11T06:02:17.381Z - Environment: development
+2025-06-11T06:02:17.481Z - Server running on port 5000
+2025-06-11T06:02:17.481Z - 
+Local: http://localhost:5000
+2025-06-11T06:02:17.482Z - Network: http://192.168.8.155:5000
+2025-06-11T06:02:18.792Z - 
+✅ Database synced successfully
+2025-06-11T06:08:42.647Z - Loading environment variables from: E:\Projects\ukcas\server\.env.local
+2025-06-11T06:08:43.179Z - Environment: development
+2025-06-11T06:08:43.286Z - Server running on port 5000
+2025-06-11T06:08:43.286Z - 
+Local: http://localhost:5000
+2025-06-11T06:08:43.286Z - Network: http://192.168.8.155:5000
+2025-06-11T06:08:44.707Z - 
+✅ Database synced successfully
+2025-06-11T06:14:44.087Z - Loading environment variables from: E:\Projects\ukcas\server\.env.local
+2025-06-11T06:14:44.476Z - Environment: development
+2025-06-11T06:14:44.570Z - Server running on port 5000
+2025-06-11T06:14:44.571Z - 
+Local: http://localhost:5000
+2025-06-11T06:14:44.571Z - Network: http://192.168.8.155:5000
+2025-06-11T06:14:45.847Z - 
+✅ Database synced successfully
+2025-06-11T06:19:49.549Z - Loading environment variables from: E:\Projects\ukcas\server\.env.local
+2025-06-11T06:19:49.958Z - Environment: development
+2025-06-11T06:19:50.053Z - Server running on port 5000
+2025-06-11T06:19:50.054Z - 
+Local: http://localhost:5000
+2025-06-11T06:19:50.054Z - Network: http://192.168.8.155:5000
+2025-06-11T06:19:51.419Z - 
+✅ Database synced successfully
+2025-06-10T06:36:08.125Z - Loading environment variables from: E:\Projects\ukcas\server\.env.local
+2025-06-10T06:36:15.421Z - Environment: development
+2025-06-10T06:36:16.498Z - Server running on port 5000
+2025-06-10T06:36:16.498Z - 
+Local: http://localhost:5000
+2025-06-10T06:36:16.499Z - Network: http://192.168.56.1:5000
+2025-06-10T06:36:18.342Z - 
+✅ Database synced successfully

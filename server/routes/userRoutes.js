@@ -5,8 +5,11 @@ const multer = require("multer");
 
 const upload = multer(); // using memory storage by default
 
-// ✅ Create a new UserMaintenance entry
-router.post("/",userMaintenanceController.createUserMaintenance);
+// ✅ IMPORTANT: Login route MUST come before the general POST route
+router.post("/login", userMaintenanceController.login);
+
+// ✅ Create a new UserMaintenance entry (Registration)
+router.post("/", userMaintenanceController.createUserMaintenance);
 
 // ✅ Get all UserMaintenance entries
 router.get("/", userMaintenanceController.getAllUserMaintenances);
