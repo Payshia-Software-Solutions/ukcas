@@ -1656,3 +1656,11 @@ Local: http://localhost:5000
 2025-06-10T06:36:16.499Z - Network: http://192.168.56.1:5000
 2025-06-10T06:36:18.342Z - 
 ✅ Database synced successfully
+2025-06-12T04:56:40.436Z - Loading environment variables from: E:\Projects\ukcas\server\.env.local
+2025-06-12T04:56:50.352Z - Environment: development
+2025-06-12T04:56:52.170Z - Server running on port 5000
+2025-06-12T04:56:52.170Z - 
+Local: http://localhost:5000
+2025-06-12T04:56:52.171Z - Network: http://192.168.8.155:5000
+2025-06-12T04:56:53.983Z - 
+✅ Database synced successfully
