@@ -101,58 +101,47 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Greeting */}
-        <div className="bg-yellow-50 p-4 rounded-md flex flex-col md:flex-row md:items-center md:justify-between space-y-2 md:space-y-0">
-          <h2 className="text-lg font-bold">Hi, Good morning!</h2>
-          <div className="flex items-center space-x-2 text-green-600 text-sm">
-            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-              <path d="M10 20v-6h4v6h5v-8h3L10 0 2 12h3v8z" />
-            </svg>
-            <span>Dashboard / Request Forms</span>
-          </div>
-        </div>
+        {/* Counter Section with Add Button */}
+<div className="flex flex-col md:flex-row justify-between items-start md:items-center mt-6 gap-4">
+  {/* Counter Cards */}
+  <div className="flex gap-6">
+    <div className="bg-white p-6 rounded-2xl shadow flex items-center space-x-4 w-130 h-28">
+      <Image
+        src="/assets/images/pending.png"
+        alt="Pending"
+        width={50}
+        height={20}
+        className="mr-3"
+      />
+      <div>
+        <p className="text-sm text-gray-500">Pending Institute</p>
+        <p className="text-2xl font-bold">{pendingCount}</p>
+      </div>
+    </div>
 
-        {/* Add New Institute Button */}
-        <div className="flex justify-between items-center w-full space-x-4 w-1/3">
-          <div></div>
-          <button
-            className="bg-black text-white px-4 py-3 text-sm shadow hover:bg-gray-800 transition duration-300 rounded-2xl mr-10 cursor-pointer"
-            onClick={() => setIsAddInstituteModalOpen(true)} // Open the Add New Institute Modal
-          >
-            + Add New Institute
-          </button>
-        </div>
+    <div className="bg-white p-6 rounded-2xl shadow flex items-center space-x-4 w-130 h-28">
+      <Image
+        src="/assets/images/checklist.png"
+        alt="Active"
+        width={50}
+        height={20}
+        className="mr-3"
+      />
+      <div>
+        <p className="text-sm text-gray-500">Active Institute</p>
+        <p className="text-2xl font-bold">{activeCount}</p>
+      </div>
+    </div>
+  </div>
 
-        {/* Counter Section */}
-        <div className="flex justify-start gap-10 mt-6">
-          <div className="bg-white p-6 rounded-2xl shadow flex items-center space-x-4 w-130 h-28">
-            <Image
-              src="/assets/images/pending.png"
-              alt="Pending"
-              width={50}
-              height={20}
-              className="mr-3"
-            />
-            <div>
-              <p className="text-sm text-gray-500">Pending Institute</p>
-              <p className="text-2xl font-bold">{pendingCount}</p>
-            </div>
-          </div>
-
-          <div className="bg-white p-6 rounded-2xl shadow flex items-center space-x-4 w-130 h-28">
-            <Image
-              src="/assets/images/checklist.png"
-              alt="Active"
-              width={50}
-              height={20}
-              className="mr-3"
-            />
-            <div>
-              <p className="text-sm text-gray-500">Active Institute</p>
-              <p className="text-2xl font-bold">{activeCount}</p>
-            </div>
-          </div>
-        </div>
+  {/* Add Button */}
+  <button
+    className="bg-black text-white px-4 py-3 text-sm shadow hover:bg-gray-800 transition duration-300 rounded-2xl"
+    onClick={() => setIsAddInstituteModalOpen(true)}
+  >
+    + Add New Institute
+  </button>
+</div>
 
         {/* DataTable */}
         <div className="bg-white rounded-lg shadow p-6 mt-6">
