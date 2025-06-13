@@ -3,9 +3,24 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import { useLoader } from "@/app/context/LoaderContext";
 import Sidebar from "@/components/Sidebar";
 import config from "@/config";
+
+
+import "datatables.net-dt/css/dataTables.dataTables.css";
+
+const DataTable = dynamic(
+  async () => {
+    const dtReact = await import("datatables.net-react");
+    const dtNet = await import("datatables.net-dt");
+
+    dtReact.default.use(dtNet.default);
+    return dtReact.default;
+  },
+  { ssr: false }
+);
 
 // Type definitions for data structures
 interface Institute {
@@ -53,6 +68,8 @@ interface DashboardStats {
 export default function DashboardContent() {
   const { setLoading } = useLoader();
   const [searchTerm, setSearchTerm] = useState("");
+  const [institutes, setInstitutes] = useState<Institute[]>([]);
+
   const [stats, setStats] = useState<DashboardStats>({
     totalInstitutes: 0,
     activeInstitutes: 0,
@@ -86,9 +103,10 @@ export default function DashboardContent() {
         ]);
 
         // Process institutes data
-        const institutes: Institute[] = institutesResponse.data;
-        const activeInstitutes = institutes.filter(inst => inst.accredite_status === "active").length;
-        const pendingInstitutes = institutes.filter(inst => inst.accredite_status === "pending").length;
+        const allInstitutes: Institute[] = institutesResponse.data;
+        setInstitutes(allInstitutes);
+        const activeInstitutes = allInstitutes.filter(inst => inst.accredite_status === "active").length;
+        const pendingInstitutes = allInstitutes.filter(inst => inst.accredite_status === "pending").length;
 
         // Process payments data
         const payments: Payment[] = paymentsResponse.data;
@@ -103,18 +121,18 @@ export default function DashboardContent() {
         const services: Service[] = servicesResponse.data;
         const publishedServices = services.filter(service => service.status === "published" || service.status === "active").length;
 
-          setStats({
-            totalInstitutes: institutes.length,
-            activeInstitutes,
-            pendingInstitutes,
-            totalPayments: payments.length,
-            totalPaymentAmount,
-            totalCertificates: certificates.length,
-            issuedCertificates,
-            pendingCertificates,
-            totalServices: services.length,
-            publishedServices, // ✅ now used
-          });
+        setStats({
+          totalInstitutes: allInstitutes.length,
+          activeInstitutes,
+          pendingInstitutes,
+          totalPayments: payments.length,
+          totalPaymentAmount,
+          totalCertificates: certificates.length,
+          issuedCertificates,
+          pendingCertificates,
+          totalServices: services.length,
+          publishedServices,
+        });
 
       } catch (error) {
         console.error("Error fetching dashboard data:", error);
@@ -126,6 +144,16 @@ export default function DashboardContent() {
 
     fetchDashboardData();
   }, [setLoading]);
+
+  const isValidStatus = (status: string): status is "pending" | "active" | "Rejected" => {
+    return ["pending", "active", "Rejected"].includes(status);
+  };
+
+  // Filter only pending institutes
+  const pendingInstitutes = institutes.filter((inst) => 
+    inst.accredite_status === "pending" && 
+    inst.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const counterCards = [
     {
@@ -150,40 +178,9 @@ export default function DashboardContent() {
       textColor: "text-black"
     },
     {
-      title: "Pending Accreditation Requests",
+      title: "Pending Institute Requests",
       count: stats.pendingInstitutes,
       icon: "/assets/images/pending.png",
-      bgColor: "bg-white",
-      textColor: "text-black"
-    }
-  ];
-
-  const additionalStats = [
-    {
-      title: "Total Payment Amount",
-      value: `$${stats.totalPaymentAmount.toFixed(2)}`,
-      icon: "/assets/images/checklist.png",
-      bgColor: "bg-green-50",
-      textColor: "text-green-600"
-    },
-    {
-      title: "Published Services",
-      value: stats.publishedServices.toString(),
-      icon: "/assets/images/speaker2.png",
-      bgColor: "bg-white",
-      textColor: "text-black"
-    },
-    {
-      title: "Pending Certificates",
-      value: stats.pendingCertificates.toString(),
-      icon: "/assets/images/pending.png",
-      bgColor: "bg-white",
-      textColor: "text-black"
-    },
-    {
-      title: "Total Payments",
-      value: stats.totalPayments.toString(),
-      icon: "/assets/images/checklist.png",
       bgColor: "bg-white",
       textColor: "text-black"
     }
@@ -269,36 +266,13 @@ export default function DashboardContent() {
           ))}
         </div>
 
-        {/* Additional Stats - 4 columns */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mx-6 mb-6">
-          {additionalStats.map((stat, index) => (
-            <div
-              key={index}
-              className={`${stat.bgColor} p-6 rounded-2xl shadow-sm border border-gray-100 flex items-center space-x-4 transition-transform hover:scale-105`}
-            >
-              <div className="w-12 h-12 flex items-center justify-center">
-                <Image
-                  src={stat.icon}
-                  alt={stat.title}
-                  width={40}
-                  height={40}
-                  className="object-contain"
-                />
-              </div>
-              <div>
-                <p className="text-sm font-medium text-gray-600">{stat.title}</p>
-                <p className={`text-2xl font-bold ${stat.textColor}`}>{stat.value}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-        {/* Recent Activity Section */}
+        {/* System Overview Section */}
         <div className="mx-6 mb-6">
           <div className="bg-white rounded-xl shadow-sm p-6">
             <h3 className="text-lg font-semibold text-gray-800 mb-4">System Overview</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="text-center">
-                <div className="text-2xl font-bold text-back">{stats.totalInstitutes}</div>
+                <div className="text-2xl font-bold text-black">{stats.totalInstitutes}</div>
                 <div className="text-sm text-gray-500">Total Institutes</div>
               </div>
               <div className="text-center">
@@ -310,6 +284,61 @@ export default function DashboardContent() {
                 <div className="text-sm text-gray-500">Total Revenue</div>
               </div>
             </div>
+          </div>
+        </div>
+
+        {/* Pending Institutes DataTable */}
+        <div className="mx-6 mb-6">
+          <div className="bg-white rounded-lg shadow p-6">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-lg font-semibold text-gray-800">Pending Institute Requests</h3>
+              <span className="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-medium">
+                {stats.pendingInstitutes} Pending
+              </span>
+            </div>
+            
+            {pendingInstitutes.length > 0 ? (
+              <DataTable
+                className="display"
+                options={{
+                  paging: true,
+                  searching: false,
+                  info: false,
+                  lengthChange: false,
+                  pageLength: 10,
+                  ordering: true,
+                  order: [[0, "desc"]], // Sort by date descending (newest first)
+                }}
+              >
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Organization/Institute</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {pendingInstitutes.map((item) => (
+                    <tr key={item.id}>
+                      <td>{new Date(item.created_at).toLocaleDateString()}</td>
+                      <td>{item.name}</td>
+                      <td>
+                        <span className="px-2 py-1 rounded text-white bg-yellow-400">
+                          {isValidStatus(item.accredite_status)
+                            ? item.accredite_status
+                            : "pending"}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </DataTable>
+            ) : (
+              <div className="text-center py-8 text-gray-500">
+                <div className="text-lg font-medium">No Pending Institutes</div>
+                <div className="text-sm">All institute requests have been processed</div>
+              </div>
+            )}
           </div>
         </div>
       </div>
