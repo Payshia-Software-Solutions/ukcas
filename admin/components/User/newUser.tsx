@@ -87,6 +87,11 @@ const UserDashboard = () => {
     );
   });
 
+  // Function to handle closing the modal
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
   return (
     <div className="flex min-h-screen bg-gray-100">
       <Sidebar />
@@ -160,14 +165,14 @@ const UserDashboard = () => {
       {/* Modal for Add New User */}
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-900/50 backdrop-blur-sm z-50">
-          <div className="bg-white rounded-2xl shadow-lg p-6 w-[80%] max-w-3xl relative max-h-[70vh] overflow-hidden">
+          <div className="bg-white rounded-md shadow-lg  w-[70%] max-w-3xl relative max-h-[62vh] overflow-hidden">
             <button
               onClick={() => setIsModalOpen(false)}
               className="absolute top-4 right-4 text-gray-500 hover:text-black cursor-pointer text-xl"
             >
               ✖
             </button>
-            <UserForm />
+            <UserForm onCancel={handleCloseModal} />
           </div>
         </div>
       )}

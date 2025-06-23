@@ -8,7 +8,14 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 // ✅ Accept onSuccess prop to trigger counter update
-export default function AddCertificate({ onSuccess }: { onSuccess?: () => void }) {
+export default function AddCertificate({
+  onSuccess,
+  onCancel,
+}: {
+  onSuccess: () => void;
+  onCancel: () => void;
+}) {
+
   const router = useRouter();
 
   const [formData, setFormData] = useState({
@@ -264,7 +271,7 @@ export default function AddCertificate({ onSuccess }: { onSuccess?: () => void }
           <div className="flex justify-end gap-4 mt-4">
             <button
               type="button"
-              onClick={() => router.back()}
+              onClick={onCancel}
               className="px-6 py-2 bg-gray-200 rounded-md text-sm cursor-pointer hover:bg-gray-300 transition duration-200"
             >
               Cancel

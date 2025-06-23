@@ -272,7 +272,8 @@ export default function PaymentDashboard() {
         {isModalOpen && (
           <div className="fixed inset-0 flex items-center justify-center bg-gray-900/50 backdrop-blur-sm z-50">
             {/* Modal with fixed size and overflow handling */}
-            <div className="bg-white rounded-2xl shadow-lg p-6 w-[90%] max-w-3xl relative max-h-[65vh] overflow-hidden">
+            <div className="bg-white rounded-md shadow-lg w-[50%] max-w-2xl relative max-h-[50vh] overflow-hidden pl-0 pr-0 pt-0 pb-0">
+
               <button
                 onClick={() => setIsModalOpen(false)}
                 className="absolute top-4 right-4 text-gray-500 hover:text-black cursor-pointer text-xl"
@@ -282,7 +283,7 @@ export default function PaymentDashboard() {
 
               {/* Content of the modal */}
               <div className="overflow-y-auto max-h-full">
-                <AddPayment />
+                <AddPayment onCancel={handleCloseModal} />
               </div>
             </div>
           </div>
@@ -290,4 +291,9 @@ export default function PaymentDashboard() {
       </div>
     </div>
   );
+
+  // Add this function to handle closing the modal
+  function handleCloseModal() {
+    setIsModalOpen(false);
+  }
 }

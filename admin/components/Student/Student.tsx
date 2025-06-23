@@ -104,17 +104,16 @@ const Services = () => {
         {/* Student List */}
         <ViewStudent searchQuery={searchQuery} />
 
-        {/* Modal */}
         {showCreateModal && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/50 backdrop-blur-sm">
-            <div className="relative w-full max-w-4xl bg-white rounded-xl shadow-lg overflow-y-auto max-h-[90vh] p-6">
+            <div className="relative w-full max-w-3xl bg-white rounded-md shadow-lg overflow-y-auto max-h-[90vh] pl-0 pr-0 pt-0 pb-0">
               <button
                 onClick={handleCloseModal}
-                className="absolute top-4 right-4 text-gray-500 hover:text-black text-xl"
+                className="absolute top-3 right-3 text-gray-500 hover:text-black text-xl cursor-pointer"
               >
                 ✖
               </button>
-              <AddStudent />
+              <AddStudent onCancel={handleCloseModal} />
             </div>
           </div>
         )}
