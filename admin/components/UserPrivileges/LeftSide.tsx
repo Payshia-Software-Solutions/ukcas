@@ -57,7 +57,6 @@ const LeftSide: React.FC<LeftSideProps> = ({ onSelectUser }) => {
         </button>
       ),
       width: "80px",
-      center: true,
     },
     {
       name: "Email",
