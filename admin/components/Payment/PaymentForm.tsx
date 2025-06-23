@@ -7,7 +7,7 @@ import config from "@/config";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-export default function AddPayment() {
+export default function AddPayment({ onCancel }: { onCancel: () => void }) {
   const router = useRouter();
 
   const [institutes, setInstitutes] = useState<{ id: number; name: string }[]>([]);
@@ -205,7 +205,7 @@ export default function AddPayment() {
           <div className="flex justify-end gap-4">
             <button
               type="button"
-              onClick={() => router.back()}
+              onClick={onCancel}
               className="px-6 py-2 bg-gray-200 rounded-md text-sm cursor-pointer hover:bg-gray-300 transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
               disabled={isSubmitting}
             >

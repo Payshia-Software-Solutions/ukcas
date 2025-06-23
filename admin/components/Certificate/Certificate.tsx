@@ -195,7 +195,7 @@ export default function Dashboard() {
 
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-900/50 backdrop-blur-sm z-50">
-          <div className="bg-white rounded-2xl shadow-lg p-6 w-[90%] max-w-3xl relative max-h-[90vh] overflow-hidden">
+          <div className="bg-white rounded-md shadow-lg w-[90%] max-w-3xl relative max-h-[72vh] overflow-hidden pl-0 pr-0 pt-0 pb-0">
             <button
               onClick={() => setIsModalOpen(false)}
               className="absolute top-4 right-4 text-gray-500 hover:text-black cursor-pointer text-xl"
@@ -203,13 +203,11 @@ export default function Dashboard() {
               ✖
             </button>
             <div className="overflow-y-auto max-h-[auto]">
-              <AddCertificate onSuccess={handleCertificateCreated} />
+              <AddCertificate onSuccess={handleCertificateCreated} onCancel={() => setIsModalOpen(false)} />
             </div>
           </div>
         </div>
       )}
-
-
       {selectedCertificate && (
         <IssuedCertificateModal
           certificate={{

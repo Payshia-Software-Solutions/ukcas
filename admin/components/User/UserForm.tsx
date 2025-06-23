@@ -7,7 +7,7 @@ import config from "@/config";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-export default function AddStudent() {
+export default function AddStudent({ onCancel }: { onCancel: () => void }) {
   const router = useRouter();
   const [formData, setFormData] = useState({
     institute_name: "",
@@ -179,7 +179,7 @@ export default function AddStudent() {
           <div className="flex justify-end gap-4 mt-4">
             <button
               type="button"
-              onClick={() => router.back()}
+              onClick={onCancel}
               className="px-6 py-2 bg-gray-200 rounded-md text-sm text-gray-700 cursor-pointer hover:bg-gray-300 transition duration-200"
             >
               Cancel
