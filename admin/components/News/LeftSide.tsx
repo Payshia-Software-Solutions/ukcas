@@ -205,21 +205,24 @@ const LeftSide: React.FC<LeftSideProps> = ({ onCreateSuccess }) => {
         <div>
           <label className="block font-semibold text-xl text-gray-500 mb-1">News Description</label>
           <Editor
-            apiKey="bcmoy3sawjsp7clc7s2dwfar6vmlq11b4mvsxok6bwh2q08b"
-            value={formData.description}
-            init={{
-              height: 200,
-              menubar: false,
-              plugins: [
-                'advlist autolink lists link image charmap preview anchor',
-                'searchreplace visualblocks code fullscreen',
-                'insertdatetime media table paste help wordcount'
-              ],
-              toolbar:
-                'undo redo | formatselect | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help'
-            }}
-            onEditorChange={handleEditorChange}
-          />
+              apiKey="bcmoy3sawjsp7clc7s2dwfar6vmlq11b4mvsxok6bwh2q08b"
+              value={formData.description}
+              init={{
+                height: 200,
+                menubar: false,
+                plugins: [
+                  "lists", "link", "image", "charmap", "preview", "anchor",
+                  "searchreplace", "visualblocks", "code", "fullscreen",
+                  "insertdatetime", "media", "table", "help", "wordcount"
+                ],
+                toolbar:
+                  "undo redo | formatselect | bold italic underline | " +
+                  "alignleft aligncenter alignright alignjustify | " +
+                  "bullist numlist outdent indent | removeformat | help"
+              }}
+              onEditorChange={handleEditorChange}
+            />
+
         </div>
 
         {/* Mini Description */}
